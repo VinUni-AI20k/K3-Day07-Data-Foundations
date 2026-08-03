@@ -1,7 +1,8 @@
-from .agent import KnowledgeBaseAgent
+﻿from .agent import KnowledgeBaseAgent
 from .chunking import (
     ChunkingStrategyComparator,
     FixedSizeChunker,
+    HeaderChunker,
     RecursiveChunker,
     SentenceChunker,
     compute_similarity,
@@ -21,6 +22,7 @@ from .store import EmbeddingStore
 __all__ = [
     "Document",
     "FixedSizeChunker",
+    "HeaderChunker",
     "SentenceChunker",
     "RecursiveChunker",
     "ChunkingStrategyComparator",
@@ -35,3 +37,6 @@ __all__ = [
     "OPENAI_EMBEDDING_MODEL",
     "EMBEDDING_PROVIDER_ENV",
 ]
+
+
+

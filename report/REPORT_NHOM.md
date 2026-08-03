@@ -1,4 +1,4 @@
-# Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
+﻿# Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
 **Nhóm:** [DMX]
 **Thành viên:** [Họ tên từng thành viên]
@@ -55,26 +55,32 @@
 
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
-| Tài liệu          | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-| ------------------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------- |
-|                     | FixedSizeChunker (`fixed_size`)  |                   |                       |                                 |
-|                     | SentenceChunker (`by_sentences`) |                   |                       |                                 |
-| course-registration | RecursiveChunker (`recursive`)   | 3                 | 306.3                 | có                             |
-| ctdt                | `RecursiveChunker (recursive)`   | 16                | 171.6                 | có                             |
-| dangkymonhoc        | `RecursiveChunker (recursive)`   | 29                | 152.7                 | có                             |
+| Tài liệu | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
+| ---------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------- |
+| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`) | 194 | 196.4 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời. |
+| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`) | 53 | 717.2 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài. |
+|            | SentenceChunker (`by_sentences`) |                   |                       |                                 |
+|            | RecursiveChunker (`recursive`)   |                   |                       |                                 |
 
 ### Chiến lược của từng thành viên
 
 > Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
 
-**Thành viên 1 — [Tên]**
+**Thành viên 1 — Vũ Tú Quỳnh**
 
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
+- **Loại chiến lược:** Fixed Size và Chunk By Header
+- **Mô tả & lý do chọn cho chủ đề này:**
+  - **Fixed Size:** Chia văn bản thành các chunk có kích thước cố định 200 ký tự, không overlap. Chiến lược này dễ triển khai, tạo các chunk đồng đều và phù hợp để kiểm soát kích thước đầu vào cho embedding. Tuy nhiên, ranh giới cắt có thể nằm giữa câu hỏi, câu trả lời hoặc một ý đang diễn đạt.
+  - **Chunk By Header:** Chia tài liệu Markdown tại các heading từ `#` đến `######` và giữ heading ở đầu mỗi chunk. Cách này phù hợp với bộ dữ liệu quy định đại học vì tài liệu có cấu trúc theo các mục như học phí, học bổng, đăng ký môn học và thư viện; nhờ vậy chunk giữ được ngữ cảnh và dễ truy vết chủ đề hơn.
+- **Kết quả chạy thử trên corpus:** Với 9 tài liệu trong `data/k3_university`, Fixed Size tạo 194 chunk, độ dài trung bình 196.4 ký tự/chunk. Chunk By Header tạo 53 chunk, độ dài trung bình 717.2 ký tự/chunk; chunk dài nhất vượt 6,000 ký tự ở tài liệu có ít heading.
+- **Nhận xét:** Fixed Size có kích thước ổn định và thuận lợi cho embedding nhưng có thể làm mất ngữ cảnh do cắt giữa ý. Chunk By Header bảo toàn cấu trúc tốt hơn nhưng kích thước không đồng đều, một số section quá dài có thể làm loãng kết quả tìm kiếm. Phương án phù hợp nhất là tách theo header trước, sau đó tiếp tục chia các section quá dài bằng Fixed Size hoặc Recursive Chunking.
 - **Code snippet (nếu custom):**
 
 ```python
-# Dán mã nguồn (implementation) vào đây
+from src.chunking import FixedSizeChunker, HeaderChunker
+
+fixed_chunks = FixedSizeChunker(chunk_size=200, overlap=0).chunk(text)
+header_chunks = HeaderChunker().chunk(text)
 ```
 
 **Thành viên 2 — [Tên]**
@@ -83,10 +89,10 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 - **Mô tả & lý do chọn:**
 - **Code snippet (nếu custom):**
 
-**Thành viên 3 — Trần Thị Ngọc Lan**
+**Thành viên 3 — [Tên]**
 
-- **Loại chiến lược: Recursive**
-- **Mô tả & lý do chọn: Chiến lược này ưu tiên tách tài liệu tại các ranh giới tự nhiên như đoạn văn, tiêu đề Markdown và các dòng ngắt trước khi chuyển sang các dấu phân cách nhỏ hơn. Điều này giúp giữ được ngữ cảnh của từng phần nội dung, tránh cắt ngang giữa các ý tưởng liên quan và tạo ra các chunk mạch lạc hơn cho quá trình retrieval. Vì tài liệu trong K3_university có cấu trúc rõ ràng theo mục, tiêu đề và nội dung, nên RecursiveChunker phù hợp để bảo toàn ý nghĩa của từng phần.**
+- **Loại chiến lược:**
+- **Mô tả & lý do chọn:**
 - **Code snippet (nếu custom):**
 
 ```python
@@ -167,3 +173,4 @@ chunks = chunker.chunk(text)
 | Chất lượng truy xuất (Retrieval Quality) | / 10                   |
 | Thuyết trình (Demo)                        | / 5                    |
 | **Tổng phần nhóm**                  | **/ 40**         |
+
