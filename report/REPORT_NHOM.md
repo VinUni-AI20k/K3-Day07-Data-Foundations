@@ -56,20 +56,24 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+| k3_university (5 docs) | FixedSizeChunker (`fixed_size`) | 21 | ~475 ký tự | Có, nhưng có thể cắt giữa câu |
+| k3_university (5 docs) | SentenceChunker (`by_sentences`) | N/A | Tùy số câu | Có, giữ ranh giới câu |
+| k3_university (5 docs) | RecursiveChunker (`recursive`) | 83 | ~130 ký tự | Có, tôn trọng cấu trúc (\n\n, \n, .) |
 
 ### Chiến lược của từng thành viên
 
 > Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
 
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
+**Thành viên 1 — Nguyễn Minh Thu (01631)**
+- **Loại chiến lược:** RecursiveChunker
+- **Mô tả & lý do chọn cho chủ đề này:** RecursiveChunker chia lần lượt theo dấu phân cách (đoạn "\n\n", dòng "\n", câu ". ", từ " ", cuối cùng ký tự). Với tài liệu quy định đại học có cấu trúc rõ ràng (tiêu đề → mục → dòng), chiến lược này tôn trọng ngữ pháp markdown và giữ ngữ cảnh tốt hơn FixedSize. Tạo nhiều chunks nhỏ (83 vs 21) giúp tìm kiếm dễ chính xác hơn khi đặt câu hỏi cụ thể.
 - **Code snippet (nếu custom):**
 ```python
-# Dán mã nguồn (implementation) vào đây
+from src.src_NguyenMinhThu_01631.chunking import RecursiveChunker
+
+# Sử dụng mặc định với separators = ["\n\n", "\n", ". ", " ", ""]
+chunker = RecursiveChunker(chunk_size=500)
+chunks = chunker.chunk(text)
 ```
 
 **Thành viên 2 — [Tên]**
@@ -86,12 +90,12 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| | | | | |
-| | | | | |
-| | | | | |
+| Nguyễn Minh Thu | RecursiveChunker | 2 (1/5 with mock) | Tôn trọng cấu trúc tài liệu; nhiều chunks giúp dễ tìm thông tin chi tiết | Tạo quá nhiều chunks nhỏ; có thể làm tăng chi phí embedding khi dùng API |
+| [Thành viên 2] | [Chiến lược] | / | | |
+| [Thành viên 3] | [Chiến lược] | / | | |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+> Với dữ liệu quy định đại học có cấu trúc rõ ràng, RecursiveChunker cho kết quả tốt hơn vì tôn trọng ranh giới tự nhiên (đoạn, dòng, câu). Tuy nhiên, kết quả đánh giá hiện tại (với mock embeddings) không phản ánh chất lượng thực; cần chạy lại với local multilingual embedder để so sánh công bằng giữa các chiến lược.
 
 ---
 
@@ -117,27 +121,31 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 |---|---------|-------------------------------|-------------------------------|---------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+| 1 | Mỗi học kỳ đăng ký tối thiểu/tối đa bao nhiêu tín chỉ? | FixedSizeChunker | Không (Q1 thất bại cả 2 chiến lược với mock) | Cần local embedder; mock không hiểu ngữ nghĩa tương đương |
+| 2 | Sinh viên nợ học phí kỳ trước → kỳ tiếp theo? | RecursiveChunker (chưa tìm được) | Không (Q2 thất bại cả 2 chiến lược) | Cần địa chỉ cụ thể mục trong tài liệu |
+| 3 | Học bổng Loại A bao nhiêu %? | FixedSizeChunker | Có (✓) | FixedSizeChunker tìm được Q3 |
+| 4 | Phòng 8 sinh viên ký túc xá bao nhiêu? | RecursiveChunker | Có (✓) | RecursiveChunker tìm được Q4 |
+| 5 | Khu tự học tầng 6 mở cửa khi nào? | RecursiveChunker (chưa tìm được) | Không (Q5 thất bại cả 2 chiến lược) | Thông tin nằm trong phần "Giờ mở cửa", cần embedding tốt hơn |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> *Viết 2-3 câu:*
+> Q3 có dùng `metadata_filter={"audience": "student"}` nhưng vẫn thất bại vì kết quả truy xuất không phù hợp từ đầu. Metadata filtering sẽ hữu ích hơn khi kết hợp với embedding chất lượng cao; hiện tại với mock embedder, điểm similarity đã sai nên lọc metadata cũng không cứu vãn được.
 
 ---
 
 ## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
 
 **Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> *Liệt kê 2-3 ý:*
+> 1. **Mock vs Real embeddings**: Kết quả với mock embedder không phản ánh chất lượng thực vì nó không hiểu ngữ cảnh/ngữ nghĩa. Chất lượng embedder là yếu tố quyết định kết quả truy xuất, quan trọng hơn cả chiến lược chunking.
+> 2. **Chunk size trade-off**: RecursiveChunker tạo 83 chunks (vs 21 của FixedSize) → chi phí cao hơn nhưng có thể tìm thông tin chi tiết hơn; FixedSize tiết kiệm chi phí nhưng có thể mất ngữ cảnh ở ranh giới chunk.
+> 3. **Cấu trúc dữ liệu quan trọng**: Tài liệu quy định đại học có cấu trúc rõ ràng (markdown heading, mục) → RecursiveChunker tôn trọng cấu trúc này tốt hơn.
 
 **Bài học rút ra khi so sánh trong nhóm:**
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
+> Cả hai chiến lược (FixedSize vs Recursive) đều cho kết quả tương đương (1/5 điểm) với mock embedder, nhưng chúng thành công ở các câu hỏi khác nhau (Q3 vs Q4). Điều này chứng minh rằng với mock, kết quả gần như ngẫu nhiên. Để so sánh công bằng, nhóm cần chạy lại bằng `EMBEDDING_PROVIDER=local` với multilingual embedder; lúc đó sẽ thấy rõ ưu/nhược điểm của từng chiến lược trên dữ liệu tiếng Việt.
 
 **Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> *Viết 2-3 câu:*
+> 1. Thu thập tài liệu với metadata richer (ví dụ: tiêu đề mục, từ khóa chính) để hỗ trợ truy xuất.
+> 2. Thiết kế câu hỏi đánh giá sao cho có thể trích trực tiếp từ tài liệu (giảm phụ thuộc vào embedding quality).
+> 3. Sử dụng local multilingual embedder từ đầu để có feedback có ý nghĩa trong quá trình thiết kế chiến lược.
 
 ---
 
