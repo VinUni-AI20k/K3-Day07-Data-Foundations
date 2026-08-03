@@ -1,7 +1,7 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
 **Nhóm:** VinBrothers
-**Thành viên:** [Họ tên từng thành viên]
+**Thành viên:** Trương Công Thái Đức (2A202601581) · Trần Trung Hiếu (2A202602002) · Trần Văn Hiếu · Phạm Quốc Tuấn (2A202601983)
 **Ngày:** 2026-08-03
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
@@ -96,26 +96,57 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 - **Loại chiến lược:** `RecursiveChunker(chunk_size=500)`
 - **Mô tả & lý do chọn:** Ưu tiên ranh giới tự nhiên `\n\n` → `\n` → `". "` → `" "`, kỳ vọng giữ trọn từng điều khoản của văn bản quy chế.
 
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:** *(đề xuất: `SentenceChunker` hoặc chunk theo heading — số liệu `SentenceChunker(3)` dưới đây do Thành viên 1 đo trước để nhóm có mốc so sánh, cần thành viên 3 xác nhận lại bằng code của mình)*
-- **Mô tả & lý do chọn:**
+**Thành viên 3 — Trần Văn Hiếu** *(branch `hieu`)*
+- **Loại chiến lược:** **custom** — `HeadingChunker(chunk_size=800)`, file `src/heading_chunker.py`
+- **Mô tả & lý do chọn:** Tách tại các dòng heading (`#`, `CHƯƠNG ...`, `Điều N. ...`) thay vì theo kích thước, vì `quy-che-dao-tao-tin-chi.md` vốn được soạn theo Điều/Chương — mỗi `Điều` đã là một quy định trọn vẹn. Section nào vẫn dài hơn `chunk_size` mới hạ xuống cắt theo đoạn (`\n\n`), **và gắn lại dòng heading vào đầu mỗi mảnh con**. Chiến lược này đáp ứng yêu cầu riêng của `K3_VARIANT.md`: *"ít nhất một thành viên thử chia nhỏ theo tiêu đề/mục của sổ tay hoặc quy định học vụ"*.
+- **Phát hiện trong quá trình làm (đáng trình bày ở demo):** bản đầu **không** gắn lại heading vào mảnh con → mảnh chứa nội dung "Điều 17. Nghỉ học tạm thời" mất luôn tên điều khoản, similarity với câu hỏi tụt hẳn và rơi **ra ngoài top-5**, làm câu 5 thất bại hoàn toàn. Sau khi gắn lại heading, đúng chunk đó lên hạng 3. Nội dung câu chữ bên trong chunk **không đổi** — chỉ thêm lại dòng tiêu đề. Đây là minh chứng trực tiếp cho tiêu chí *Chunk Coherence* trong `docs/EVALUATION.md`.
+- **Code snippet:**
+```python
+class HeadingChunker:
+    HEADING_PATTERN = re.compile(
+        r"^(#{1,6}\s+.+|CHƯƠNG\s+[IVXLCDM\d]+.*|Điều\s+\d+\..*)$",
+        re.MULTILINE,
+    )
+    def __init__(self, chunk_size: int = 800) -> None:
+        self.chunk_size = chunk_size
+```
+
+**Thành viên 4 — Phạm Quốc Tuấn (2A202601983)** *(branch `2a202601983`)*
+- **Loại chiến lược:** *(chưa chọn — code `src/` đã hoàn thành, 42/42 test pass; còn thiếu bước chạy 5 câu benchmark)*
+- **Mô tả & lý do chọn:** *(chờ điền — gợi ý: tinh chỉnh tham số `FixedSize` với overlap lớn hơn để tấn công đúng failure case Q1 ở mục 4)*
 
 ### So Sánh Giữa Các Thành Viên
 
-> **Cách chấm:** 2 điểm/câu theo `docs/SCORING.md`. Chấm ở **mức chunk**: mỗi câu hỏi được khai báo trước một **chuỗi bằng chứng** bắt buộc phải xuất hiện trong context top-3 (`dkhp.iuh.edu.vn`, `tất cả ngân hàng`, `130%`, `Lầu 3`, `Bộ Y tế`). Cùng corpus 9 tài liệu, cùng 5 câu hỏi, cùng `EMBEDDING_PROVIDER=local`, `top_k=3`.
+> **Cách chấm:** 2 điểm/câu theo `docs/SCORING.md`. Chấm ở **mức chunk**: mỗi câu hỏi được khai báo trước một **chuỗi bằng chứng** bắt buộc phải xuất hiện trong context top-3 — `dkhp.iuh.edu.vn` · `tất cả ngân hàng` · `130%` · `Lầu 3` · `nghỉ học tạm thời`. 2 điểm nếu chuỗi nằm ngay chunk hạng 1, 1 điểm nếu nằm ở hạng 2–3 (hoặc chỉ có gold doc mà không có chuỗi), 0 điểm nếu không có gì.
+>
+> Cùng corpus 9 tài liệu, cùng 5 câu hỏi, cùng `EMBEDDING_PROVIDER=local`, `top_k=3`. **Cả 4 chiến lược đều được đo lại bằng cùng một harness** (`HeadingChunker` lấy nguyên từ branch `hieu`) để số liệu so sánh được với nhau — số mỗi thành viên tự đo trong `REPORT_CANHAN` có thể lệch nhẹ do cách chấm riêng.
 
 | Thành viên | Chiến lược | Số chunk | Doc-level (/10) | **Chunk-level (/10)** | Điểm mạnh | Điểm yếu |
 |-----------|----------|---------|-----------------|----------------------|-----------|----------|
-| Thái Đức | `FixedSize(500, 50)` | 135 | 10 | **9** | Chunk dày, tài liệu ngắn không bị lép vế; thắng rõ ở Q5 (0.573, top-1 đúng) | Cắt giữa câu; ở Q1 tách URL khỏi phần hướng dẫn thao tác |
-| Trần Trung Hiếu | `Recursive(500)` | 162 | 9 | **6** | Giữ ranh giới đoạn tốt; thắng ở Q2 (0.706 vs 0.670) | Cắt vụn văn bản dài (106/162 chunk là quy chế) → nhiều chunk chung chung chen top-3 |
-| *(chưa nhận)* | `Sentence(3 câu)` | 137 | 8 | **8** | Chunk trọn câu, mạch lạc nhất; **không chênh** giữa hai cách chấm | Yếu nhất ở doc-level; Q5 không có tài liệu gold nào trong top-3 |
+| Thái Đức | `FixedSize(500, 50)` | 135 | 10 | **9** | Cao nhất; 4/5 câu có đáp án ngay hạng 1 | Cắt giữa câu; Q1 tách URL khỏi phần hướng dẫn thao tác |
+| Trần Trung Hiếu | `Recursive(500)` | 162 | 9 | **6** | Giữ ranh giới đoạn; thắng ở Q2 về score (0.706) | Cắt vụn nhất (162 chunk) → chunk chung chung chen top-3 |
+| *(chưa nhận)* | `Sentence(3 câu)` | 137 | 8 | **8** | **Duy nhất không chênh** giữa hai cách chấm | Yếu ở doc-level; trượt hẳn Q2 |
+| Trần Văn Hiếu | `Heading(800)` custom | **103** | 8 | **5** | Ít chunk nhất, mỗi chunk là một Điều trọn vẹn, truy vết nguồn tốt nhất | **Không câu nào có đáp án ở hạng 1** — 4/5 câu đáp án nằm ở hạng 2–3 |
+
+**Chi tiết theo câu** (`2d(#1)` = 2 điểm, đáp án ở hạng 1; `(x)` = không có đáp án trong top-3):
+
+| Chiến lược | Q1 | Q2 | Q3 | Q4 | Q5 |
+|---|---|---|---|---|---|
+| FixedSize | 1đ (x) | **2đ (#1)** | **2đ (#1)** | **2đ (#1)** | **2đ (#1)** |
+| Sentence | 1đ (x) | 1đ (x) | **2đ (#1)** | **2đ (#1)** | **2đ (#1)** |
+| Recursive | 1đ (x) | 1đ (x) | 1đ (#2) | **2đ (#1)** | 1đ (#3) |
+| Heading | 1đ (x) | 1đ (#2) | 1đ (#2) | 1đ (#2) | 1đ (#3) |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> `FixedSizeChunker(500, 50)` cho điểm cao nhất (**9/10** ở mức chunk), nhưng kết luận đáng giá hơn nằm ở **khoảng cách giữa hai cách chấm**: nếu chỉ kiểm `doc_id` gold có xuất hiện trong top-3 hay không thì Recursive được 9/10, nhưng khi bắt buộc context phải **chứa chuỗi trả lời**, nó rơi xuống 6/10 — **mất 3 điểm**. Lý do: Recursive cắt vụn `quy-che-dao-tao-tin-chi` thành 106 chunk cùng chủ đề, các chunk này điểm sát nhau (0.528 / 0.506 / 0.504 ở Q5) nên chiếm hết top-3 bằng đúng tài liệu mà **không chunk nào chứa đáp án**. Điểm cosine cao chỉ là tín hiệu *cùng chủ đề*, không phải bằng chứng *có câu trả lời*.
+> `FixedSizeChunker(500, 50)` cho điểm cao nhất (**9/10** ở mức chunk), nhưng kết luận đáng giá hơn nằm ở **khoảng cách giữa hai cách chấm**. Nếu chỉ kiểm `doc_id` gold có trong top-3 hay không thì Recursive được 9/10 và Heading được 8/10; khi bắt buộc context phải **chứa chuỗi trả lời**, hai chiến lược này rơi xuống **6/10 và 5/10** — mất 3 điểm. Điểm cosine cao chỉ là tín hiệu *cùng chủ đề*, không phải bằng chứng *có câu trả lời*.
 >
-> Ngược lại `SentenceChunker` là chiến lược **duy nhất không chênh lệch** (8 = 8): chunk trọn câu nên hễ tài liệu đúng lọt top-3 thì đáp án cũng nằm trong đó. Nó thua về điểm tuyệt đối nhưng **đáng tin cậy nhất** — nếu ưu tiên không trả lời sai hơn là trả lời được nhiều, đây mới là lựa chọn đúng.
+> `HeadingChunker` là ví dụ rõ nhất của hiện tượng này, và lý do rất cụ thể: nó cắt theo `Điều`, mà các `Điều` trong cùng một quy chế **nói về cùng chủ đề nên điểm gần như bằng nhau** — Q1 ba kết quả đầu là 0.706 / 0.706 / 0.701, Q5 là 0.493 / 0.490 / 0.489. Chênh lệch dưới 0.005 thì thứ tự trong top-3 gần như ngẫu nhiên, và đó là lý do **không câu nào** có đáp án rơi đúng hạng 1 dù 4/5 câu đều có đáp án trong top-3. Nghịch lý: đây là chiến lược cho chunk **mạch lạc nhất** (mỗi chunk một điều khoản trọn vẹn, dễ trích dẫn nhất) nhưng lại **xếp hạng kém nhất**. Mạch lạc và dễ xếp hạng là hai mục tiêu khác nhau.
 >
-> Bài học chung: overlap quan trọng hơn thuật toán cắt. Cả ba chiến lược đều **hỏng ở Q1** vì URL `dkhp.iuh.edu.vn` và phần "Lưu ý" thao tác nằm ở hai chunk khác nhau, mà chỉ FixedSize có overlap — và 50 ký tự vẫn không đủ để bắc cầu.
+> Ngược lại `SentenceChunker` là chiến lược **duy nhất không chênh lệch** (8 = 8): chunk trọn câu nên hễ tài liệu đúng lọt top-3 thì đáp án cũng nằm trong đó. Thua về điểm tuyệt đối nhưng **đáng tin cậy nhất** — nếu ưu tiên "không trả lời sai" hơn "trả lời được nhiều" thì đây mới là lựa chọn đúng.
+>
+> **Đề xuất của nhóm:** kết hợp — cắt theo heading để giữ ranh giới điều khoản (ưu điểm của Heading), nhưng chunk đủ nhỏ và có overlap để không bị "cào bằng" điểm số (ưu điểm của FixedSize). Cả 4 chiến lược đều **hỏng ở Q1**, nên vấn đề đó phải sửa ở tầng dữ liệu chứ không phải tầng chunker (xem mục 4).
+>
+> **Ghi chú về phương pháp (đáng nêu ở demo):** chuỗi bằng chứng cho Q5 ban đầu nhóm đặt là `Bộ Y tế`, và với chuỗi đó `HeadingChunker` bị chấm 4/10. Kiểm lại thì chunk "Điều 17. Nghỉ học tạm thời" **có** trả lời đúng câu hỏi nhưng **không chứa** cụm `Bộ Y tế` (đó chỉ là cơ quan cấp giấy chứng nhận, một chi tiết phụ). Đổi sang chuỗi cốt lõi `nghỉ học tạm thời` thì điểm thành 5/10. Bài học: **phương pháp chấm bằng chuỗi bằng chứng rất nhạy với việc chọn chuỗi** — phải chọn cụm ngắn nhất chứng minh được đáp án có mặt, không chọn chi tiết ngoại vi, nếu không sẽ phạt oan chiến lược tốt.
 
 ---
 
@@ -161,8 +192,9 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 > | FixedSize | 0.573 gold · **0.531 `tu-van-tam-ly` (all)** | 0.573 gold · 0.523 `quy-che` | Lọc **đẩy được nhiễu** khỏi hạng 2 |
 > | Recursive | **0.566 `tu-van-tam-ly` (all) đứng hạng 1** · 0.528 `quy-che` | 0.528 `quy-che` · 0.506 `quy-che` | Lọc **cứu** trường hợp nhiễu chiếm hạng 1 |
 > | Sentence | 3 kết quả đều `audience=student` | **giống hệt** | Lọc **không đổi gì** |
+> | Heading | 3 kết quả đều `audience=student` | **giống hệt** | Lọc **không đổi gì** |
 >
-> Với `SentenceChunker`, hai kết quả **trùng khớp hoàn toàn** vì cả top-3 vốn đã là tài liệu `student`. Điều này cho thấy giá trị của metadata filter **phụ thuộc vào chiến lược chunking**, không phải thuộc tính cố định của câu hỏi: chunker nào để tài liệu `audience=all` lọt top-3 thì mới cần lọc.
+> Với `SentenceChunker` và `HeadingChunker`, hai kết quả **trùng khớp hoàn toàn** vì cả top-3 vốn đã là tài liệu `student`. Điều này cho thấy giá trị của metadata filter **phụ thuộc vào chiến lược chunking**, không phải thuộc tính cố định của câu hỏi: chunker nào để tài liệu `audience=all` lọt top-3 thì mới cần lọc. Nói cách khác, **2/4 chiến lược của nhóm không cần đến bộ lọc ở câu này** — nếu chỉ một người chạy A/B thì nhóm đã kết luận sai rằng "câu 5 luôn cần filter".
 >
 > Và như đã ghi ở trên, lọc có mặt trái: ở câu "cần mang giấy tờ gì khi vào trường", đáp án nằm trong tài liệu `audience=all` nên lọc `student` **xóa mất đáp án**.
 
@@ -215,7 +247,7 @@ Mở rộng lên `top_k=5` vẫn không có: hạng 4 là `huong-dan-dang-ky-hoc
 | Tiêu chí | Điểm tự đánh giá |
 |----------|-------------------|
 | Lựa chọn tài liệu (Document Set Quality) | 10 / 10 — 9 tài liệu công khai cùng một trường, metadata đầy đủ, nguồn tái lập được qua `data/urls.csv` |
-| Thiết kế chiến lược (Strategy Design) | 13 / 15 — so sánh 3 chiến lược có số liệu hai chiều; trừ điểm vì thành viên 3 chưa xác nhận bằng code của mình |
-| Chất lượng truy xuất (Retrieval Quality) | 9 / 10 — chiến lược tốt nhất đạt 9/10 ở mức chunk (Q1 thất bại ở cả 3 chiến lược) |
+| Thiết kế chiến lược (Strategy Design) | 14 / 15 — **4 chiến lược** (gồm 1 custom `HeadingChunker` đáp ứng yêu cầu riêng K3), đo bằng cùng harness, có phân tích hai cách chấm; trừ điểm vì thành viên 4 chưa chọn chiến lược |
+| Chất lượng truy xuất (Retrieval Quality) | 9 / 10 — chiến lược tốt nhất đạt 9/10 ở mức chunk (Q1 thất bại ở **cả 4** chiến lược) |
 | Thuyết trình (Demo) | / 5 — *chờ buổi demo* |
-| **Tổng phần nhóm** | **32 / 40** *(chưa tính demo)* |
+| **Tổng phần nhóm** | **33 / 40** *(chưa tính demo)* |
