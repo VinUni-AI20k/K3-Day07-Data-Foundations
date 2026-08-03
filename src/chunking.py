@@ -130,9 +130,9 @@ class HeadingChunker:
     )
     _TOP_LEVEL = re.compile(r"^(#\s+\S.*|Chương\s+[IVXLCDM\d]+\s*)$")
 
-    def __init__(self, max_chunk_size: int = 1500, include_parent_heading: bool = True) -> None:
+    def __init__(self, max_chunk_size: int = 1500, include_parents: bool = True) -> None:
         self.max_chunk_size = max_chunk_size
-        self.include_parent_heading = include_parent_heading
+        self.include_parents = include_parents
 
     def chunk(self, text: str) -> list[str]:
         if not text:
@@ -159,7 +159,7 @@ class HeadingChunker:
                 parent_heading = heading
                 content = f"{heading}\n{body}" if body else heading
             else:
-                prefix = f"{parent_heading}\n{heading}" if self.include_parent_heading and parent_heading else heading
+                prefix = f"{parent_heading}\n{heading}" if self.include_parents and parent_heading else heading
                 content = f"{prefix}\n{body}" if body else prefix
 
             sections.append(content)
