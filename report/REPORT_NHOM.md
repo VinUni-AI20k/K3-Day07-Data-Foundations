@@ -101,15 +101,18 @@ Chạy `ChunkingStrategyComparator().compare(body, chunk_size=200)` trên 3 tài
 
 ### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
 
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
+> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy (định nghĩa gốc: `benchmarks/vinuni_course_registration.json`, chạy qua `bench.py`).
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Starting in Summer 2026, which portal must students use for course registration, and what checks confirm that registration is complete? *(chỉ trả lời đúng khi lọc `metadata_filter={"audience": "student"}`)* | Starting with Summer 2026, course registration is conducted through the VinUniDigi Student Portal at one.vinuni.edu.vn/student. Students should select the correct term, verify prerequisites, class availability and timetable conflicts, click CONFIRM, ensure every course shows the status Registered, and preview the timetable. | doc_id: `summer-2026-new-student-portal` — mục "Access the Student Portal" + "Final Registration Checklist" |
+| 2 | What was the Summer 2026 course registration period, and what was the final add/drop deadline? | The Summer 2026 course registration period ran from June 29 to July 4, 2026. The final add/drop deadline was July 11, 2026. | doc_id: `summer-2026-registration` |
+| 3 | After the add/drop period, how is a course withdrawal recorded, by what point must it occur, and what is the program-wide withdrawal credit limit? | After add/drop, dropping a course is treated as a withdrawal and a W grade is recorded on the transcript. Withdrawal must occur before the student completes more than 30 percent of the course study time, and students may withdraw from at most 18 credits over the entire program. | doc_id: `undergraduate-academic-regulations`, `spring-2026-important-notes` |
+| 4 | What do Full and Conflict mean during course registration, and what happens when prerequisite requirements have not been satisfied? | Full means that no seats are available. Conflict means that the class overlaps with another registered class. The system prevents registration when prerequisite or pre-study requirements have not been satisfied. | doc_id: `summer-2026-new-student-portal` (mục "Class Status" + "Prerequisite Requirements"), `registration-hub` |
+| 5 | How should students request a course retake, audit or individual study, and how should they request withdrawal after the add/drop period? | Course retake, audit and individual study requests are submitted by email to the Registrar's Office. Withdrawal after the add/drop period is also requested by email and requires the course instructor's approval. | doc_id: `forms-and-petitions` |
+
+**Ghi chú về câu hỏi #1 (yêu cầu lọc metadata):** đây là ca "không nêu rõ người hỏi là ai" — nếu không lọc `audience: student`, retrieval có thể trộn lẫn thông tin dành cho `faculty`/`staff` (nếu corpus có tài liệu cùng chủ đề nhưng khác đối tượng) và agent dễ trả lời sai nhóm người dùng.
+> Không đổi 5 câu hỏi này sau khi một strategy đã chạy tốt hoặc xấu — mọi thành viên dùng chung bộ câu hỏi ở trên.
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
