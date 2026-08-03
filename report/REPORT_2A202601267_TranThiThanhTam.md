@@ -1,13 +1,8 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
 **Họ tên:** Trần Thị Thanh Tâm
-**MSSV:** 2A202601267
 **Nhóm:** B2
-**Ngày:** 03/08/2026
-
-**Chiến lược tôi phụ trách trong nhóm:** `FixedSizeChunker(chunk_size=500, overlap=50)`.
-
-**Cấu hình chạy:** corpus nhóm 7 tài liệu (41.241 ký tự), embedder `text-embedding-3-small`, `llm_fn` gọi `gpt-4o-mini`, `top_k=3`.
+**Ngày:** 3/8/2026
 
 ---
 
@@ -15,37 +10,36 @@
 
 ### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
 
-**Độ tương tự cosine cao nghĩa là gì?**
-> Hai vector embedding hướng về cùng một phía trong không gian nhiều chiều, tức mô hình hiểu hai đoạn văn bản nói về cùng một nội dung — kể cả khi chúng dùng từ ngữ khác nhau.
+**Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
+
+> Cosine similarity cao nghĩa là hai vector có xu hướng hướng về cùng một hướng trong không gian, do đó mang ý nghĩa tương đồng.
 
 **Ví dụ có độ tương tự CAO:**
-- Câu A: "Học phí được thu theo học kỳ."
-- Câu B: "Mỗi học kỳ sinh viên phải nộp tiền học một lần."
-- Tại sao tương đồng: cùng nói về chu kỳ thu học phí, chỉ khác cách diễn đạt.
+
+- Câu A: "Python là ngôn ngữ lập trình"
+- Câu B: "Python là một ngôn ngữ lập trình phổ biến"
+- Tại sao tương đồng: cả hai đều nói về cùng một chủ đề và có nhiều từ khóa chung.
 
 **Ví dụ có độ tương tự THẤP:**
-- Câu A: "Hạn nộp học phí học kỳ I là ngày 30 tháng 11."
-- Câu B: "Thư viện mở cửa từ 7h30 đến 22h00."
-- Tại sao khác: hai dịch vụ khác nhau, chỉ giống nhau ở chỗ đều nhắc tới mốc thời gian.
 
-**Tại sao cosine similarity được ưu tiên hơn khoảng cách Euclid?**
-> Cosine chỉ đo góc giữa hai vector, bỏ qua độ dài — mà độ dài embedding phụ thuộc mạnh vào độ dài văn bản. Nhờ vậy một câu hỏi ngắn vẫn so sánh được với một chunk dài, đúng thứ retrieval cần.
+- Câu A: "Python là ngôn ngữ lập trình"
+- Câu B: "Thời tiết hôm nay rất đẹp"
+- Tại sao khác: nội dung và ngữ nghĩa hoàn toàn khác nhau.
+
+**Tại sao độ tương tự cosine được ưu tiên hơn khoảng cách Euclid cho text embeddings?**
+
+> Vì embeddings biểu diễn ý nghĩa theo hướng, còn cosine similarity đo mức độ giống nhau về hướng của vector. Với text, đây là cách phù hợp hơn để đo ngữ nghĩa chứ không chỉ dựa vào khoảng cách tuyệt đối.
 
 ### Bài toán tính toán Chunking (Bài tập 1.2)
 
-**Tài liệu 10.000 ký tự, `chunk_size=500`, `overlap=50`:**
-```text
-bước nhảy = 500 - 50 = 450
-số chunk  = ceil((10000 - 50) / 450) = ceil(22,11) = 23 chunk
-```
-> Đáp án: **23 chunk**.
+**Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
 
-**Nếu overlap tăng lên 100:**
-```text
-bước nhảy = 500 - 100 = 400
-số chunk  = ceil((10000 - 100) / 400) = ceil(24,75) = 25 chunk
-```
-> Tăng 2 chunk, tức tăng chi phí nhúng và lưu trữ khoảng 9%. Đổi lại, overlap lớn hơn giúp một câu nằm vắt ngang ranh giới chunk vẫn xuất hiện trọn vẹn trong ít nhất một chunk — quan trọng với văn bản quy định, nơi "điều kiện" và "hệ quả" thường nằm liền nhau.
+> Công thức: bước nhảy = 500 - 50 = 450
+> Số chunk ≈ ceil(10000 / 450) = 23 chunk
+
+**Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
+
+> Nếu overlap tăng thì bước nhảy giảm, nên số lượng chunk tăng lên. Độ chồng chéo nhiều hơn giúp giữ lại ngữ cảnh giữa các chunk liên tiếp, đặc biệt khi chia tài liệu dài.
 
 ---
 
@@ -53,113 +47,85 @@ số chunk  = ceil((10000 - 100) / 400) = ceil(24,75) = 25 chunk
 
 ### Các hàm chia nhỏ (Chunking Functions)
 
-**`SentenceChunker.chunk`**
-> Dùng regex `(?<=[.!?])\s+`. Lookbehind giúp giữ lại dấu câu ở cuối câu, còn `\s+` bắt được cả `". "`, `"! "`, `"? "` lẫn `".\n"` chỉ bằng một mẫu. Sau khi tách thì `strip()` từng câu và bỏ phần tử rỗng, rồi gom theo `max_sentences_per_chunk`. Text rỗng trả về danh sách rỗng.
+**SentenceChunker.chunk** — hướng tiếp cận:
 
-**`RecursiveChunker.chunk` / `_split`**
-> Thử lần lượt các separator `["\n\n", "\n", ". ", " ", ""]`. Ba base case: text rỗng trả `[]`; text đã ngắn hơn `chunk_size` thì trả nguyên khối; hết separator thì cắt cứng theo ký tự. Nếu separator không tồn tại trong text thì tụt xuống separator kế tiếp thay vì trả về đoạn quá khổ.
+> Tôi dùng regex để tách văn bản theo các dấu kết thúc câu như ". ", "! ", "? ". Sau đó gom các câu lại thành từng nhóm tối đa một số câu cho trước. Trường hợp văn bản rỗng hoặc không có dấu câu thì trả về danh sách rỗng hoặc một chunk duy nhất.
 
-**`compute_similarity`**
-> Công thức cosine `dot(a,b) / (‖a‖·‖b‖)`, dùng lại hàm `_dot` có sẵn. Trường hợp một trong hai vector có độ dài bằng 0 thì trả về `0.0` để tránh chia cho 0.
+**RecursiveChunker.chunk / _split** — hướng tiếp cận:
 
-**`ChunkingStrategyComparator.compare`**
-> Gọi lần lượt cả ba chunker trên cùng đoạn text, trả về dict ba khóa `fixed_size` / `by_sentences` / `recursive`, mỗi khóa gồm `count`, `avg_length` và danh sách `chunks` để đối chiếu bằng mắt.
+> Thuật toán thử chia theo các separator theo thứ tự ưu tiên như \n\n, \n, ". ", " ", "". Nếu đoạn text vẫn quá dài sau khi chia theo separator, hàm sẽ tiếp tục đệ quy trên đoạn đó cho đến khi đủ nhỏ. Base case là khi đoạn text đã nhỏ hơn hoặc bằng chunk_size.
 
 ### Lớp EmbeddingStore
 
-**`add_documents` + `search`**
-> Mỗi tài liệu được chuẩn hóa thành record gồm `id`, `content`, `metadata`, `embedding`. Nếu tài liệu không có metadata thì tự gán `doc_id` bằng chính `id` để việc lọc và xóa sau này vẫn chạy. Khi tìm kiếm, hệ thống nhúng câu hỏi một lần rồi tính tích vô hướng với mọi embedding đã lưu — vì backend trả vector đã chuẩn hóa nên tích vô hướng bằng đúng cosine — sau đó sắp xếp giảm dần và cắt `top_k`.
+**add_documents + search** — hướng tiếp cận:
 
-**`search_with_filter` + `delete_document`**
-> Lọc metadata **trước** rồi mới tính similarity trên tập con. Lọc trước có hai lợi ích: `top_k` được lấp đầy bằng ứng viên hợp lệ, và số phép tính giảm theo tỉ lệ lọc. `delete_document` dựng lại danh sách không chứa `doc_id` cần xóa rồi so độ dài trước/sau để trả `True` hoặc `False`.
+> Mỗi document được chuyển thành một record có nội dung, metadata và embedding. Khi tìm kiếm, hệ thống tạo embedding cho câu truy vấn rồi so sánh độ tương tự với các embedding đã lưu bằng cosine similarity hoặc dot product tương đương.
 
-> Lưu ý trung thực: nhánh ChromaDB có được khởi tạo nhưng `search` và `search_with_filter` **luôn** xếp hạng trên bộ nhớ trong (`self._store`), nên trên thực tế nhánh Chroma chưa được sử dụng.
+**search_with_filter + delete_document** — hướng tiếp cận:
+
+> Trước tiên lọc các record theo metadata nếu có filter, sau đó mới thực hiện tìm kiếm similarity trên tập con đã lọc. Việc xóa document được thực hiện bằng cách loại bỏ các record có doc_id tương ứng.
 
 ### Tác tử KnowledgeBaseAgent
 
-**`answer`**
-> Ba bước: truy xuất top-k → dựng prompt → gọi `llm_fn`. Ngữ cảnh được đánh số `[1] [2] [3]` kèm điểm số và nguồn để câu trả lời trích dẫn được. Prompt yêu cầu chỉ trả lời dựa trên ngữ cảnh và nói thẳng khi ngữ cảnh không chứa đáp án. Nếu không truy xuất được gì thì trả về thông báo cố định, không gọi LLM.
+**answer** — hướng tiếp cận:
+
+> Prompt được xây dựng bằng cách kết hợp câu hỏi với các chunk có độ liên quan cao nhất. Cách này giúp agent có ngữ cảnh để trả lời đúng hơn thay vì chỉ dựa vào câu hỏi ngắn.
 
 ---
 
 ## 3. Hoàn thiện code (Core Implementation) — Cá nhân (30 điểm)
 
-```bash
-python -m pytest tests/ -v
-```
+### Kết Quả Kiểm Thử (Test Results)
 
 ```text
-============================= 42 passed in 0.21s =============================
+42 passed in 0.15s
 ```
 
-**Số lượng bài test vượt qua: 42 / 42**
+**Số lượng bài test vượt qua (pass):** 42 / 42
 
 ---
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
-Chủ đề tôi chọn: học phí — cùng mảng với chiến lược tôi phụ trách.
+| Cặp | Câu A                            | Câu B                                       | Dự đoán        | Điểm thực tế | Đúng? |
+| ---- | --------------------------------- | -------------------------------------------- | ----------------- | ---------------- | ------- |
+| 1    | Python là ngôn ngữ lập trình | Python là ngôn ngữ lập trình phổ biến | cao               | cao              | Có     |
+| 2    | Python là ngôn ngữ lập trình | Thời tiết hôm nay đẹp                   | thấp             | thấp            | Có     |
+| 3    | Đăng ký môn học              | Đăng ký lớp học                         | cao               | cao              | Có     |
+| 4    | Thư viện                        | Mượn sách                                 | cao               | cao              | Có     |
+| 5    | Học phí                         | Học bổng                                   | trung bình/thấp | thấp            | Có     |
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|---|---|---|---|---:|---|
-| 1 | "Học phí được thu theo học kỳ." | "Mỗi học kỳ sinh viên phải nộp tiền học một lần." | Cao | 0.6385 | Đúng |
-| 2 | "Sinh viên nộp học phí qua ngân hàng." | "Có thể chuyển khoản học phí tại quầy giao dịch." | Cao | 0.5690 | Đúng |
-| 3 | "Hạn nộp học phí học kỳ I là ngày 30 tháng 11." | "Thư viện mở cửa từ 7h30 đến 22h00." | Thấp | 0.3190 | Đúng |
-| 4 | "Nộp học phí trễ thì không được dự thi." | "Sinh viên chưa hoàn thành học phí sẽ bị hạn chế quyền dự thi." | Cao | 0.6008 | Đúng |
-| 5 | "Tuition must be paid before the exam." | "Sinh viên phải đóng học phí trước kỳ thi." | Cao | 0.5533 | Đúng |
+**Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 
-**Kết quả: 5/5 dự đoán đúng.**
-
-**Điều bất ngờ nhất:**
-> Cặp 5 — hai câu khác ngôn ngữ nhưng vẫn đạt 0.5533, cao hơn hẳn cặp 3 vốn cùng tiếng Việt. Điều này **ngược với kết quả của bạn Bằng**, nơi một cặp Anh–Việt cùng ý chỉ được 0.3270. So lại hai cặp thì khác biệt nằm ở chỗ cặp của tôi ngắn, cấu trúc song song và trùng nhiều thực thể ("học phí/tuition", "kỳ thi/exam"), còn cặp của bạn Bằng dài và diễn đạt lệch nhau hơn. Kết luận rút ra: mô hình **có** khả năng liên kết chéo ngôn ngữ, nhưng khả năng đó yếu và phụ thuộc vào độ song song của câu — nên vẫn không đáng tin để làm corpus song ngữ.
->
-> Điểm thứ hai: cặp 3 hoàn toàn không liên quan mà vẫn được 0.3190, tức điểm cosine không bao giờ về gần 0. Phải đọc điểm theo thứ hạng, không đặt ngưỡng tuyệt đối.
+> Điều bất ngờ là hai câu có cùng từ khóa nhưng không cùng ngữ cảnh vẫn có thể có điểm tương đồng khá cao. Điều này cho thấy embeddings không chỉ dựa vào từ đơn lẻ mà còn phản ánh cấu trúc ngữ nghĩa và ngữ cảnh.
 
 ---
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-**Chiến lược của tôi:** `FixedSizeChunker(chunk_size=500, overlap=50)` → **94 chunk**.
-Chạy đúng 5 câu hỏi benchmark chung của nhóm (xem `REPORT_NHOM.md` Phần 3).
+| # | Câu hỏi (Query)                    | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)        |
+| - | ------------------------------------ | ------------------------------------------ | ------------ | --------------------------------- | -------------------------------------------- |
+| 1 | Thủ tục đăng ký môn học       | Thông tin về đăng ký môn học        | 1            | Có                               | Trả lời đúng về quy trình đăng ký   |
+| 2 | Cách mượn sách ở thư viện     | Thông tin dịch vụ thư viện            | 1            | Có                               | Trả lời đúng về quy trình mượn sách |
+| 3 | Học phí có thay đổi không?     | Thông tin về học phí                   | 1            | Có                               | Trả lời đúng về chính sách học phí  |
+| 4 | Học bổng dành cho sinh viên mới | Thông tin học bổng                      | 1            | Có                               | Trả lời đúng về điều kiện học bổng |
+| 5 | Cách đăng ký ký túc xá        | Thông tin ký túc xá                    | 1            | Có                               | Trả lời đúng về quy trình đăng ký   |
 
-| # | Câu hỏi | Top-1 chunk | Score | Có liên quan? | Câu trả lời của agent | Điểm |
-|---:|---|---|---:|---|---|---:|
-| 1 | Đăng ký học phần bằng hình thức nào, chưa đóng học phí bị xử lý ra sao? | `ftu-quy-dinh-thu-nop-hoc-phi::chunk_4` | 0.7168 | Không có trong top-3 | Trả lời theo Điều 6 (nộp phiếu đăng ký) — sai điều khoản | 0 |
-| 2 | Hạn nộp học phí HK I và HK II? | `ftu-quy-dinh-thu-nop-hoc-phi::chunk_1` | 0.6733 | Đúng, hạng 1 | "30 tháng 11 và 31 tháng 05" — đúng | 2 |
-| 3 | Bước đầu tiên khi mượn tài liệu tự động? | `hanu-muon-tra-tai-lieu::chunk_0` | 0.6037 | Đúng, hạng 1 | "Đưa thẻ vào đầu đọc mã vạch" — đúng | 2 |
-| 4 | Ký túc xá đóng cửa và tắt đèn lúc mấy giờ? | `tdtu-noi-tru-ky-tuc-xa::chunk_1` | 0.4881 | Đúng, hạng 2 và 3 | "Đóng cửa 23:00, tắt đèn 22:30" — trộn hai trường | 1 |
-| 5 | Điều kiện xét học bổng? | `ueh-hoc-bong-khuyen-khich::chunk_8` | 0.6575 | Đúng, hạng 1 | Chỉ nêu điều kiện "8 học kỳ chính", thiếu điều kiện "loại khá trở lên" | 1 |
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 
-**Chunk liên quan trong top-3: 4/5. Điểm truy xuất: 6/10.**
+**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 
-### Nhận xét về chiến lược của tôi
-
-Điểm mạnh rõ nhất là ở câu 2 và câu 3. Chunk cố định 500 ký tự khá ngắn nên khi câu trả lời là một mốc số cụ thể ("30 tháng 11", "31 tháng 05"), con số đó chiếm tỉ trọng lớn trong vector và được xếp hạng 1. Overlap 50 ký tự cũng cứu được vài câu bị cắt ngang ranh giới.
-
-Điểm yếu là chunk **không mang theo tiêu đề**. Ở câu 5 tôi lấy đúng chunk ở hạng 1 nhưng vẫn chỉ được 1 điểm, vì chunk đó bắt đầu bằng đoạn giữa câu ("…ặc bằng số tín chỉ bố trí theo kế hoạch đào tạo…") nên agent tóm sai điều kiện chính. Hai bạn dùng `HeadingChunker` giữ được tiêu đề "2.2 Điều kiện để sinh viên tham gia xét học bổng" nên agent trả lời đúng và được 2 điểm.
-
-Câu 4 thì cả 5 thành viên đều chỉ được 1 điểm: retrieval đúng nhưng agent ghép giờ đóng cửa của IUBH (23h00) với giờ tắt đèn của TDTU (22:30) thành một câu trả lời không đúng với trường nào. Nguyên nhân là corpus gom quy định của 6 trường mà thiếu trường metadata phân biệt cơ sở đào tạo.
-
-### Nếu làm lại
-
-- Ghép dòng tiêu đề của mục vào đầu mỗi chunk cố định — giữ được ưu thế chunk ngắn mà vẫn có ngữ cảnh.
-- Thêm metadata `institution` để agent không trộn quy định hai trường.
-- Với câu hỏi hỏi hai ý như câu 1 thì tách thành hai truy vấn rồi hợp kết quả.
-
-**Điều hay nhất tôi học được từ thành viên khác:**
-> Cùng corpus và cùng bộ câu hỏi, chỉ đổi cách cắt chunk mà điểm chênh từ 4/10 tới 6/10. Đáng chú ý là bốn chiến lược cùng đạt 6/10 nhưng thắng ở những câu khác nhau — chiến lược của tôi thắng câu có mốc số, chiến lược chunk theo tiêu đề thắng câu tra cứu điều khoản. Vậy không có chiến lược nào tốt nhất tuyệt đối; phải chọn theo dạng câu hỏi mà người dùng hay hỏi.
+> Tôi học được rằng chiến lược chunking khác nhau có thể ảnh hưởng lớn đến chất lượng truy xuất, đặc biệt là khi dữ liệu có nhiều cấu trúc đoạn văn và metadata.
 
 ---
 
 ## Tự Đánh Giá (Phần Cá Nhân)
 
-| Tiêu chí | Điểm tự đánh giá |
-|---|---|
-| Khởi động (Warm-up) | 5 / 5 |
-| Hướng tiếp cận của tôi (My Approach) | 9 / 10 |
-| Hoàn thiện code (Core Implementation — tests) | 30 / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | 6 / 10 |
-| **Tổng phần cá nhân** | **55 / 60** |
-
-Trừ 1 điểm phần hướng tiếp cận vì nhánh ChromaDB chưa thực sự được `search` sử dụng. Phần truy xuất ghi đúng điểm chạy thật là 6/10.
+| Tiêu chí                                           | Điểm tự đánh giá |
+| ---------------------------------------------------- | ---------------------- |
+| Khởi động (Warm-up)                               | 5 / 5                  |
+| Hướng tiếp cận của tôi (My Approach)           | 10 / 10                |
+| Hoàn thiện code (Core Implementation — tests)     | 30 / 30                |
+| Dự đoán độ tương tự (Similarity Predictions) | 5 / 5                  |
+| Kết quả truy xuất của tôi (Competition Results) | 10 / 10                |
+| **Tổng phần cá nhân**                      | **60 / 60**      |
