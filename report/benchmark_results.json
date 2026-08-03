@@ -1,0 +1,501 @@
+{
+  "provider": "local",
+  "data_dir": "C:\\Users\\User\\Music\\K3-Day07-Data-Foundations\\data\\quy-dinh-sinh-vien-hust",
+  "document_count": 7,
+  "query_count": 5,
+  "scoring": "2 points for rank 1, 1 point for rank 2-3, 0 otherwise",
+  "strategies": [
+    {
+      "strategy": "A_fixed_900_overlap_150",
+      "chunk_count": 191,
+      "average_chunk_length": 882.73,
+      "hit_at_3": 5,
+      "mrr": 1.0,
+      "points_out_of_10": 10,
+      "queries": [
+        {
+          "id": "Q1",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 3,
+              "score": 0.71376,
+              "content_preview": "ngày 15/08/2026.  Đăng ký thêm: Từ 16h00 ngày 15/08/2026 đến 16h00 ngày 22/08/2026.  ### 2. Phân luồng chi tiết các đợt đăng ký  #### a) Đợt đăng ký chính thức (Dành cho sinh viên đã đăng ký học phần ở tuần 3–4 của học kỳ trước)  Đối tượng "
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 0,
+              "score": 0.680708,
+              "content_preview": "# Kế hoạch đăng ký lớp học kỳ 1 năm học 2026-2027  Kế hoạch đăng ký lớp học kỳ 1 năm học 2026-2027 (kỳ 20261)  ## THÔNG BÁO  Về kế hoạch đăng ký lớp học kỳ 1, năm học 2026–2027 (Kỳ 2026.1)  (Áp dụng cho sinh viên các khóa K70 trở về trước) "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 7,
+              "score": 0.675771,
+              "content_preview": "ý: Hủy lớp.  Lớp có từ 05 đến 09 sinh viên đăng ký: Xem xét xử lý tùy từng trường hợp cụ thể.  Mở thêm lớp: Sinh viên có nhu cầu mở thêm lớp gửi đơn về Trường/Khoa phụ trách chuyên môn. (Các lớp mở thêm sẽ được công bố theo kế hoạch cụ thể "
+            }
+          ]
+        },
+        {
+          "id": "Q2",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-integrated-engineer-registration-20253",
+              "chunk_index": 0,
+              "score": 0.839208,
+              "content_preview": "# Kế hoạch đăng ký học tích hợp chương trình kỹ sư chuyên sâu học kỳ 2025.3  KẾ HOẠCH MỞ ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3  THÔNG BÁO ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3  ### 1. Đố"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 3,
+              "score": 0.73803,
+              "content_preview": "ngày 15/08/2026.  Đăng ký thêm: Từ 16h00 ngày 15/08/2026 đến 16h00 ngày 22/08/2026.  ### 2. Phân luồng chi tiết các đợt đăng ký  #### a) Đợt đăng ký chính thức (Dành cho sinh viên đã đăng ký học phần ở tuần 3–4 của học kỳ trước)  Đối tượng "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 6,
+              "score": 0.696657,
+              "content_preview": "hạm sẽ bị xử lý kỷ luật nghiêm khắc theo quy định.  Kiểm tra trạng thái: Sinh viên kiểm tra trạng thái đăng ký lớp ít nhất 01 ngày sau khi thao tác. Nếu trạng thái báo \"Hết chỗ\", sinh viên phải chủ động điều chỉnh đăng ký lớp khác trong thờ"
+            }
+          ]
+        },
+        {
+          "id": "Q3",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 25,
+              "score": 0.797922,
+              "content_preview": "n đó. Quy định tại khoản này không áp dụng với các học phần học ở học kỳ hè. - 4. Người học thuộc CTĐT cử nhân, kỹ sư có đơn đề nghị thôi học, nghỉ học tạm thời hoặc chuyển cơ sở đào tạo trong khoảng thời gian 7 tuần đầu của học kỳ, nếu đượ"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 24,
+              "score": 0.75575,
+              "content_preview": "ột cơ sở đào tạo khác (đang đào tạo ngành tương ứng ở trình độ tiến sĩ) nếu có sự đồng ý của Giám đốc ĐHBK Hà Nội và thủ trưởng cơ sở đào tạo chuyển đến.  ### Điều 9. Học phí - 1. Người học có nghĩa vụ nộp học phí đầy đủ và đúng thời hạn th"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 94,
+              "score": 0.742131,
+              "content_preview": " này có hiệu lực thi hành từ học kỳ 1 năm học 2025-2026 và thay thế Quy chế đào tạo ban hành theo Quyết định số 4600/QĐ-ĐHBK ngày 09 tháng 6 năm 2023 của Giám đốc ĐHBK Hà Nội. - 2. Quy chế này được áp dụng từ học kỳ 1 năm học 2025-2026 cho "
+            }
+          ]
+        },
+        {
+          "id": "Q4",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 21,
+              "score": 0.743803,
+              "content_preview": "iá phân loại tiếng Anh đầu vào hoặc đạt trình độ từ Bậc 2.2 trở xuống; Nhóm 2: Đạt trình độ Bậc 2.3 đến Bậc 3.1 M: Được miễn học (ghi điểm R) Nhóm 3: Đạt trình độ Bậc 3.2 Kỳ 1: Được xếp học ở kỳ 1 Nhóm 4: Đạt trình độ Bậc 4 trở lên Kỳ 2: Đư"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 5,
+              "score": 0.70263,
+              "content_preview": "ếng Anh đầu khóa; - Hoặc dựa trên chứng chỉ tiếng Anh quốc gia, quốc tế; - Hoặc dựa trên điểm thi môn tiếng Anh của kỳ thi tốt nghiệp trung học phổ thông (THPT) tại năm nhập học. Việc lựa chọn tiêu chí phân loại trong số các tiêu chí trên d"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 18,
+              "score": 0.699545,
+              "content_preview": "được miễn. Bậc trình độ dựa trên quy định tại Bảng 2.1 của Phụ lục II. Đối với các chứng chỉ APTIS ESOL, Cambridge Assessment English, PEIC: Sinh viên đạt chứng chỉ A1 sẽ thuộc Nhóm 2; đạt chứng chỉ A2 sẽ thuộc Nhóm 3.  Bảng 3.2 Yêu cầu trì"
+            }
+          ]
+        },
+        {
+          "id": "Q5",
+          "rank": 1,
+          "unfiltered_rank": null,
+          "points": 2,
+          "metadata_filter": {
+            "category": "course-recognition"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 1,
+              "score": 0.612176,
+              "content_preview": "cử nhân và được công nhận chính thức là học viên CTĐT KSCS; o Số 12 tín chỉ được công nhận này là của các học phần đáp ứng đồng thời 02 điều kiện sau: ▪ Thuộc Mô đun định hướng của CTĐT cử nhân mà sinh viên đã học, không tính Thực tập và Đồ"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 0,
+              "score": 0.561719,
+              "content_preview": "# Hướng dẫn công nhận học phần vào chương trình kỹ sư chuyên sâu  HƯỚNG DẪN CÔNG NHẬN HỌC PHẦN VÀO CHƯƠNG TRÌNH ĐÀO TẠO KỸ SƯ CHUYÊN SÂU  ## I. Phạm vi áp dụng:  - 1. Dành cho học viên chương trình đào tạo kỹ sư chuyên sâu (KSCS) theo chươn"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 2,
+              "score": 0.459593,
+              "content_preview": "ust.edu.vn  - 2. Chọn mục tương ứng để thực hiện các thủ tục đã nêu tại Mục II của bản hướng dẫn này.  Giao diện chọn học phần KSCS đã tích lũy khi đang là SV bậc cử nhân vào CTĐT KSCS:  Giao diện chọn học phần từ bảng điểm tốt nghiệp cử nh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "strategy": "B_sentence_8",
+      "chunk_count": 132,
+      "average_chunk_length": 1065.64,
+      "hit_at_3": 5,
+      "mrr": 1.0,
+      "points_out_of_10": 10,
+      "queries": [
+        {
+          "id": "Q1",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 3,
+              "score": 0.750923,
+              "content_preview": "Đăng ký thêm các lớp của K71: Sẽ cập nhật sau (kế hoạch có thể điều chỉnh). ### 3. Các mốc thời gian quan trọng cần lưu ý  15/08/2026: Hạn mở thêm lớp. 17/08/2026: Thông báo danh sách lớp ít sinh viên. 19/08/2026: Thông báo chính thức danh "
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 21,
+              "score": 0.688606,
+              "content_preview": "Thời gian tổ chức đăng ký học phần cho một học kỳ diễn ra vào những tuần đầu của học kỳ trước đó. Dựa trên số lượng sinh viên đăng ký, ĐHBK Hà Nội đưa ra số lượng lớp sẽ mở và thời khóa biểu cho các lớp này. b) Đăng ký lớp chính thức: sinh "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 0,
+              "score": 0.680708,
+              "content_preview": "# Kế hoạch đăng ký lớp học kỳ 1 năm học 2026-2027  Kế hoạch đăng ký lớp học kỳ 1 năm học 2026-2027 (kỳ 20261)  ## THÔNG BÁO  Về kế hoạch đăng ký lớp học kỳ 1, năm học 2026–2027 (Kỳ 2026.1)  (Áp dụng cho sinh viên các khóa K70 trở về trước) "
+            }
+          ]
+        },
+        {
+          "id": "Q2",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-integrated-engineer-registration-20253",
+              "chunk_index": 0,
+              "score": 0.839208,
+              "content_preview": "# Kế hoạch đăng ký học tích hợp chương trình kỹ sư chuyên sâu học kỳ 2025.3  KẾ HOẠCH MỞ ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3  THÔNG BÁO ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3  ### 1. Đố"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 3,
+              "score": 0.670436,
+              "content_preview": "Đăng ký thêm các lớp của K71: Sẽ cập nhật sau (kế hoạch có thể điều chỉnh). ### 3. Các mốc thời gian quan trọng cần lưu ý  15/08/2026: Hạn mở thêm lớp. 17/08/2026: Thông báo danh sách lớp ít sinh viên. 19/08/2026: Thông báo chính thức danh "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 2,
+              "score": 0.658933,
+              "content_preview": "### 1. Các đợt đăng ký lớp chính  Đăng ký chính thức: Từ 16h00 ngày 22/07/2026 đến 14h00 ngày 03/08/2026. Đăng ký điều chỉnh: Từ 16h00 ngày 03/08/2026 đến 14h00 ngày 15/08/2026. Đăng ký thêm: Từ 16h00 ngày 15/08/2026 đến 16h00 ngày 22/08/20"
+            }
+          ]
+        },
+        {
+          "id": "Q3",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 19,
+              "score": 0.813796,
+              "content_preview": "Người học thuộc CTĐT cử nhân, kỹ sư có đơn đề nghị rút học phần trong khoảng thời gian 7 tuần đầu của học kỳ, nếu được giải quyết theo nguyện vọng thì chỉ đóng một nửa (50%) học phí của học phần đó. Trường hợp ngoại lệ là khi đề nghị rút họ"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 78,
+              "score": 0.743373,
+              "content_preview": "- 2. Quy chế này được áp dụng từ học kỳ 1 năm học 2025-2026 cho tất cả các khóa đào tạo, trừ một số điều, khoản như sau: a) Điểm a khoản 2 Điều 15 (về việc giảm hạng tốt nghiệp) được áp dụng với các khóa tuyển sinh từ năm 2022. b) Khoản 1, "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-academic-regulations-2025-changes",
+              "chunk_index": 3,
+              "score": 0.739003,
+              "content_preview": "Theo đó, \"người học được thi cuối kỳ một lần đối với mỗi học phần đã đăng ký học trong học kỳ... và không có lần thi lại\" áp dụng cho tất cả hình thức đào tạo.  Điều 9: Học phí  o Thay đổi:   Rút học phần/thôi học: Phiên bản 2025 bổ sung "
+            }
+          ]
+        },
+        {
+          "id": "Q4",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 2,
+              "score": 0.716977,
+              "content_preview": "Phân loại trình độ đầu vào và phân lớp học ngoại ngữ cơ bản - 1. Căn cứ phân loại trình độ ngoại ngữ đầu vào với sinh viên thuộc CTĐT có yêu cầu chuẩn đầu ra là tiếng Anh dựa trên một hoặc nhiều tiêu chí, bao gồm: - Dựa trên kết quả kiểm tr"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 6,
+              "score": 0.681559,
+              "content_preview": "### Điều 5. Yêu cầu về chuẩn ngoại ngữ đầu ra - 1. Yêu cầu về chuẩn ngoại ngữ đầu ra được quy định cụ thể cho từng CTĐT tại các Phụ lục tương ứng kèm theo Quy định này. - 2. Chứng chỉ tiếng Anh phải đánh giá đầy đủ 4 kỹ năng nghe, nói, đọc,"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 7,
+              "score": 0.671741,
+              "content_preview": "Hiệu lực thi hành - 1. Quy định này được áp dụng từ học kỳ 1 năm học 2025-2026 đối với sinh viên đại học hình thức chính quy và các CTĐT kể từ khóa 70 trở về sau, trừ các quy định sau: a) Bảng quy đổi tương đương các chứng chỉ ngoại ngữ áp "
+            }
+          ]
+        },
+        {
+          "id": "Q5",
+          "rank": 1,
+          "unfiltered_rank": null,
+          "points": 2,
+          "metadata_filter": {
+            "category": "course-recognition"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 1,
+              "score": 0.637616,
+              "content_preview": "- 2. Học viên học theo chương trình đào tạo tích hợp (CTĐT) sẽ được lựa chọn để công nhận tối đa 12 tín chỉ trong CTĐT cử nhân vào bảng điểm CTĐT KSCS. Điều kiện áp dụng:  o Chỉ áp dụng với các học viên đã tốt nghiệp cử nhân và được công nh"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 0,
+              "score": 0.561719,
+              "content_preview": "# Hướng dẫn công nhận học phần vào chương trình kỹ sư chuyên sâu  HƯỚNG DẪN CÔNG NHẬN HỌC PHẦN VÀO CHƯƠNG TRÌNH ĐÀO TẠO KỸ SƯ CHUYÊN SÂU  ## I. Phạm vi áp dụng:  - 1. Dành cho học viên chương trình đào tạo kỹ sư chuyên sâu (KSCS) theo chươn"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 2,
+              "score": 0.434554,
+              "content_preview": "Chọn mục tương ứng để thực hiện các thủ tục đã nêu tại Mục II của bản hướng dẫn này. Giao diện chọn học phần KSCS đã tích lũy khi đang là SV bậc cử nhân vào CTĐT KSCS:  Giao diện chọn học phần từ bảng điểm tốt nghiệp cử nhân công nhận tích "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "strategy": "C_markdown_heading_1200",
+      "chunk_count": 184,
+      "average_chunk_length": 851.78,
+      "hit_at_3": 5,
+      "mrr": 1.0,
+      "points_out_of_10": 10,
+      "queries": [
+        {
+          "id": "Q1",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 8,
+              "score": 0.842499,
+              "content_preview": "## II. THỜI GIAN VÀ KẾ HOẠCH ĐĂNG KÝ  Sinh viên các khóa K70 trở về trước chủ động đăng ký lớp từ ngày 22/07/2026. Sau khi sinh viên K71 hoàn tất đăng ký, các lớp dành cho K71 sẽ được mở để các khóa K70 trở về trước đăng ký bổ sung (thông b"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 3,
+              "score": 0.788,
+              "content_preview": "### 1. Đối tượng áp dụng  Sinh viên thuộc các khóa từ K70 trở về trước thực hiện đăng ký lớp học cho học kỳ 1, năm học 2026–2027 (kỳ 2026.1)."
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 1,
+              "score": 0.786681,
+              "content_preview": "## THÔNG BÁO  Về kế hoạch đăng ký lớp học kỳ 1, năm học 2026–2027 (Kỳ 2026.1)  (Áp dụng cho sinh viên các khóa K70 trở về trước)"
+            }
+          ]
+        },
+        {
+          "id": "Q2",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-integrated-engineer-registration-20253",
+              "chunk_index": 0,
+              "score": 0.790149,
+              "content_preview": "# Kế hoạch đăng ký học tích hợp chương trình kỹ sư chuyên sâu học kỳ 2025.3  KẾ HOẠCH MỞ ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3  THÔNG BÁO ĐĂNG KÝ HỌC TÍCH HỢP CHƯƠNG TRÌNH KỸ SƯ CHUYÊN SÂU HỌC KỲ 2025.3"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-course-registration-20261",
+              "chunk_index": 14,
+              "score": 0.702775,
+              "content_preview": "### 3. Các mốc thời gian quan trọng cần lưu ý  15/08/2026: Hạn mở thêm lớp.  17/08/2026: Thông báo danh sách lớp ít sinh viên.  19/08/2026: Thông báo chính thức danh sách lớp hủy/giữ.  22/08/2026: Đóng hệ thống đăng ký trực tuyến.  28/08/20"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-integrated-engineer-registration-20253",
+              "chunk_index": 1,
+              "score": 0.701278,
+              "content_preview": "### 1. Đối tượng và mốc thời gian đăng ký:  Sinh viên khóa K68 trở về trước dự kiến tốt nghiệp cử nhân và mong muốn học chuyển tiếp lên kỹ sư chuyên sâu đều có thể đăng ký học tích lũy trước các học phần trong chương trình đào tạo kỹ sư chu"
+            }
+          ]
+        },
+        {
+          "id": "Q3",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 22,
+              "score": 0.811664,
+              "content_preview": "### Điều 9. Học phí - 1. Người học có nghĩa vụ nộp học phí đầy đủ và đúng thời hạn theo quy định. - 2. Người học không nộp đủ học phí sau thời gian quy định tại khoản 1 Điều này sẽ bị đình chỉ đăng ký học tập một học kỳ kế tiếp. - 3. Người "
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-academic-regulations-2025-changes",
+              "chunk_index": 12,
+              "score": 0.73664,
+              "content_preview": "# Các điểm cập nhật của Quy chế đào tạo HUST năm 2025 g trình Kỹ sư, không còn tính cả điểm của giai đoạn Cử nhân.)   Giảm hạng tốt nghiệp (khoản 2.b): Tương tự như Điều 15.2.b.   Điều 25: Nghỉ học tạm thời, tự nguyện thôi học và buộc thô"
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-academic-regulations-2025-changes",
+              "chunk_index": 2,
+              "score": 0.722128,
+              "content_preview": "# Các điểm cập nhật của Quy chế đào tạo HUST năm 2025 ược chia thành 2 đợt A và B\". Phiên bản 2025 đã bỏ quy định này, chỉ còn \"Một năm học bao gồm hai học kỳ chính và một học kỳ hè\".   Thời gian gia hạn Tiến sĩ: Phiên bản 2023 quy định \"t"
+            }
+          ]
+        },
+        {
+          "id": "Q4",
+          "rank": 1,
+          "unfiltered_rank": 1,
+          "points": 2,
+          "metadata_filter": null,
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 5,
+              "score": 0.72693,
+              "content_preview": "### Điều 2. Phân loại trình độ đầu vào và phân lớp học ngoại ngữ cơ bản - 1. Căn cứ phân loại trình độ ngoại ngữ đầu vào với sinh viên thuộc CTĐT có yêu cầu chuẩn đầu ra là tiếng Anh dựa trên một hoặc nhiều tiêu chí, bao gồm: - Dựa trên kết"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-foreign-language-regulations-k70",
+              "chunk_index": 15,
+              "score": 0.724164,
+              "content_preview": "### Điều 7. Hiệu lực thi hành IẾNG ANH (Kèm theo Quyết định số 10728/QĐ-ĐHBK ngày 26 tháng 9 năm 2025 của Giám đốc Đại học Bách khoa Hà Nội)  Bảng 3.1 Danh mục các học phần tiếng Anh thuộc khối ngoại ngữ cơ bản và điều kiện miễn học  TT Mã "
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-academic-regulations-2025",
+              "chunk_index": 15,
+              "score": 0.704952,
+              "content_preview": "### Điều 4. Tín chỉ và học phần òn được giảng dạy. - 6. Điều kiện tham dự một học phần được quy định trong đề cương chi tiết của học phần gồm một hoặc nhiều yếu tố dưới đây: a) Học phần tiên quyết: Học phần A là học phần tiên quyết của học "
+            }
+          ]
+        },
+        {
+          "id": "Q5",
+          "rank": 1,
+          "unfiltered_rank": null,
+          "points": 2,
+          "metadata_filter": {
+            "category": "course-recognition"
+          },
+          "top_3": [
+            {
+              "rank": 1,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 0,
+              "score": 0.592418,
+              "content_preview": "# Hướng dẫn công nhận học phần vào chương trình kỹ sư chuyên sâu  HƯỚNG DẪN CÔNG NHẬN HỌC PHẦN VÀO CHƯƠNG TRÌNH ĐÀO TẠO KỸ SƯ CHUYÊN SÂU"
+            },
+            {
+              "rank": 2,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 1,
+              "score": 0.591711,
+              "content_preview": "## I. Phạm vi áp dụng:  - 1. Dành cho học viên chương trình đào tạo kỹ sư chuyên sâu (KSCS) theo chương trình tích hợp. - 2. Dành cho học viên đã được cấp mã số học viên tạm thời và học viên đã được công nhận chính thức."
+            },
+            {
+              "rank": 3,
+              "doc_id": "hust-engineer-course-recognition-guide",
+              "chunk_index": 2,
+              "score": 0.582885,
+              "content_preview": "## II. Mục đích:  - 1. Học viên chọn các học phần KSCS đã tích lũy khi đang học cử nhân vào bảng điểm KSCS o Điều kiện áp dụng: được công nhận tối đa 15 tín chỉ học trước. - 2. Học viên học theo chương trình đào tạo tích hợp (CTĐT) sẽ được "
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
