@@ -4,7 +4,6 @@
 **Nhóm:** Dịch vụ và quy định đăng ký học phần dành cho sinh viên HUST
 **Ngày:** 03/08/2026
 
-
 > **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 
 **Tổng điểm phần cá nhân: 60** = Khởi động (5) + Hướng tiếp cận (10) + Hoàn thiện code (30) + Dự đoán độ tương tự (5) + Kết quả truy xuất của tôi (10).
@@ -129,12 +128,12 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
 | Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|------|-----------|-----------|---------|--------------|-------|
-| 1 | Sinh viên đăng ký học phần trên portal ctt.hust.edu.vn. | Sinh viên truy cập hệ thống đăng ký môn học trực tuyến Bách Khoa. | cao | -0.1160 (Mock) / 0.88 (Local) | Đúng ngữ nghĩa |
-| 2 | Quy định về thời hạn nộp học phí tín chỉ HUST. | Lịch thi kết thúc học phần và lịch nghỉ lễ của trường. | thấp | 0.1867 | Đúng (khác chủ đề) |
-| 3 | Sinh viên bị cảnh báo học tập chỉ được đăng ký tối đa 14 tín chỉ. | Sinh viên học lực bình thường đăng ký tối đa 24 tín chỉ mỗi học kỳ. | cao | -0.0300 | Tương đối |
-| 4 | Học phần tiên quyết T yêu cầu đạt điểm D trở lên ở môn trước. | Hướng dẫn nấu ăn món phở bò truyền thống Hà Nội. | thấp | 0.1520 | Đúng |
-| 5 | Cố vấn học tập duyệt đơn đăng ký vượt tải cho sinh viên. | Giảng viên hướng dẫn duyệt kế hoạch học tập của sinh viên trên hệ thống. | cao | 0.2214 | Đúng |
+| --- | ----------------------------------------------------------------- | ------------------------------------------------------------------------ | ------- | ----------------------------- | ------------------ |
+| 1   | Sinh viên đăng ký học phần trên portal ctt.hust.edu.vn.           | Sinh viên truy cập hệ thống đăng ký môn học trực tuyến Bách Khoa.        | cao     | -0.1160 (Mock) / 0.88 (Local) | Đúng ngữ nghĩa     |
+| 2   | Quy định về thời hạn nộp học phí tín chỉ HUST.                    | Lịch thi kết thúc học phần và lịch nghỉ lễ của trường.                   | thấp    | 0.1867                        | Đúng (khác chủ đề) |
+| 3   | Sinh viên bị cảnh báo học tập chỉ được đăng ký tối đa 14 tín chỉ. | Sinh viên học lực bình thường đăng ký tối đa 24 tín chỉ mỗi học kỳ.      | cao     | -0.0300                       | Tương đối          |
+| 4   | Học phần tiên quyết T yêu cầu đạt điểm D trở lên ở môn trước.     | Hướng dẫn nấu ăn món phở bò truyền thống Hà Nội.                         | thấp    | 0.1520                        | Đúng               |
+| 5   | Cố vấn học tập duyệt đơn đăng ký vượt tải cho sinh viên.          | Giảng viên hướng dẫn duyệt kế hoạch học tập của sinh viên trên hệ thống. | cao     | 0.2214                        | Đúng               |
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 > Điểm bất ngờ nhất là khi sử dụng MockEmbedder (dựa trên hash md5), hai câu đồng nghĩa (Cặp 1) lại cho điểm số âm (-0.1160) do vector được tạo ngẫu nhiên giả lập. Khi chuyển sang mô hình nhúng ngữ nghĩa thật (`sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`), Cặp 1 đạt điểm rất cao (>0.85). Điều này khẳng định embeddings học máy thực sự mã hóa được quan hệ ngữ nghĩa sâu sắc của câu tiếng Việt chứ không chỉ so sánh trùng khớp từ vựng.
@@ -147,23 +146,23 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Sinh viên bình thường và bị cảnh báo tại HUST được đăng ký tối đa bao nhiêu tín chỉ? | hust-quy-dinh-dang-ky-hoc-phan::chunk_0 (SV bình thường 12-24 TC, cảnh báo 10-14 TC) | 0.1658 | Có | SV bình thường đăng ký 12-24 TC, bị cảnh báo đăng ký 10-14 TC. |
-| 2 | Các bước thao tác đăng ký môn học trên cổng CTT HUST (ctt.hust.edu.vn)? | hust-huong-dan-thao-tac-ctt::chunk_1 (Đăng nhập email HUST, chọn kíp học & lưu phiếu) | 0.1697 | Có | Đăng nhập email HUST, chọn học kỳ, nhập mã LHP, chọn kíp học và lưu phiếu. |
-| 3 | Học phần tiên quyết T là gì và điều kiện đăng ký học cải thiện điểm? | hust-dieu-kien-tien-quyet-hoc-lai::chunk_0 (Môn T cần đạt D trở lên; học cải thiện D, C) | 0.1894 | Có | Môn T yêu cầu đạt D trở lên; học cải thiện áp dụng cho các môn điểm D, C. |
-| 4 | Thời hạn nộp học phí HUST và chính sách hoàn tiền khi rút học phần tuần 1? | hust-quy-dinh-hoc-phi-dang-ky::chunk_1 (Hoàn 100% học phí khi rút học phần trong tuần 1) | 0.2346 | Có | Nộp học phí tuần 5-7; rút học phần tuần 1 được hoàn 100% học phí. |
-| 5 | Cố vấn học tập Bách Khoa có trách nhiệm gì trong việc phê duyệt đơn vượt tải? (filter: audience=faculty) | hust-quy-trinh-co-van-hoc-tap-duyet::chunk_0 (Tư vấn CPA, duyệt vượt tải CPA >= 3.2) | 0.0823 | Có | CVHT tư vấn học tập, duyệt đơn vượt tải (>24 TC) cho sinh viên CPA >= 3.2. |
+| 1 | Sinh viên bình thường và bị cảnh báo tại HUST được đăng ký tối đa bao nhiêu tín chỉ? | hust-credit-training-regulation::chunk_0 (SV bình thường 12-24 TC, cảnh báo 10-14 TC) | 0.2126 | Có | SV bình thường đăng ký 12-24 TC, bị cảnh báo đăng ký 10-14 TC. |
+| 2 | Các bước thao tác đăng ký lớp môn học trên cổng CTT HUST? | hust-course-registration-system-guide::chunk_0 (Đăng nhập CTT, chọn lớp kíp học, lưu phiếu) | 0.2013 | Có | Đăng nhập CTT, chọn Đăng ký lớp, chọn kíp học và xác nhận đăng ký. |
+| 3 | Hạn nộp học phí tín chỉ HUST và chế tài xử lý khi chậm nộp? | hust-tuition-by-credits::chunk_0 (Hạn nộp học phí theo kỳ, chậm nộp bị hủy danh sách) | 0.2017 | Có | Nộp học phí theo hạn thông báo; chậm nộp bị hủy đăng ký lớp và khóa kỳ sau. |
+| 4 | Thời gian đăng ký kế hoạch học tập kỳ 1 năm học 2026-2027? | hust-study-plan-2026::chunk_0 (Đăng ký kế hoạch kỳ 20261 thực hiện từ tháng 3/2026) | 0.2829 | Có | Đăng ký kế hoạch học tập kỳ 20261 thực hiện từ đợt tháng 3/2026 CTT 27235. |
+| 5 | Sinh viên chương trình hợp tác quốc tế (SIE) có quy định gì khi đăng ký môn thay thế? (filter: audience=sie-student) | hust-sie-course-substitution::chunk_0 (Hướng dẫn SIE đăng ký môn thay thế) | 0.2375 | Có | Sinh viên SIE đăng ký môn thay thế theo hướng dẫn riêng của SoICT HUST. |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Việc áp dụng chiến lược `RecursiveChunker` kết hợp phân tách theo tiêu đề Markdown (`#`, `##`) giúp giữ nguyên cấu trúc các mục quy chế Bách Khoa. Ngoài ra, việc dùng `metadata_filter` theo đối tượng `audience` giúp loại bỏ hoàn toàn nhiễu từ tài liệu hướng dẫn dành cho giảng viên khi sinh viên tra cứu quy định.
+> Việc áp dụng chiến lược `RecursiveChunker` kết hợp phân tách theo tiêu đề Markdown (`#`, `##`) giúp giữ nguyên cấu trúc các mục quy chế Bách Khoa. Ngoài ra, việc dùng `metadata_filter` theo đối tượng `audience` giúp loại bỏ hoàn toàn nhiễu từ tài liệu hướng dẫn dành cho nhóm đối tượng khác.
 
 ---
 
 ## Tự Đánh Giá (Phần Cá Nhân)
 
 | Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
+| ----------------------------------------------- | ---------------- |
 | Khởi động (Warm-up) | 5 / 5 |
 | Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
 | Hoàn thiện code (Core Implementation — tests) | 30 / 30 |

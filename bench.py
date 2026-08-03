@@ -10,37 +10,37 @@ BENCHMARK_QUERIES = [
     {
         "id": 1,
         "query": "Sinh viên bình thường và sinh viên bị cảnh báo học tập tại HUST được đăng ký tối đa bao nhiêu tín chỉ trong một học kỳ?",
-        "gold_answer": "Sinh viên bình thường được đăng ký 12-24 tín chỉ. Sinh viên bị cảnh báo học tập mức 1 hoặc 2 chỉ được đăng ký tối đa 14 tín chỉ (tối thiểu 10).",
-        "expected_doc": "hust-quy-dinh-dang-ky-hoc-phan",
+        "gold_answer": "Sinh viên bình thường được đăng ký 12-24 tín chỉ. Sinh viên bị cảnh báo học tập chỉ được đăng ký tối đa 14 tín chỉ (tối thiểu 10).",
+        "expected_doc": "hust-credit-training-regulation",
         "filter": {"audience": "student"}
     },
     {
         "id": 2,
-        "query": "Các bước thao tác đăng ký môn học trên cổng CTT HUST (ctt.hust.edu.vn) như thế nào?",
-        "gold_answer": "Đăng nhập email HUST -> Chọn Đăng ký học phần & kì học -> Nhập mã lớp học phần -> Kiểm tra kíp học trùng lịch -> Bấm Đăng ký và lưu phiếu.",
-        "expected_doc": "hust-huong-dan-thao-tac-ctt",
+        "query": "Các bước thao tác đăng ký lớp môn học trên hệ thống CTT HUST như thế nào?",
+        "gold_answer": "Đăng nhập CTT -> Chọn mục Đăng ký lớp -> Nhập mã lớp kíp học -> Kiểm tra trùng thời khóa biểu -> Bấm Đăng ký và lưu phiếu.",
+        "expected_doc": "hust-course-registration-system-guide",
         "filter": {"audience": "student"}
     },
     {
         "id": 3,
-        "query": "Học phần tiên quyết ký hiệu T tại HUST là gì và điều kiện để đăng ký học cải thiện điểm?",
-        "gold_answer": "Học phần tiên quyết T yêu cầu phải đạt điểm D trở lên ở môn trước. Đăng ký học cải thiện dành cho các môn đạt điểm D, D+, C, C+.",
-        "expected_doc": "hust-dieu-kien-tien-quyet-hoc-lai",
+        "query": "Hạn nộp học phí tín chỉ HUST và quy định xử lý khi chậm nộp học phí ra sao?",
+        "gold_answer": "Hạn nộp học phí thông báo theo từng kỳ. Chậm nộp học phí sẽ bị hủy danh sách đăng ký lớp và khóa quyền đăng ký kỳ tiếp theo.",
+        "expected_doc": "hust-tuition-by-credits",
         "filter": {"audience": "student"}
     },
     {
         "id": 4,
-        "query": "Thời hạn nộp học phí tín chỉ HUST và chính sách rút học phần trong tuần 1 của học kỳ ra sao?",
-        "gold_answer": "Hạn nộp học phí từ tuần 5 đến tuần 7. Rút học phần trong tuần 1 của học kỳ được hoàn 100% học phí.",
-        "expected_doc": "hust-quy-dinh-hoc-phi-dang-ky",
+        "query": "Thời gian đăng ký kế hoạch học tập kỳ 1 năm học 2026-2027 và kỳ hè 2025-2026 thực hiện vào lúc nào?",
+        "gold_answer": "Đăng ký kế hoạch học tập kỳ hè 2025-2026 và kỳ 1 2026-2027 thực hiện theo đợt từ tháng 3/2026 theo thông báo CTT 27235.",
+        "expected_doc": "hust-study-plan-2026",
         "filter": {"audience": "student"}
     },
     {
         "id": 5,
-        "query": "Cố vấn học tập Bách Khoa có trách nhiệm gì trong việc phê duyệt đơn đăng ký vượt tải cho sinh viên?",
-        "gold_answer": "Cố vấn học tập (dành cho giảng viên) duyệt đơn đăng ký vượt tải (trên 24 tín chỉ) cho sinh viên CPA >= 3.2 hoặc duyệt học dưới tải.",
-        "expected_doc": "hust-quy-trinh-co-van-hoc-tap-duyet",
-        "filter": {"audience": "faculty"}
+        "query": "Sinh viên chương trình hợp tác quốc tế (SIE) có quy định gì riêng khi đăng ký học phần thay thế?",
+        "gold_answer": "Sinh viên SIE đăng ký học phần thay thế theo hướng dẫn riêng của Viện CNTT&TT (SoICT HUST) áp dụng cho các học phần không mở.",
+        "expected_doc": "hust-sie-course-substitution",
+        "filter": {"audience": "sie-student"}
     }
 ]
 
@@ -51,7 +51,7 @@ def run_benchmark():
     store = build_knowledge_base("data/k3_university", embedding_fn=embedder, chunker=chunker)
     
     print("=" * 80)
-    print("BENCHMARK RETRIEVAL RESULTS (HUST Course Registration Corpus)")
+    print("BENCHMARK RETRIEVAL RESULTS (HUST Academic Services Corpus)")
     print("=" * 80)
 
     for item in BENCHMARK_QUERIES:
