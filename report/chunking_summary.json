@@ -1,0 +1,170 @@
+[
+  {
+    "file_name": "hoc_bong_diem_ren_luyen.md",
+    "doc_id": "hoc_bong_diem_ren_luyen",
+    "strategy": "fixed_size",
+    "chunk_count": 26,
+    "avg_length_chars": 193.0,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "hoc_bong_diem_ren_luyen.md",
+    "doc_id": "hoc_bong_diem_ren_luyen",
+    "strategy": "by_sentences",
+    "chunk_count": 8,
+    "avg_length_chars": 625.5,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "hoc_bong_diem_ren_luyen.md",
+    "doc_id": "hoc_bong_diem_ren_luyen",
+    "strategy": "recursive",
+    "chunk_count": 33,
+    "avg_length_chars": 150.8,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "hoc_phi_che_do_chinh_sach.md",
+    "doc_id": "hoc_phi_che_do_chinh_sach",
+    "strategy": "fixed_size",
+    "chunk_count": 26,
+    "avg_length_chars": 194.7,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "hoc_phi_che_do_chinh_sach.md",
+    "doc_id": "hoc_phi_che_do_chinh_sach",
+    "strategy": "by_sentences",
+    "chunk_count": 5,
+    "avg_length_chars": 1001.6,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "hoc_phi_che_do_chinh_sach.md",
+    "doc_id": "hoc_phi_che_do_chinh_sach",
+    "strategy": "recursive",
+    "chunk_count": 39,
+    "avg_length_chars": 128.4,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "kham_chua_benh.md",
+    "doc_id": "kham_chua_benh",
+    "strategy": "fixed_size",
+    "chunk_count": 11,
+    "avg_length_chars": 199.8,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "kham_chua_benh.md",
+    "doc_id": "kham_chua_benh",
+    "strategy": "by_sentences",
+    "chunk_count": 3,
+    "avg_length_chars": 730.0,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "kham_chua_benh.md",
+    "doc_id": "kham_chua_benh",
+    "strategy": "recursive",
+    "chunk_count": 16,
+    "avg_length_chars": 135.9,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "ky_tuc_xa.md",
+    "doc_id": "ky_tuc_xa",
+    "strategy": "fixed_size",
+    "chunk_count": 7,
+    "avg_length_chars": 172.4,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "ky_tuc_xa.md",
+    "doc_id": "ky_tuc_xa",
+    "strategy": "by_sentences",
+    "chunk_count": 2,
+    "avg_length_chars": 602.0,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "ky_tuc_xa.md",
+    "doc_id": "ky_tuc_xa",
+    "strategy": "recursive",
+    "chunk_count": 9,
+    "avg_length_chars": 132.9,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "lich_su_truyen_thong.md",
+    "doc_id": "lich_su_truyen_thong",
+    "strategy": "fixed_size",
+    "chunk_count": 9,
+    "avg_length_chars": 186.0,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "lich_su_truyen_thong.md",
+    "doc_id": "lich_su_truyen_thong",
+    "strategy": "by_sentences",
+    "chunk_count": 6,
+    "avg_length_chars": 277.5,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "lich_su_truyen_thong.md",
+    "doc_id": "lich_su_truyen_thong",
+    "strategy": "recursive",
+    "chunk_count": 12,
+    "avg_length_chars": 137.9,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "thong_tin_lien_he.md",
+    "doc_id": "thong_tin_lien_he",
+    "strategy": "fixed_size",
+    "chunk_count": 13,
+    "avg_length_chars": 199.8,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "thong_tin_lien_he.md",
+    "doc_id": "thong_tin_lien_he",
+    "strategy": "by_sentences",
+    "chunk_count": 4,
+    "avg_length_chars": 645.2,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "thong_tin_lien_he.md",
+    "doc_id": "thong_tin_lien_he",
+    "strategy": "recursive",
+    "chunk_count": 16,
+    "avg_length_chars": 160.4,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  },
+  {
+    "file_name": "thu_tuc_hanh_chinh_mot_cua.md",
+    "doc_id": "thu_tuc_hanh_chinh_mot_cua",
+    "strategy": "fixed_size",
+    "chunk_count": 17,
+    "avg_length_chars": 195.8,
+    "context_preservation": "Trung bình (cắt ngang câu nếu hết limit)"
+  },
+  {
+    "file_name": "thu_tuc_hanh_chinh_mot_cua.md",
+    "doc_id": "thu_tuc_hanh_chinh_mot_cua",
+    "strategy": "by_sentences",
+    "chunk_count": 1,
+    "avg_length_chars": 3328.0,
+    "context_preservation": "Tốt (giữ trọn vẹn từng câu)"
+  },
+  {
+    "file_name": "thu_tuc_hanh_chinh_mot_cua.md",
+    "doc_id": "thu_tuc_hanh_chinh_mot_cua",
+    "strategy": "recursive",
+    "chunk_count": 24,
+    "avg_length_chars": 137.2,
+    "context_preservation": "Rất tốt (chia theo đoạn văn và câu)"
+  }
+]
