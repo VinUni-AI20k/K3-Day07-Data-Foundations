@@ -133,13 +133,13 @@ Ngoài ra, `ingest.py` và `main.py` đều chạy được đầy đủ luồng
 
 Kết quả chạy bằng `text-embedding-3-small`:
 
-| Cặp | Nội dung                                     | Dự đoán | Điểm | Kết quả |
-| ---- | --------------------------------------------- | ---------- | -----: | --------- |
-| 1    | Hai câu cùng nói về đăng ký học phần | Cao        | 0.7047 | Đúng    |
-| 2    | Hai câu cùng nói về dịch vụ thư viện  | Cao        | 0.5843 | Đúng    |
-| 3    | Học phần tiên quyết và mượn tài liệu | Thấp      | 0.4276 | Đúng    |
-| 4    | Học phí và bóng đá                      | Thấp      | 0.2819 | Đúng    |
-| 5    | Hai câu cùng ý nhưng khác ngôn ngữ     | Cao        | 0.3270 | Sai       |
+| Cặp | Câu A | Câu B | Dự đoán | Điểm | Kết quả |
+| ---- | ------- | ------- | ---------- | -----: | --------- |
+| 1 | "Sinh viên đăng ký học phần trong cổng học vụ." | "Việc đăng ký môn học được thực hiện trên cổng thông tin học vụ." | Cao | 0.7047 | Đúng |
+| 2 | "Thư viện cho mượn tài liệu và không gian học tập." | "Sinh viên có thể mượn sách và ngồi học tại thư viện." | Cao | 0.5843 | Đúng |
+| 3 | "Học phần tiên quyết phải được kiểm tra trước khi đăng ký." | "Cần mang thẻ định danh hợp lệ khi mượn tài liệu." | Thấp | 0.4276 | Đúng |
+| 4 | "Hạn nộp học phí của học kỳ này là ngày 30 tháng 9." | "Đội bóng đá của trường thắng trận chung kết hôm qua." | Thấp | 0.2819 | Đúng |
+| 5 | "Course registration opens each semester." | "Sinh viên đăng ký học phần theo lịch của từng học kỳ." | Cao | 0.3270 | Sai |
 
 **Kết quả: 4/5 dự đoán đúng.**
 
@@ -191,7 +191,7 @@ Bài học: chunk có mặt trong top-3 chưa đủ. Nếu chunk hơi lệch ch�
 ### Nếu làm lại
 
 - Đổi sang chunk theo tiêu đề, hoặc ít nhất giữ dòng tiêu đề vào đầu mỗi chunk.
-- Tăng `top_k` lên 5 vì chunk đúng của câu 1 nằm hạng 8, chưa quá xa.
+- Tăng `top_k` lên 10 — chunk đúng của câu 1 nằm hạng 8 nên `top_k=5` vẫn không với tới. Với chiến lược chunk theo tiêu đề (hạng 4) thì `top_k=5` là đủ.
 - Thêm trường metadata cho tên trường để agent không trộn quy định của hai nơi.
 
 **Điều hay nhất tôi học được từ thành viên khác:**

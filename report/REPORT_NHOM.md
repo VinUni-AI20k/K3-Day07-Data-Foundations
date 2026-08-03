@@ -113,7 +113,7 @@ Thu thập bằng `scripts/fetch_public_pages.py` (kiểm tra `robots.txt`, ch�
 - **Loại chiến lược:** `HeadingChunker(chunk_size=500, min_chunk_size=200)` — custom, biến thể tham số, 119 chunks
 - **Mô tả & lý do chọn:** Cùng thuật toán với thành viên 3 nhưng ép chunk ngắn hơn, để tách bạch câu hỏi *"lợi thế đến từ việc cắt theo tiêu đề, hay chỉ đến từ việc chunk dài hơn?"*. Đây là biến thử nghiệm có kiểm soát của nhóm.
 
-**Code snippet của chiến lược custom** (đầy đủ trong `src/custom_chunkers.py`), dùng chung cho thành viên 3 và 5:
+**Code snippet của chiến lược custom** (đầy đủ trong `NguyenDuyHaiBang_2A202601225/custom_chunkers.py`), dùng chung cho thành viên 3 và 5:
 
 ```python
 class HeadingChunker:
