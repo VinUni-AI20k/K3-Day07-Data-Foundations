@@ -17,7 +17,7 @@ Phan nhom cua bai lab gom 4 khoi viec chinh:
 3. Thiet ke benchmark 5 cau hoi + gold answers
 4. Chay benchmark, so sanh chien luoc, viet bao cao nhom
 
-Ngoai ra, moi thanh vien van co phan code ca nhan rieng trong `src/` va `report/REPORT_CANHAN.md`, nhung file nay khong nam trong pham vi phan cong nhom.
+Ngoai ra, moi thanh vien van co phan code ca nhan rieng trong `src/` va `report/REPORT_CANHAN_2A202601874.md`, nhung file nay khong nam trong pham vi phan cong nhom.
 
 ---
 
@@ -80,7 +80,7 @@ Cong viec cu the:
 
 6. Kiem tra cuoi
    - Kiem tra xem:
-     - 5 cau hoi co khop nhau giua `REPORT_NHOM.md` va `REPORT_CANHAN.md`
+     - 5 cau hoi co khop nhau giua `REPORT_NHOM.md` va `REPORT_CANHAN_2A202601874.md`
      - ngay / version / source_url co day du
      - moi thanh vien da co du lieu de lam phan cua minh
 
@@ -419,4 +419,3 @@ Neu muon lam nhanh va dung thu tu, nen di theo trinh tu sau:
 - It nhat 1 cau hoi phai can metadata filter
 - Data phai cong khai, khong duoc co thong tin nhay cam
 - Neu corpus chua on, khong nen chay benchmark ngay vi ket qua se khong y nghia
-

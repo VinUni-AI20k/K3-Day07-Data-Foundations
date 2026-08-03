@@ -13,7 +13,7 @@ Không yêu cầu toán học — hãy giải thích về mặt khái niệm:
 - Đưa ra một ví dụ cụ thể về hai câu sẽ có độ tương tự CAO và hai câu sẽ có độ tương tự THẤP.
 - Tại sao độ tương tự cosine lại được ưu tiên hơn khoảng cách Euclid (Euclidean distance) đối với text embeddings?
 
-> **Ghi kết quả vào:** REPORT_CANHAN.md — Phần 1 (Khởi động)
+> **Ghi kết quả vào:** REPORT_CANHAN_2A202601874.md — Phần 1 (Khởi động)
 
 ---
 
@@ -23,7 +23,7 @@ Không yêu cầu toán học — hãy giải thích về mặt khái niệm:
 - Công thức: `số lượng chunk = làm_tròn_lên((độ_dài_tài_liệu - độ_chồng_chéo) / (kích_thước_chunk - độ_chồng_chéo))`
 - Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk sẽ thay đổi như thế nào? Tại sao bạn lại muốn tăng độ chồng chéo?
 
-> **Ghi kết quả vào:** REPORT_CANHAN.md — Phần 1 (Khởi động)
+> **Ghi kết quả vào:** REPORT_CANHAN_2A202601874.md — Phần 1 (Khởi động)
 
 ---
 
@@ -49,7 +49,7 @@ Chạy `pytest tests/` để kiểm tra tiến độ.
 - [ ] `KnowledgeBaseAgent.answer` — truy xuất (retrieve) + tạo prompt + gọi LLM
 
 > **Nộp code:** thư mục `src/`
-> **Ghi lại hướng tiếp cận vào:** REPORT_CANHAN.md — Phần 2 (Hướng tiếp cận của tôi)
+> **Ghi lại hướng tiếp cận vào:** REPORT_CANHAN_2A202601874.md — Phần 2 (Hướng tiếp cận của tôi)
 
 ---
 
@@ -149,7 +149,7 @@ Mỗi nhóm viết **đúng 5 câu hỏi đánh giá** kèm theo **câu trả l�
 
 Gọi hàm `compute_similarity()` trên 5 cặp câu. **Trước khi chạy**, hãy dự đoán xem cặp câu nào sẽ có độ tương tự cao nhất/thấp nhất. Ghi lại các dự đoán của bạn và kết quả thực tế. Suy ngẫm xem điều gì khiến bạn ngạc nhiên nhất.
 
-> **Ghi kết quả vào:** REPORT_CANHAN.md — Phần 4 (Dự đoán độ tương tự)
+> **Ghi kết quả vào:** REPORT_CANHAN_2A202601874.md — Phần 4 (Dự đoán độ tương tự)
 
 ---
 
@@ -164,7 +164,7 @@ Gọi hàm `compute_similarity()` trên 5 cặp câu. **Trước khi chạy**, h
 
 **Bước 3:** Thảo luận và rút ra bài học — chuẩn bị cho phần demo (thuyết trình) với các nhóm khác.
 
-> **Ghi kết quả vào:** REPORT_CANHAN.md — Phần 5 (Kết quả truy xuất của tôi) + REPORT_NHOM.md — Phần 3 (Chất lượng truy xuất của nhóm)
+> **Ghi kết quả vào:** REPORT_CANHAN_2A202601874.md — Phần 5 (Kết quả truy xuất của tôi) + REPORT_NHOM.md — Phần 3 (Chất lượng truy xuất của nhóm)
 > **Gợi ý đánh giá:** xem danh sách kiểm tra ngắn trong `README.md` mục **Cách Tự Đánh Giá Kết Quả Retrieval** hoặc chi tiết hơn trong file `docs/EVALUATION.md`.
 
 ---
@@ -186,4 +186,4 @@ Tìm ít nhất **1 trường hợp lỗi (failure case)** trong quá trình so 
 - [ ] Vượt qua tất cả các bài kiểm thử (tests): `pytest tests/ -v`
 - [ ] Cập nhật thư mục `src/` (cá nhân)
 - [ ] Hoàn thành báo cáo nhóm (`report/REPORT_NHOM.md` — 1 file/nhóm)
-- [ ] Hoàn thành báo cáo cá nhân (`report/REPORT_CANHAN.md` — 1 file/sinh viên)
+- [ ] Hoàn thành báo cáo cá nhân (`report/REPORT_CANHAN_2A202601874.md` — 1 file/sinh viên)
