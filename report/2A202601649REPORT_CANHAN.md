@@ -149,31 +149,31 @@ Kết quả bất ngờ nhất là cặp 2 vẫn có điểm tương tự trung 
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **Tôi đã sử dụng EmbeddingStore với LocalEmbedder và metadata filtering để tinh chỉnh kết quả khi có thể.**
+Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. Tôi sử dụng `EmbeddingStore` với `LocalEmbedder` và metadata filtering để làm rõ kết quả khi câu hỏi liên quan tới một lĩnh vực cụ thể.
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Làm sao để sinh viên VinUni yêu cầu hỗ trợ tài chính? | `vinuni-financial-aid-request`: Quy trình nộp hồ sơ hỗ trợ tài chính, điều kiện, deadline và xét duyệt. | 0.6985 | Có | Hướng dẫn nộp hồ sơ trực tuyến, chứng minh nhu cầu và chờ xét duyệt từ Financial Aid Office. |
-| 2 | Tiêu chí duy trì học bổng đầu vào của VinUni là gì? | `vinuni-scholarship-maintenance`: Tiêu chí duy trì học bổng đầu vào và hỗ trợ tài chính tại VinUniversity. | 0.6669 | Có | Yêu cầu về năng lực học tập và điều kiện cụ thể để tiếp tục được hỗ trợ học bổng. |
-| 3 | Thư viện VinUni có hỗ trợ mượn thiết bị không? | `vinuni-library-learning-support`: Dịch vụ hỗ trợ học tập của thư viện và hướng dẫn trợ giúp nghiên cứu; kèm thông tin về dịch vụ mượn tài liệu/thiết bị. | 0.6445 | Có | Thư viện có hỗ trợ học tập và dịch vụ mượn thiết bị, bao gồm tài nguyên, hướng dẫn và hỗ trợ kỹ thuật. |
-| 4 | Sinh viên có thể đăng ký ở ký túc xá như thế nào? | `vinuni-dormitory-services`: Phòng ở và tiện ích ký túc xá VinUniversity. | 0.4304 | Có | Trình bày cách đăng ký ở ký túc xá và các tiện ích liên quan cho sinh viên. |
-| 5 | Dịch vụ hỗ trợ học tập của Thư viện VinUniversity gồm những gì? | `vinuni-library-learning-support`: Dịch vụ hỗ trợ học tập của Thư viện VinUniversity. | 0.8771 | Có | Liệt kê dịch vụ hỗ trợ học tập, hướng dẫn nghiên cứu và tài nguyên học tập của thư viện. |
+|---|---|---|---:|---|---|
+| 1 | Sinh viên đại học VinUniversity được mượn tối đa bao nhiêu tài liệu và trong bao lâu? | `vinuni-library-borrowing`: dịch vụ mượn tài liệu và thiết bị tại thư viện. | 0.7778 | Có | Trả lời đúng: sinh viên đại học được mượn tối đa 3 tài liệu, mỗi tài liệu trong 2 tuần. |
+| 2 | Nếu muốn yêu cầu hỗ trợ tài chính cho học kỳ Thu, sinh viên cần nộp hồ sơ trong khoảng thời gian nào và hạn xử lý là ngày nào? | `vinuni-financial-aid-request`: quy trình nộp hồ sơ hỗ trợ tài chính. | 0.7676 | Có | Trả lời đúng: nhận hồ sơ từ 20/6 đến 10/7 và xử lý trước ngày 2/8. |
+| 3 | Học bổng Full và 100% cần GPA tối thiểu bao nhiêu để duy trì? | `vinuni-scholarship-maintenance`: tiêu chí duy trì học bổng đầu vào và hỗ trợ tài chính. | 0.7829 | Có | Trả lời đúng: GPA tích lũy tối thiểu 3.2 để duy trì. |
+| 4 | Trong ký túc xá VinUni, có những loại căn hộ nào và sinh viên nam/nữ ở tòa nào? | `vinuni-dormitory-services`: thông tin phòng ở và tiện ích ký túc xá. | 0.7814 | Có | Trả lời đúng: có căn 8 người, 4 người, 2 người; sinh viên nữ ở tòa JA, nam ở tòa JB. |
+| 5 | Với metadata `category=health-and-wellbeing`, sinh viên cần đến phòng nào để nhận dịch vụ y tế trực tiếp và số hotline là gì? | `vinuni-wellbeing-services`: dịch vụ sức khỏe thể chất và tinh thần. | 0.6313 | Có | Trả lời đúng: phòng I119 và hotline (+84) 866 200 019. |
 
 **Top-3 kết quả với metadata filter (nếu áp dụng):**
 
-- Query 1: chỉ trả về `financial-aid-request` khi filter theo `department=financial-aid-office`, giúp giữ đúng nguồn chính xác.
-- Query 2: chỉ trả về `scholarship-maintenance` khi filter theo `category=scholarship-and-financial-aid`, đưa đúng tài liệu học bổng lên đầu.
-- Query 3: trả về `library-learning-support` và `library-borrowing` khi filter theo `department=library-and-learning-resources`, loại bỏ kết quả tài chính không liên quan.
-- Query 4: chỉ trả về `dormitory-services` khi filter theo `department=residential-life`, giúp chọn đúng tài liệu ký túc xá.
-- Query 5: trả về `library-learning-support` và `library-borrowing` khi filter theo `department=library-and-learning-resources`, cải thiện tính liên quan.
+- Query 1: không áp dụng filter; top-3 chủ yếu là `library-borrowing` và `library-learning-support`, cả hai đều liên quan đến dịch vụ thư viện.
+- Query 2: không áp dụng filter; top-3 đều nằm trong `vinuni-financial-aid-request`, vì câu hỏi này rất cụ thể và đúng với tài liệu quy trình hỗ trợ tài chính.
+- Query 3: không áp dụng filter; top-3 đều là `vinuni-scholarship-maintenance`, cho thấy truy xuất đúng tài liệu học bổng.
+- Query 4: không áp dụng filter; top-3 vẫn giữ đúng `vinuni-dormitory-services`, với một vài kết quả nhiễu nhẹ về thư viện.
+- Query 5: khi áp dụng filter `category=health-and-wellbeing`, top-3 đều là `vinuni-wellbeing-services`, giúp tăng độ chính xác và giảm nhiễu từ các tài liệu về hỗ trợ sinh viên khác.
 
 **Nhận xét:**
-Tôi thấy metadata filtering rất hữu ích khi truy vấn cụ thể vào một lĩnh vực (ví dụ tài chính hoặc thư viện), vì nó giúp giảm nhiễu từ các tài liệu khác vẫn có liên quan chung nhưng không chuyên sâu. Chiến lược document-level embedding kết hợp metadata phù hợp với bộ tài liệu này dù chưa có chunking chi tiết; nếu làm tiếp, tôi sẽ thử chia nhỏ theo đoạn/nội dung để cải thiện độ chính xác top-1 hơn nữa.
+Tôi thấy metadata filtering rất hữu ích ở câu hỏi liên quan đến y tế và sức khỏe, vì nó thu hẹp không gian tìm kiếm và giúp hệ thống tập trung đúng tài liệu chuyên ngành. Trong các câu hỏi về thư viện, tài chính, học bổng và ký túc xá, việc dùng embedding + metadata đã cho kết quả tương đối chính xác và phù hợp với ngữ cảnh.
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Tôi học được rằng việc sử dụng tính năng search_with_filter bằng metadata category (ví dụ: category="scholarship") giúp loại bỏ hoàn toàn các chunk nhiễu từ các văn bản không liên quan, làm cho độ chính xác của câu trả lời từ Agent tăng lên đáng kể.
+> Tôi học được rằng việc dùng metadata filter kết hợp với embedding retrieval giúp giảm nhiễu đáng kể, đặc biệt ở các câu hỏi có nhiều tài liệu cùng chủ đề nhưng khác mục đích (ví dụ dịch vụ y tế vs hỗ trợ sinh viên tổng quát).
 
 ---
 
