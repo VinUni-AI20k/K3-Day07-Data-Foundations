@@ -6,10 +6,10 @@ Chốt 5 benchmark query + gold answer; mỗi thành viên chỉ đổi dòng ch
 rồi chạy cùng corpus / cùng query / cùng embedder.
 
 Usage:
-    python bench.py
-    python bench.py --chunker recursive --top-k 3
-    python bench.py --query 5
-    EMBEDDING_PROVIDER=local python bench.py
+    python scripts/bench.py
+    python scripts/bench.py --chunker recursive --top-k 3
+    python scripts/bench.py --query 5
+    EMBEDDING_PROVIDER=local python scripts/bench.py
 
 Copy bộ query này vào report/REPORT_NHOM.md. Không đổi query sau khi nhóm đã chạy.
 """
@@ -23,7 +23,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -91,9 +91,9 @@ class BenchmarkQuery:
 
 
 # --- 5 benchmark queries (chốt nhóm) ---
-# Đa dạng: ngoại lệ, điều kiện, quy trình, liệt kê, số liệu.
-# Query #5 cần filter audience=student: cùng chủ đề đào tạo thư viện nhưng bản faculty
-# trả lời tên buổi khác — không lọc dễ lẫn đối tượng.
+# Đa dạng: ngoại lệ, điều kiện, quy trình, liệt kê, số liệu + filter.
+# Query #5: corpus main có ueh-dorm-fee-2025 và ueh-dorm-fee-2026-q3 cùng chủ đề Quý III
+# (tháng 7,8,9) — cần filter document_version=2026-q3 mới trả lời đúng năm 2026.
 BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     BenchmarkQuery(
         id=1,
@@ -135,16 +135,12 @@ BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     ),
     BenchmarkQuery(
         id=5,
-        kind="số liệu / filter audience",
-        # Không nêu đối tượng trong câu hỏi — không filter dễ lẫn bản faculty (tên buổi + 64 người).
-        query="Buổi đào tạo trực tiếp của Thư viện UEH mang tên gì và có bao nhiêu người tham dự buổi đó?",
-        gold_answer=(
-            'Tên buổi: “Làm chủ kỹ năng tìm kiếm thông tin học thuật”; '
-            "59 sinh viên tham gia Buổi 1."
-        ),
-        expected_doc_id="ueh-library-training-student",
-        metadata_filter={"audience": "student"},
-        verify_keywords=("Làm chủ kỹ năng tìm kiếm thông tin học thuật", "59"),
+        kind="số liệu / filter document_version",
+        query="Thời gian thanh toán nội trú phí KTX UEH Quý III (tháng 7, 8, 9) là khi nào?",
+        gold_answer="Từ 00h00 ngày 01/7/2026 đến 23h59 ngày 13/7/2026.",
+        expected_doc_id="ueh-dorm-fee-2026-q3",
+        metadata_filter={"document_version": "2026-q3"},
+        verify_keywords=("01/7/2026", "13/7/2026"),
     ),
 )
 
