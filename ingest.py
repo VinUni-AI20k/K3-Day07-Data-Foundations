@@ -158,10 +158,11 @@ def _self_check() -> int:
     assert all(c.id.startswith("demo-policy::chunk_") for c in chunks), chunks
 
     print(
-        f"ingest self-check OK: parse được {len(meta)} khóa metadata, "
-        f"tạo {len(chunks)} chunk (mỗi chunk giữ doc_id + metadata)."
+        f"ingest self-check OK: parsed {len(meta)} metadata keys, "
+        f"created {len(chunks)} chunks."
     )
     return 0
+
 
 
 if __name__ == "__main__":

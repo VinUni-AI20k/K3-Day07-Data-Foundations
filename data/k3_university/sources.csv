@@ -1,3 +1,7 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+hust-quy-dinh-dang-ky-hoc-phan,data/k3_university/hust-quy-dinh-dang-ky-hoc-phan.md,Quy định đăng ký học phần tín chỉ Đại học Bách khoa Hà Nội (HUST),https://ctt.hust.edu.vn/quy-dinh-dang-ky-hoc-phan,2026-08-03,QĐ-2025/QĐ-ĐHBKHN,public-page
+hust-huong-dan-thao-tac-ctt,data/k3_university/hust-huong-dan-thao-tac-ctt.md,Hướng dẫn thao tác đăng ký môn học trên Cổng thông tin Đào tạo HUST,https://ctt-daotao.hust.edu.vn/huong-dan-dkhp,2026-08-03,2025-2026,public-page
+hust-dieu-kien-tien-quyet-hoc-lai,data/k3_university/hust-dieu-kien-tien-quyet-hoc-lai.md,Quy định về học phần tiên quyết học trước và đăng ký học cải thiện điểm tại HUST,https://ctt.hust.edu.vn/quy-dinh-tien-quyet-hoc-lai,2026-08-03,QĐ-2024/QĐ-ĐHBKHN,public-page
+hust-quy-dinh-hoc-phi-dang-ky,data/k3_university/hust-quy-dinh-hoc-phi-dang-ky.md,Quy định về nghĩa vụ nộp học phí và hủy đăng ký học phần tại HUST,https://ctt.hust.edu.vn/quy-dinh-hoc-phi-tin-chi,2026-08-03,2025-2026,public-page
+hust-quy-che-thang-diem-gpa,data/k3_university/hust-quy-che-thang-diem-gpa.md,Quy chế quy đổi thang điểm và tính điểm trung bình CPA/GPA tại HUST,https://ctt.hust.edu.vn/quy-che-thang-diem-gpa-cpa,2026-08-03,QĐ-1550/QĐ-ĐHBKHN,public-page
+hust-quy-trinh-co-van-hoc-tap-duyet,data/k3_university/hust-quy-trinh-co-van-hoc-tap-duyet.md,Quy trình Cố vấn học tập và Giảng viên phê duyệt đăng ký học phần HUST,https://ctt.hust.edu.vn/quy-trinh-co-van-hoc-tap-phe-duyet,2026-08-03,2025-2026,public-page
