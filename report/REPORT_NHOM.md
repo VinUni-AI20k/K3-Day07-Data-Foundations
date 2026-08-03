@@ -68,13 +68,21 @@ Thu thập bằng `scripts/fetch_public_pages.py` (tự kiểm tra `robots.txt` 
 
 ### Phân tích đường cơ sở (Baseline Analysis)
 
-Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
+Chạy `ChunkingStrategyComparator().compare(chunk_size=200)` trên 3 tài liệu đại diện (ngắn/trung/dài), **đã bóc front matter** trước khi so sánh (dùng `ingest.load_documents()` — `Document.content` chỉ còn phần thân, không lẫn khối YAML):
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+| `huong-dan-dang-ky-hoc-phan` (2,062 ký tự) | FixedSizeChunker (`fixed_size`) | 14 | 193.7 | Không đảm bảo — cắt cứng theo ký tự, có thể chặt giữa câu |
+| `huong-dan-dang-ky-hoc-phan` | SentenceChunker (`by_sentences`) | 5 | 409.6 | Có, trọn câu — nhưng chunk to gần gấp đôi fixed_size, dễ gộp nhiều ý không liên quan vào 1 chunk |
+| `huong-dan-dang-ky-hoc-phan` | RecursiveChunker (`recursive`) | 16 | 127.1 | Có, ưu tiên `\n\n`/câu trước khi cắt cứng — chunk nhỏ nhất trong 3 chiến lược nên giữ ngữ cảnh cục bộ tốt nhưng dễ mất ngữ cảnh rộng hơn |
+| `che-do-hoc-bong-sinh-vien` (3,186 ký tự) | FixedSizeChunker | 21 | 199.3 | Không đảm bảo |
+| `che-do-hoc-bong-sinh-vien` | SentenceChunker | 7 | 452.6 | Có, trọn câu |
+| `che-do-hoc-bong-sinh-vien` | RecursiveChunker | 25 | 125.9 | Có, ưu tiên ranh giới tự nhiên |
+| `quy-che-dao-tao-tin-chi` (39,962 ký tự — văn bản quy chế có `CHƯƠNG`/`Điều N.`) | FixedSizeChunker | 267 | 199.5 | Không — với văn bản pháp quy nhiều `Điều`, cắt cứng dễ chặt đôi 1 điều khoản giữa chừng |
+| `quy-che-dao-tao-tin-chi` | SentenceChunker | 84 | 473.7 | Có, trọn câu nhưng không tôn trọng ranh giới `Điều` — 1 chunk có thể lẫn cuối `Điều` này với đầu `Điều` sau |
+| `quy-che-dao-tao-tin-chi` | RecursiveChunker | 282 | 140.0 | Có, ưu tiên `\n\n` trước — với văn bản dài nhiều đoạn ngắn thì vẫn có thể cắt giữa 1 `Điều` nếu đoạn đó dài hơn `chunk_size` |
+
+**Nhận xét:** Cả 3 chiến lược built-in đều **không nhận biết ranh giới `Điều`/`CHƯƠNG`** của văn bản quy chế — đây chính là lý do một thành viên (xem "Chiến lược của từng thành viên" bên dưới) viết `HeadingChunker` tùy chỉnh tách theo heading trước khi mới cắt tiếp theo đoạn.
 
 ### Chiến lược của từng thành viên
 
@@ -88,10 +96,47 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 # Dán mã nguồn (implementation) vào đây
 ```
 
-**Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
+**Thành viên 2 — Trần Văn Hiếu**
+- **Loại chiến lược:** custom — `HeadingChunker` (`src/heading_chunker.py`)
+- **Mô tả & lý do chọn cho chủ đề này:** `quy-che-dao-tao-tin-chi.md` là văn bản quy chế học vụ được biên soạn sẵn theo `CHƯƠNG`/`Điều N.` — mỗi `Điều` đã là một đơn vị ngữ nghĩa trọn vẹn (một quy định). `HeadingChunker` tách trước tại các dòng heading (`#`, `CHƯƠNG ...`, `Điều N. ...`), section nào vẫn dài hơn `chunk_size` mới hạ xuống cắt theo đoạn (`\n\n`) — và **gắn lại dòng heading vào đầu mỗi mảnh con** để mảnh thứ 2 trở đi không mất ngữ cảnh "mình thuộc Điều nào" (bug này từng khiến 1/5 câu benchmark thất bại hoàn toàn trước khi sửa — xem `REPORT_CANHAN.md` Mục 5). Baseline `ChunkingStrategyComparator` (dùng `chunk_size=200`) cho thấy cả 3 chiến lược có sẵn đều không nhận biết ranh giới `Điều`, nên đây là chiến lược bổ sung đúng khoảng trống đó, đồng thời đáp ứng yêu cầu riêng của K3_VARIANT.md ("ít nhất một thành viên thử chia theo tiêu đề/mục của quy định học vụ").
+- **Code snippet:**
+```python
+class HeadingChunker:
+    """Tách theo heading/section (markdown #, CHƯƠNG, Điều N.) thay vì theo size.
+    Section dài hơn chunk_size mới hạ xuống cắt theo đoạn, và heading được
+    gắn lại vào đầu mỗi mảnh con để không mất ngữ cảnh."""
+
+    HEADING_PATTERN = re.compile(
+        r"^(#{1,6}\s+.+|CHƯƠNG\s+[IVXLCDM\d]+.*|Điều\s+\d+\..*)$",
+        re.MULTILINE,
+    )
+
+    def __init__(self, chunk_size: int = 800) -> None:
+        self.chunk_size = chunk_size
+
+    def chunk(self, text: str) -> list[str]:
+        matches = list(self.HEADING_PATTERN.finditer(text))
+        if not matches:
+            return self._split_long(text.strip())
+        chunks = []
+        if matches[0].start() > 0:
+            chunks.extend(self._split_long(text[: matches[0].start()].strip()))
+        for i, m in enumerate(matches):
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+            section = text[m.start():end].strip()
+            if section:
+                chunks.extend(self._split_section(section))
+        return chunks
+
+    def _split_section(self, section: str) -> list[str]:
+        if len(section) <= self.chunk_size:
+            return [section]
+        heading, _, body = section.partition("\n")
+        pieces = self._split_long(body.strip())
+        return [f"{heading}\n\n{p}" for p in pieces] if pieces else [heading]
+    # _split_long: gộp đoạn (\n\n) tới sát chunk_size, y hệt RecursiveChunker._split
+```
+> Bản đầy đủ (có `_split_long`, docstring giải thích thiết kế) ở `src/heading_chunker.py`.
 
 **Thành viên 3 — [Tên]**
 - **Loại chiến lược:**

@@ -13,7 +13,11 @@ class HeadingChunker:
     giữa chừng; HeadingChunker giữ mỗi `Điều`/`CHƯƠNG`/tiêu đề markdown làm một
     chunk riêng để mỗi chunk là một quy định trọn vẹn, dễ trace ngược về đúng
     điều khoản khi trả lời câu hỏi loại "mức học bổng tối đa là bao nhiêu?".
-    Section nào vẫn dài hơn chunk_size mới được chẻ tiếp theo đoạn (`\n\n`).
+
+    Section nào vẫn dài hơn chunk_size mới được chẻ tiếp theo đoạn (`\n\n`). Khi
+    đó, dòng heading được **gắn lại vào đầu mỗi mảnh con** — nếu không, mảnh thứ
+    hai trở đi sẽ mất ngữ cảnh (không còn biết mình thuộc `Điều` nào), và
+    `search()` trả về một đoạn trôi nổi không thể trace ngược về đúng điều khoản.
     """
 
     HEADING_PATTERN = re.compile(
@@ -32,31 +36,38 @@ class HeadingChunker:
         if not matches:
             return self._split_long(text.strip())
 
-        sections: list[str] = []
+        chunks: list[str] = []
         if matches[0].start() > 0:
             preamble = text[: matches[0].start()].strip()
             if preamble:
-                sections.append(preamble)
+                chunks.extend(self._split_long(preamble))
 
         for index, match in enumerate(matches):
             start = match.start()
             end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
             section = text[start:end].strip()
             if section:
-                sections.append(section)
-
-        chunks: list[str] = []
-        for section in sections:
-            chunks.extend(self._split_long(section))
+                chunks.extend(self._split_section(section))
         return chunks
 
-    def _split_long(self, section: str) -> list[str]:
-        if not section:
-            return []
+    def _split_section(self, section: str) -> list[str]:
+        """Split one heading-delimited section, re-attaching its heading to every sub-chunk."""
         if len(section) <= self.chunk_size:
             return [section]
 
-        paragraphs = section.split("\n\n")
+        heading, _, body = section.partition("\n")
+        body_pieces = self._split_long(body.strip())
+        if not body_pieces:
+            return [heading]
+        return [f"{heading}\n\n{piece}" for piece in body_pieces]
+
+    def _split_long(self, text: str) -> list[str]:
+        if not text:
+            return []
+        if len(text) <= self.chunk_size:
+            return [text]
+
+        paragraphs = text.split("\n\n")
         chunks: list[str] = []
         buffer = ""
         for paragraph in paragraphs:
