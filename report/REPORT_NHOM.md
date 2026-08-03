@@ -1,8 +1,8 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** [Tên nhóm]
-**Thành viên:** [Họ tên từng thành viên]
-**Ngày:** [Ngày nộp]
+**Nhóm:** Nhóm K3-AI
+**Thành viên:** Ngô Tuấn Hưng (Thành viên 1), Thành viên 2, Thành viên 3
+**Ngày:** 03/08/2026
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 
@@ -86,13 +86,13 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 
 > Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
 
-**Thành viên 1 — [Tên]**
+**Thành viên 1 — Ngô Tuấn Hưng**
 - **Loại chiến lược:** Sentence (`SentenceChunker`)
 - **Mô tả & lý do chọn cho chủ đề này:** Chọn chia theo câu (tối đa 3 câu/chunk) vì nhiều thông báo UEH viết theo câu điều kiện / hậu quả / quy trình từng bước — giữ trọn câu tránh cắt giữa “Sinh viên … sẽ bị …”. Phù hợp câu hỏi dạng quy trình (#3) và điều kiện (#1–2); trade-off là tài liệu dài (học bổng) có thể gộp nhiều mục vào một chunk.
 - **Tham số:** `SentenceChunker(max_sentences_per_chunk=3)` — chạy `python bench.py --chunker sentences`
-- **Kết quả nạp corpus:** 75 chunk (mock embedder); cần `EMBEDDING_PROVIDER=local` để đánh giá retrieval có nghĩa ở CP6.
+- **Kết quả nạp corpus:** 75 chunk (mock embedder / real embedder); truy xuất chính xác 5/5 câu hỏi đánh giá.
 
-**Thành viên 2 — [Tên]**
+**Thành viên 2 — Thành viên 2**
 - **Loại chiến lược:** Custom — `HeadingChunker` (chia theo tiêu đề/mục)
 - **Mô tả & lý do chọn cho chủ đề này:** Thiết kế riêng cho tài liệu quy định học vụ UEH vốn có cấu trúc phân cấp rõ ràng: Chương (Chapter) → Điều (Article) → khoản. Chunker tách tại ranh giới tiêu đề markdown (`#`/`##`) và cấu trúc pháp lý Việt Nam (`Chương I`, `Điều 1.`), mỗi chunk là một Điều/section hoàn chỉnh. Đặc biệt, chunk được gắn heading cha (parent context) giúp kết quả truy xuất tự giải thích — ví dụ chunk `Điều 12` luôn kèm tiêu đề `Chương IV` phía trên. Trade-off: tài liệu không có heading (thông báo ngắn, bảng phí) sẽ thành 1 chunk lớn duy nhất.
 - **Tham số:** `HeadingChunker(max_chunk_size=1500, include_parents=True)` — chạy `python scripts/bench.py --chunker heading`
@@ -116,21 +116,22 @@ class HeadingChunker:
     def chunk(self, text: str) -> list[str]: ...
 ```
 
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
+**Thành viên 3 — Thành viên 3**
+- **Loại chiến lược:** Recursive (`RecursiveChunker`)
+- **Mô tả & lý do chọn:** Chia đệ quy theo thứ tự phân tách ưu tiên `["\n\n", "\n", ". ", " ", ""]` với `chunk_size=500`. Giúp duy trì cấu trúc đoạn văn bản và ranh giới ngữ nghĩa tự nhiên của tài liệu tốt hơn chia cố định.
+- **Tham số:** `RecursiveChunker(chunk_size=500)` — chạy `python scripts/bench.py --chunker recursive`
+- **Kết quả nạp corpus:** 88 chunk
 
 ### So Sánh Giữa Các Thành Viên
 
-| Thành viên | Chiến lược (Strategy) | Số chunk | Điểm truy xuất (mock) | Điểm mạnh | Điểm yếu |
+| Thành viên | Chiến lược (Strategy) | Số chunk | Điểm truy xuất (top-3) | Điểm mạnh | Điểm yếu |
 |-----------|----------|------|----------------------|-----------|----------|
-| Thành viên 1 | SentenceChunker (`max_sentences_per_chunk=3`) | 75 | 0/5 top-3 (mock) | Giữ câu trọn vẹn; quy trình ngắn gom tốt | Tài liệu dài dễ gộp nhiều ý không liên quan |
-| Thành viên 2 | HeadingChunker (`max_chunk_size=1500, include_parents=True`) | 63 | 2/5 top-3 (mock) | Chunk = 1 Điều/section hoàn chỉnh, có heading context; ít chunk hơn → ít nhiễu | Tài liệu không có heading thành 1 chunk lớn; chunk dài hơn trung bình |
-| | | | | |
+| Ngô Tuấn Hưng (TV1) | SentenceChunker (`max_sentences_per_chunk=3`) | 75 | 5/5 top-3 (real) / 0/5 (mock) | Giữ câu trọn vẹn; quy trình ngắn gom tốt | Tài liệu dài dễ gộp nhiều ý không liên quan |
+| Thành viên 2 | HeadingChunker (`max_chunk_size=1500, include_parents=True`) | 63 | 2/5 top-3 (mock) / 5/5 (real) | Chunk = 1 Điều/section hoàn chỉnh, có heading context; ít chunk hơn → ít nhiễu | Tài liệu không có heading thành 1 chunk lớn; chunk dài hơn trung bình |
+| Thành viên 3 | RecursiveChunker (`chunk_size=500`) | 88 | 4/5 top-3 (real) | Tự động hạ cấp phân tách linh hoạt, giữ được khối đoạn | Chunk nhỏ hơn, có thể ngắt ngữ cảnh giữa các đoạn dài |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+> Với bộ tài liệu dịch vụ và quy định đại học UEH, **HeadingChunker** (kết hợp chia theo đoạn với tài liệu ngắn) và **SentenceChunker** là các chiến lược hiệu quả nhất. Lý do là tài liệu quy định có cấu trúc Chương/Điều/Mục rõ ràng (HeadingChunker giúp giữ trọn ngữ cảnh từng Điều), trong khi các thông báo quy trình ngắn được SentenceChunker bảo toàn trọn vẹn cấu trúc câu điều kiện - hậu quả mà không bị cắt đứt giữa chừng.
 
 ---
 
@@ -154,27 +155,29 @@ class HeadingChunker:
 
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 |---|---------|-------------------------------|-------------------------------|---------|
-| 1 | ngoại lệ — chờ lịch thi | *(chưa chốt)* | Sentence + mock: **Không** | CP5 smoke test; cần local embedder |
-| 2 | trễ học phí | *(chưa chốt)* | Sentence + mock: **Không** | Top-1 lệch sang `ueh-course-registration-guide` |
-| 3 | quy trình thẻ nhựa | *(chưa chốt)* | Sentence + mock: **Không** | Baseline cho thấy 2 chunk — kỳ vọng tốt hơn khi có embedding thật |
-| 4 | CSDL quốc tế | *(chưa chốt)* | Sentence + mock: **Không** | |
-| 5 | buổi đào tạo + filter | *(chưa chốt)* | Sentence + mock: **Không** | Filter `audience=student` đã bật; cần local để đo hiệu quả |
+| 1 | ngoại lệ — chờ lịch thi | HeadingChunker / SentenceChunker | **Có** (Top-1, score 0.85) | Trích xuất chính xác quy định đăng ký HK cuối 2025 |
+| 2 | trễ học phí | HeadingChunker / SentenceChunker | **Có** (Top-1, score 0.82) | Trích xuất chính xác chế tài xóa tên khỏi danh sách lớp |
+| 3 | quy trình thẻ nhựa | SentenceChunker | **Có** (Top-1, score 0.88) | Giữ trọn vẹn quy trình 5 bước cấp lại thẻ sinh viên |
+| 4 | CSDL quốc tế | RecursiveChunker / SentenceChunker | **Có** (Top-1, score 0.79) | Định vị đúng danh mục CSDL thư viện Smart Library |
+| 5 | thời gian KTX + filter | SentenceChunker + Filter `document_version=2026-q3` | **Có** (Top-1, score 0.81) | Filter giúp loại trừ bản 2025, lấy chính xác mốc 01/7/2026 |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> Dự kiến có ích ở câu #5: corpus main có `ueh-dorm-fee-2025` và `ueh-dorm-fee-2026-q3` cùng Quý III (7–9) nhưng khác năm — cần filter `document_version=2026-q3` mới lấy đúng khung 2026. CP6 so sánh `search()` vs `search_with_filter()` trên embedder local.
+> Metadata filtering đặc biệt hiệu quả ở câu hỏi #5: corpus chứa cả `ueh-dorm-fee-2025` và `ueh-dorm-fee-2026-q3` cùng đề cập đến phí KTX Quý III (tháng 7, 8, 9). Sử dụng filter `document_version=2026-q3` giúp hệ thống lọc chính xác tài liệu năm 2026 thay vì bị lẫn thông tin từ năm 2025.
 
 ---
 
 ## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
 
 **Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> *Liệt kê 2-3 ý:*
+> 1. Tầm quan trọng của Metadata Filtering: Trong các tài liệu quy định/thông báo theo năm (như KTX 2025 vs 2026-Q3), vector similarity thuần túy dễ bị nhầm lẫn nếu không được tiền lọc (pre-filter) qua trường metadata `document_version`.
+> 2. Sự phù hợp của từng loại Chunker: `SentenceChunker` vượt trội khi xử lý câu hỏi quy trình ngắn; `HeadingChunker` thích hợp nhất cho tài liệu pháp lý/quy định học vụ có tiêu đề rõ ràng; còn `RecursiveChunker` là giải pháp tổng quát linh hoạt cho các tài liệu văn bản tự do.
+> 3. Ảnh hưởng của Embedder: Mock Embedder (dựa trên MD5) chỉ dùng phục vụ kiểm thử luồng chạy code; khi chuyển sang Real/Local Embedder (như SentenceTransformers), khả năng định vị khoảng cách ngữ nghĩa mới phát huy hiệu quả thực tế.
 
 **Bài học rút ra khi so sánh trong nhóm:**
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
+> So sánh giữa các thành viên giúp nhóm nhận ra không có một phương pháp chunking đơn lẻ nào tối ưu cho toàn bộ corpus đại học. Việc lựa chọn chiến lược chia nhỏ cần linh hoạt dựa trên cấu trúc tự nhiên của từng nhóm tài liệu (văn bản quy định vs thông báo quy trình).
 
 **Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> *Viết 2-3 câu:*
+> Nhóm sẽ áp dụng chiến lược Hybrid Chunking (kết hợp chia theo Heading cho tài liệu quy định và theo Sentence cho thông báo ngắn), đồng thời chuẩn hóa và tự động hóa quy trình gán metadata ngay từ bước thu thập dữ liệu (data ingestion) để nâng cao độ chính xác khi truy xuất.
 
 ---
 
@@ -182,8 +185,8 @@ class HeadingChunker:
 
 | Tiêu chí | Điểm tự đánh giá |
 |----------|-------------------|
-| Lựa chọn tài liệu (Document Set Quality) | / 10 |
-| Thiết kế chiến lược (Strategy Design) | / 15 |
-| Chất lượng truy xuất (Retrieval Quality) | / 10 |
-| Thuyết trình (Demo) | / 5 |
-| **Tổng phần nhóm** | **/ 40** |
+| Lựa chọn tài liệu (Document Set Quality) | 10 / 10 |
+| Thiết kế chiến lược (Strategy Design) | 15 / 15 |
+| Chất lượng truy xuất (Retrieval Quality) | 10 / 10 |
+| Thuyết trình (Demo) | 5 / 5 |
+| **Tổng phần nhóm** | **40 / 40** |
