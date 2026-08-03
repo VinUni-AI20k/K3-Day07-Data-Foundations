@@ -1,7 +1,7 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
 **Họ tên:** Nguyễn Thu Huyền  
-**MSSV:** 2A20261027  
+**MSSV:** 2A202601027  
 **Chiến lược phân công:** RecursiveChunker (`chunk_size = 400`)  
 **Nhóm:** BiaHoiHaiXom  
 **Ngày:** 03/08/2026  
