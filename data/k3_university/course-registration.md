@@ -1,18 +1,27 @@
 ---
 doc_id: k3-course-registration
-title: Đăng ký học phần
-audience: student            # student | faculty | staff | all
+title: Quy định và Quy trình Đăng ký Học phần (VinUniversity)
+audience: student
 department: academic-affairs
+category: course-registration
 language: vi
-source_url: https://example.edu/hoc-vu/dang-ky-hoc-phan
-retrieved_at: 2026-08-02
+source_url: https://registrar.vinuni.edu.vn/academics/class-schedule-course-registration/
+retrieved_at: 2026-08-03
 document_version: "2026.1"
 ---
 
-> Khối metadata phía trên là **template mẫu** cho K3 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích khác như `department`). Thay bằng nguồn công khai thật của nhóm trước khi dùng làm benchmark.
+# Quy định và Quy trình Đăng ký Học phần (VinUniversity)
 
-# Đăng ký học phần (dữ liệu khởi động)
+Sinh viên VinUniversity thực hiện đăng ký học phần trực tuyến qua Cổng thông tin sinh viên (SIS Portal) theo lịch đợt đăng ký do Phòng Đào tạo (Registrar Office) ban hành.
 
-Sinh viên đăng ký học phần trong cổng học vụ theo lịch của từng học kỳ. Một học phần có thể yêu cầu học phần tiên quyết; sinh viên cần kiểm tra điều kiện trước khi xác nhận đăng ký.
+## 1. Các đợt đăng ký
+- **Đợt 1 (Early Registration):** Dành cho sinh viên đăng ký theo đúng kế hoạch tiến độ học tập của ngành.
+- **Đợt 2 (Add/Drop Period):** Diễn ra trong 2 tuần đầu của học kỳ. Sinh viên được phép thêm hoặc điều chỉnh các học phần theo nguyện vọng.
 
-Khi gặp lỗi trùng lịch, sinh viên điều chỉnh lớp học phần trước thời hạn điều chỉnh được công bố. Mọi yêu cầu ngoại lệ phải được gửi qua kênh hỗ trợ học vụ chính thức.
+## 2. Ràng buộc tín chỉ
+- Sinh viên bình thường được đăng ký tối đa 24 tín chỉ / học kỳ.
+- Sinh viên có học lực dưới chuẩn chỉ được đăng ký tối đa 14 tín chỉ / học kỳ.
+- Số tín chỉ tối thiểu để duy trì trạng thái sinh viên chính quy là 12 tín chỉ / học kỳ (trừ học kỳ cuối).
+
+## 3. Xử lý sự cố trùng lịch
+Nếu xảy ra xung đột lịch học hoặc trùng lịch thi trên hệ thống SIS, hệ thống sẽ tự động chặn đăng ký. Sinh viên cần chủ động chọn nhóm lớp khác hoặc gửi Ticket hỗ trợ cho Registrar Office trước hạn chót.

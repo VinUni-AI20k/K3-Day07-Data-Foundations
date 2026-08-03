@@ -1,3 +1,7 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+k3-course-registration,data/k3_university/course-registration.md,Quy định và Quy trình Đăng ký Học phần (VinUniversity),https://registrar.vinuni.edu.vn/academics/class-schedule-course-registration/,2026-08-03,2026.1,public-page
+k3-prerequisites-policy,data/k3_university/prerequisites-policy.md,Quy định về Học phần Tiên quyết và Song hành (VinUniversity),https://policy.vinuni.edu.vn/academic-regulations/,2026-08-03,2026.1,public-page
+k3-course-withdrawal,data/k3_university/course-withdrawal.md,Quy trình Rút bớt Học phần và Hủy Đăng ký Môn học (VinUniversity),https://registrar.vinuni.edu.vn/academics/course-add-drop-withdrawal/,2026-08-03,2026.1,public-page
+k3-tuition-policy,data/k3_university/tuition-policy.md,Quy định về Thời hạn và Mức đóng Học phí Học kỳ (VinUniversity),https://policy.vinuni.edu.vn/financial-regulations/,2026-08-03,2026.1,public-page
+k3-scholarship-policy,data/k3_university/scholarship-policy.md,Tiêu chuẩn và Quy trình Xét Học bổng Khuyến khích Học tập (VinUniversity),https://vinuni.edu.vn/admission/scholarships-and-financial-aid/,2026-08-03,2026.1,public-page
+k3-faculty-grading-guide,data/k3_university/faculty-grading-guide.md,Hướng dẫn Duyệt Lớp và Nhập Điểm Học phần dành cho Giảng viên (VinUniversity),https://registrar.vinuni.edu.vn/faculty/grading-guidelines/,2026-08-03,2026.1,public-page
