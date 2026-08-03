@@ -1,0 +1,1 @@
+'## Tự Đánh Giá (Phần Cá Nhân)\n\n| Tiêu chí | Điểm tự đánh giá |\n|----------|-------------------|\n| Khởi động (Warm-up) | / 5 |\n| Hướng tiếp cận của tôi (My Approach) | / 10 |\n| Hoàn thiện code (Core Implementation — tests) | / 30 |\n| Dự đoán độ tương tự (Similarity Predictions) | / 5 |\n| Kết quả truy'
