@@ -1,7 +1,7 @@
 # Kết Quả Bước 6 — Phân Công & Thiết Kế Chiến Lược Chunking Cho Từng Thành Viên
 
 **Ngày thực hiện:** 03/08/2026  
-**Nhóm:** Nhóm 2k345  
+**Nhóm:** K3 Day 07  
 
 ---
 
@@ -11,8 +11,8 @@
 
 | Thành viên | Tên thành viên | Mã sinh viên | Chiến lược Chunking | Mô tả ngắn & Tham số |
 |---|---|---|---|---|
-| **Thành viên 1** | Nhóm trưởng (Nguyễn Xuân Phương) | 2A202601874 | **SentenceChunker** *(Built-in)* | Tách theo ranh giới câu (`. `, `! `, `? `), ghép nhóm `max_sentences_per_chunk=3`. |
-| **Thành viên 2** | Phu trách Data | 2A202601000 | **RecursiveChunker** *(Built-in)* | Đệ quy theo thứ tự ưu tiên dấu phân cách: `["\n\n", "\n", ". ", " ", ""]` với `chunk_size=400`. |
+| **Thành viên 1** | Nhóm trưởng (Nguyễn Xuân Phượng) | 2A202601874 | **SentenceChunker** *(Built-in)* | Tách theo ranh giới câu (`. `, `! `, `? `), ghép nhóm `max_sentences_per_chunk=3`. |
+| **Thành viên 2** | Lê Nguyễn Minh Đức | 2A202601013 | **RecursiveChunker** *(Built-in)* | Đệ quy theo thứ tự ưu tiên dấu phân cách: `["\n\n", "\n", ". ", " ", ""]` với `chunk_size=400`. |
 | **Thành viên 3** | Phụ trách Retrieval & Benchmark (Nguyễn Đào Nam Hải) | 2A202601037 | **CustomSectionHeaderChunker** *(Tùy chỉnh)* | Tách văn bản theo cấu trúc tiêu đề (Header `#`, `##`), giữ nguyên vẹn trọn một mục quy định. |
 
 ---

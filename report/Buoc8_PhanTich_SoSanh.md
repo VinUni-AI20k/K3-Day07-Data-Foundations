@@ -1,7 +1,7 @@
 # Kết Quả Bước 8 — Phân Tích So Sánh, Phân Tích Lỗi & Bài Học Nhóm
 
 **Ngày thực hiện:** 03/08/2026  
-**Nhóm:** Nhóm 2k345  
+**Nhóm:** K3 Day 07  
 
 ---
 
@@ -9,8 +9,8 @@
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |---|---|---|---|---|
-| **Thành viên 1** (Nguyễn Xuân Phương) | `SentenceChunker` | 9/10 | Giữ được cấu trúc câu hoàn chỉnh, tránh xé lẻ từ ngữ. | Không phân biệt được ranh giới giữa các phần/mục lớn khi gộp 3 câu. |
-| **Thành viên 2** (Đào Văn B) | `RecursiveChunker` | 8/10 | Linh hoạt, cắt nhỏ văn bản đều đặn theo kích thước mong muốn. | Kích thước chunk quá nhỏ (avg 121 chars) dễ làm thất lạc mối liên hệ giữa tiêu đề và nội dung. |
+| **Thành viên 1** (Nguyễn Xuân Phượng) | `SentenceChunker` | 9/10 | Giữ được cấu trúc câu hoàn chỉnh, tránh xé lẻ từ ngữ. | Không phân biệt được ranh giới giữa các phần/mục lớn khi gộp 3 câu. |
+| **Thành viên 2** (Lê Nguyễn Minh Đức) | `RecursiveChunker` | 8/10 | Linh hoạt, cắt nhỏ văn bản đều đặn theo kích thước mong muốn. | Kích thước chunk quá nhỏ (avg 121 chars) dễ làm thất lạc mối liên hệ giữa tiêu đề và nội dung. |
 | **Thành viên 3** (Nguyễn Đào Nam Hải) | `CustomSectionHeaderChunker` | 10/10 | Bảo tồn 100% ngữ cảnh của một điều khoản quy định theo Header `##`. Ngữ nghĩa cực kỳ mạch lạc. | Nếu một Section quá dài (trên 1,000 từ) sẽ cần thêm bước sub-chunking phụ. |
 
 ### Chiến lược nào tốt nhất cho chủ đề quy định đại học? Tại sao?

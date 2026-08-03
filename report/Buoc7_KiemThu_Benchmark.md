@@ -1,7 +1,7 @@
 # Kết Quả Bước 7 — Thực Hiện Benchmark & So Sánh Truy Xuất (Retrieval Quality)
 
 **Ngày thực hiện:** 03/08/2026  
-**Nhóm:** Nhóm 2k345  
+**Nhóm:** K3 Day 07  
 
 ---
 

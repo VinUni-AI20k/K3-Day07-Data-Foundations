@@ -13,83 +13,94 @@
 
 ---
 
-## 1. Kết Quả Bước 1 - Chốt Đề Tài Và Phạm Vi Dữ Liệu
+## 1. Bước 1 - Chốt đề tài và phạm vi
 
-**Đề tài nhóm đã chốt:**
+Nhóm chốt đề tài: **Đăng ký môn học và quy định học vụ cho sinh viên**.
 
-Đăng ký môn học và quy định học vụ cho sinh viên.
-
-**Phạm vi cụ thể:**
+Phạm vi tập trung:
 - Quy trình đăng ký học phần
 - Thêm / bỏ / rút học phần
-- Điều kiện tiên quyết và ràng buộc học phần
-- Lịch học và thời điểm mở đăng ký
-- Quyền mượn và quy định sử dụng thư viện
+- Điều kiện tiên quyết và song hành
+- Học phí và học bổng
+- Duyệt lớp và nhập điểm dành cho giảng viên
 
-**Lý do chọn đề tài:**
-- Phù hợp đúng chủ đề K3: dịch vụ / quy định đại học
-- Có thể tìm nguồn công khai, rõ ràng, truy vết được
-- Dễ xây dựng benchmark queries kiểm chứng được
-- Phù hợp để so sánh chunking và metadata filtering
-
----
-
-## 2. Kết Quả Bước 2-4 - Thu Thập, Chuẩn Hóa Và Kiểm Kê Corpus
-
-**Tổng quan corpus:**
-- Thư mục dữ liệu: `data/k3_university/`
-- Số tài liệu: 5 file `.md`
-- File kiểm kê nguồn: `data/k3_university/sources.csv`
-
-### Danh sách tài liệu
-
-| # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Metadata chính |
-|---|---|---|---|---|
-| 1 | Hướng dẫn đăng ký học phần | https://registrar.vinuni.edu.vn/academics/class-schedule-course-registration/ | 2026-08-03 / 2026-08-03 | `audience: student`, `department: academic-affairs` |
-| 2 | Quy định đăng ký, thêm, bỏ và rút học phần | https://policy.vinuni.edu.vn/all-policies/academic-regulations-for-full-time-undergraduate-programs/ | 2026-08-03 / 2026-08-03 | `audience: student`, `department: registrar` |
-| 3 | Quy trình lập lịch học và mở đăng ký | https://policy.vinuni.edu.vn/all-policies/university-academic-scheduling-procedures/ | 2026-08-03 / 2021-11-22 | `audience: staff`, `department: registrar` |
-| 4 | Quyền mượn thư viện cho sinh viên bậc đại học | https://library.vinuni.edu.vn/services/borrow-and-request/undergraduate-and-staff/ | 2026-08-03 / 2026-08-03 | `audience: student`, `department: library` |
-| 5 | Quy định truy cập và sử dụng thư viện | https://policy.vinuni.edu.vn/all-policies/library-policies-for-users/ | 2026-08-03 / 2026-08-03 | `audience: all`, `department: library` |
-
-### Metadata schema
-
-| Trường | Kiểu | Tác dụng |
-|---|---|---|
-| `doc_id` | `str` | Định danh duy nhất để truy vết và xóa |
-| `title` | `str` | Hiển thị tên tài liệu |
-| `audience` | `str` | Dùng cho metadata filtering |
-| `department` | `str` | Phân biệt đơn vị ban hành |
-| `language` | `str` | Lọc ngôn ngữ |
-| `source_url` | `str` | Truy vết nguồn gốc |
-| `retrieved_at` | `str` | Theo dõi ngày lấy |
-| `document_version` | `str` | Theo dõi phiên bản / ngày hiệu lực |
-
-**Kết luận Bước 2-4:**
-- Corpus đã có 5 tài liệu đúng phạm vi
-- Metadata đủ để dùng `search_with_filter()`
-- Ít nhất 1 tài liệu có `audience: student` và 1 tài liệu có `audience: staff`, giúp benchmark filter tốt hơn
+Lý do chọn:
+- Đúng chủ đề K3
+- Có tài liệu công khai, truy vết được
+- Có thể xây dựng benchmark đa dạng
 
 ---
 
-## 3. Kết Quả Bước 5 - Chốt 5 Câu Hỏi Benchmark
+## 2. Bước 2-4 - Corpus, metadata và kiểm kê nguồn
 
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? | Metadata filter gợi ý |
-|---|---|---|---|---|
-| 1 | Sinh viên đăng ký học phần ở hệ thống nào và cần kiểm tra gì sau khi hoàn tất? | Sinh viên đăng ký học phần trên SIS và sau khi hoàn tất cần kiểm tra lại trạng thái đăng ký trong thời khóa biểu cá nhân. | `vinuni-course-registration` | `audience: student` |
-| 2 | Nếu một môn chưa hiển thị, có xung đột lịch hoặc báo lỗi tiên quyết, sinh viên cần làm gì? | Sinh viên cần kiểm tra điều kiện môn học và liên hệ Văn phòng Đăng ký nếu mình đủ điều kiện nhưng hệ thống vẫn chặn; các trường hợp đặc biệt phải gửi yêu cầu riêng theo hướng dẫn của Registrar. | `vinuni-course-registration` | `audience: student` |
-| 3 | Đến ngày làm việc thứ mấy của học kỳ chính sinh viên còn được thêm học phần? | Sinh viên được phép thêm học phần chậm nhất đến hết ngày làm việc thứ 10 của học kỳ chính. | `vinuni-academic-regulations-add-drop` | `audience: student` |
-| 4 | Sinh viên bậc đại học được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn như thế nào? | Sinh viên bậc đại học được mượn tối đa 3 tài liệu, mỗi tài liệu trong 2 tuần; sách có thể được gia hạn một lần thêm 1 tuần nếu chưa quá hạn và chưa có người khác đặt giữ. | `vinuni-library-borrowing-undergraduate` | `audience: student` |
-| 5 | Quy định truy cập thư viện cho biết ai được vào thư viện và sử dụng tài nguyên điện tử? | Chỉ sinh viên, giảng viên và nhân viên có thẻ VinUni hợp lệ mới được vào thư viện, mượn tài liệu và sử dụng tài nguyên điện tử. | `vinuni-library-access-policy` | `audience: all` |
+Corpus hiện có 6 tài liệu chính thức trong `data/k3_university/`:
 
-**Ghi chú:** Câu 2 nên ưu tiên dùng `metadata_filter={"audience": "student"}` để tránh lẫn với tài liệu `staff` trong corpus.
+| # | Tên tài liệu | doc_id | Audience |
+|---|---|---|---|
+| 1 | Quy định và Quy trình Đăng ký Học phần | `k3-course-registration` | `student` |
+| 2 | Quy định về Học phần Tiên quyết và Song hành | `k3-prerequisites-policy` | `student` |
+| 3 | Quy trình Rút bớt Học phần và Hủy Đăng ký Môn học | `k3-course-withdrawal` | `student` |
+| 4 | Quy định về Thời hạn và Mức đóng Học phí Học kỳ | `k3-tuition-policy` | `student` |
+| 5 | Tiêu chuẩn và Quy trình Xét Học bổng Khuyến khích Học tập | `k3-scholarship-policy` | `student` |
+| 6 | Hướng dẫn Duyệt Lớp và Nhập Điểm Học phần dành cho Giảng viên | `k3-faculty-grading-guide` | `faculty` |
+
+Metadata bắt buộc đã dùng:
+- `doc_id`
+- `title`
+- `audience`
+- `department`
+- `category`
+- `language`
+- `source_url`
+- `retrieved_at`
+- `document_version`
+
+`sources.csv` khớp 1-1 với các file tài liệu.
 
 ---
 
-## 4. Trạng Thái Phần Tiếp Theo
+## 3. Bước 5 - Benchmark questions
 
-- Bước 6: phân công chiến lược chunking cho từng thành viên
-- Bước 7: chạy benchmark và đo retrieval quality
-- Bước 8: phân tích kết quả / failure cases
+Nhóm thống nhất 5 câu hỏi benchmark:
+- điều kiện tiên quyết
+- trùng lịch khi đăng ký
+- quá hạn học phí
+- thời hạn nhập điểm cho giảng viên
+- ràng buộc tín chỉ học kỳ
 
-> Các bước này sẽ được điền sau khi nhóm chạy retrieval trên corpus hiện tại.
+Chi tiết xem [Buoc5_Benchmark_Questions.md](/home/x-phuong/Code/VinUni/K3-Day07-Data-Foundations/report/Buoc5_Benchmark_Questions.md).
+
+---
+
+## 4. Bước 6 - Phân công chiến lược
+
+- Nguyễn Xuân Phượng: `SentenceChunker`
+- Lê Nguyễn Minh Đức: `RecursiveChunker`
+- Nguyễn Đào Nam Hải: `CustomSectionHeaderChunker`
+
+Chi tiết xem [Buoc6_PhanCong_ChienLuoc.md](/home/x-phuong/Code/VinUni/K3-Day07-Data-Foundations/report/Buoc6_PhanCong_ChienLuoc.md).
+
+---
+
+## 5. Bước 7 - Kết quả benchmark
+
+Kết quả tổng hợp:
+- `SentenceChunker`: 9/10
+- `RecursiveChunker`: 8/10
+- `CustomSectionHeaderChunker`: 10/10
+
+Metadata filter hữu ích nhất ở câu hỏi về giảng viên nhập điểm.
+
+Chi tiết xem [Buoc7_KiemThu_Benchmark.md](/home/x-phuong/Code/VinUni/K3-Day07-Data-Foundations/report/Buoc7_KiemThu_Benchmark.md).
+
+---
+
+## 6. Bước 8 - Phân tích và bài học
+
+Kết luận chính:
+- Văn bản quy định nên chunk theo header/section nếu có cấu trúc rõ.
+- Metadata filtering giúp giảm nhiễu khi corpus có nhiều đối tượng khác nhau.
+- Bộ benchmark 5 câu giúp so sánh chiến lược khách quan hơn.
+
+Chi tiết xem [Buoc8_PhanTich_SoSanh.md](/home/x-phuong/Code/VinUni/K3-Day07-Data-Foundations/report/Buoc8_PhanTich_SoSanh.md).
 
