@@ -1,120 +1,114 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** [CHỜ NHÓM CUNG CẤP]
+## 1. Thông tin nhóm
 
-**Thành viên:** [CHỜ NHÓM CUNG CẤP]
-
-**Ngày cập nhật kỹ thuật:** 2026-08-03
-
-## 1. Chủ đề và trạng thái dữ liệu
-
-**Chủ đề K3:** dịch vụ và quy định đại học.
-
-**Trạng thái:** corpus chưa đạt điều kiện benchmark.
-
-Repository hiện có đúng hai file trong `data/k3_university/`:
-
-| File | Phạm vi | Trạng thái nguồn |
-|---|---|---|
-| `course-registration.md` | Đăng ký học phần | Template, URL `example.edu`, cần thay bằng nguồn thật |
-| `library-services.md` | Dịch vụ thư viện | Template, URL `example.edu`, cần thay bằng nguồn thật |
-
-Hai dòng trong `sources.csv` đều ghi `example-template-replace-me`. Vì vậy không coi đây là dữ liệu crawl thực tế và không dùng làm gold evidence.
-
-## 2. Dữ liệu còn thiếu và nguồn cần thu thập
-
-Cần bổ sung tối thiểu 3 tài liệu (khuyến nghị 5–8 tài liệu) từ trang chính thức/công khai của trường:
-
-1. Quy định đăng ký, hủy và điều chỉnh học phần.
-2. Biểu phí, thời hạn và phương thức đóng học phí.
-3. Điều kiện, hồ sơ và lịch xét học bổng.
-4. Quy định mượn, gia hạn và xử lý quá hạn thư viện.
-5. Điều kiện đăng ký, phí và nội quy ký túc xá.
-6. FAQ hoặc kênh hỗ trợ sinh viên chính thức.
-
-Không tự động crawl hay khẳng định đã thu thập các nguồn trên.
-
-## 3. Cách thu thập, format và metadata schema
-
-Mỗi nguồn công khai được làm sạch thành một file UTF-8 `.md`/`.txt`; menu, footer và dữ liệu nhạy cảm bị loại bỏ. `sources.csv` phải khớp một-một với các file. Mỗi tài liệu dùng YAML front matter:
-
-| Trường | Kiểu | Mục đích |
-|---|---|---|
-| `doc_id` | string | ID ổn định, duy nhất |
-| `title` | string | Tên tài liệu/nguồn |
-| `source_url` | string | Truy vết trang gốc |
-| `retrieved_at` | date | Ngày lấy dữ liệu |
-| `document_version` | string/date | Phiên bản hoặc ngày hiệu lực |
-| `audience` | enum | Lọc student/faculty/staff/all |
-| `department` | string | Lọc đơn vị phụ trách |
-| `category` | string | Lọc nhóm chính sách/dịch vụ |
-| `language` | string | Quản lý ngôn ngữ corpus |
-
-Ingestion đã được xác minh theo luồng: front matter → `Document` → chunk → gắn `doc_id`, `chunk_index`, source metadata → embedding → store.
-
-## 4. Template năm benchmark query
-
-> Các câu dưới đây là **template chờ corpus thật**, chưa phải benchmark đã chạy. Không có gold answer vì repository chưa có nguồn thật hỗ trợ.
-
-| ID | Câu hỏi dự kiến | Gold answer | Tài liệu nguồn cần có | Chunk kỳ vọng | Tiêu chí pass |
-|---|---|---|---|---|---|
-| Q1 | Sinh viên được đăng ký hoặc điều chỉnh học phần trong thời gian nào? | [CHỜ NGUỒN THẬT] | Quy định đăng ký học phần | Mục lịch/thời hạn | Top-3 chứa đúng điều khoản và câu trả lời trích được bằng chứng |
-| Q2 | Điều kiện và thời hạn đóng học phí là gì? | [CHỜ NGUỒN THẬT] | Thông báo/quy định học phí | Mục điều kiện + hạn nộp | Top-3 có đúng mục, không suy đoán số tiền/thời hạn |
-| Q3 | Sinh viên cần đáp ứng điều kiện nào để xét học bổng? | [CHỜ NGUỒN THẬT] | Quy định học bổng | Mục đối tượng + điều kiện | Top-3 chứa đủ điều kiện bắt buộc |
-| Q4 | Sinh viên có thể gia hạn tài liệu thư viện như thế nào? | [CHỜ NGUỒN THẬT] | Quy định mượn/gia hạn | Mục gia hạn | Top-3 có quy trình và ngoại lệ nếu nguồn nêu |
-| Q5 | Quy định đăng ký ký túc xá dành cho sinh viên là gì? | [CHỜ NGUỒN THẬT] | Nội quy/hướng dẫn KTX | Mục đăng ký cho student | Dùng `metadata_filter={"audience": "student"}` và top-3 có đúng đối tượng |
-
-## 5. Ba cấu hình cần so sánh
-
-| Cấu hình | Chunker | Tham số cần cố định | Metadata |
+| Thành viên | Mã học viên | Vai trò | Strategy chính |
 |---|---|---|---|
-| A | `FixedSizeChunker` | `chunk_size`, `overlap` | Toàn bộ front matter + `doc_id`, `chunk_index` |
-| B | `SentenceChunker` | `max_sentences_per_chunk`, quy tắc ghép câu | Như A |
-| C | `RecursiveChunker` | `chunk_size`, danh sách separator | Như A |
+| Trương Đình Khoa | 2A202601297 | Nhóm trưởng | `S1_RECURSIVE_450` |
+| Diêm Công Thành | 2A202601689 | Thành viên | `S2_FIXED_450_50` |
+| Nguyễn Quang Huy | 2A202601873 | Thành viên | `S3_SENTENCE_3` |
 
-Chiến lược của từng thành viên: [CHỜ NHÓM CUNG CẤP]
+Ngày audit và benchmark: 2026-08-03. Python: 3.11.15 trong `.venv`.
 
-## 6. Bảng kết quả so sánh
+## 2. Dataset
 
-| Query | Strategy | Top-1 đúng? | Top-3 có chunk đúng? | Score | Nguồn | Nhận xét |
-|---|---|---:|---:|---:|---|---|
-| [CHƯA CHẠY] | [CHƯA CHẠY] | — | — | — | — | [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM] |
+Chủ đề K3 là dịch vụ và quy định sinh viên UIT. Corpus gồm 6 tài liệu UTF-8 công khai; `scripts/validate_dataset.py` xác nhận 6/6 tài liệu hợp lệ, `doc_id` duy nhất và `sources.csv` khớp một-một.
 
-**Embedding backend yêu cầu khi benchmark:** local multilingual embedder.
+| ID | Chủ đề | Nguồn | Ngày truy cập | Phiên bản nguồn |
+|---|---|---|---|---|
+| `k3-course-registration` | Đăng ký học phần | https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien | 2026-08-03 | `not-stated` |
+| `k3-library-services` | Thư viện | https://lib.uit.edu.vn/tin-hoat-dong/thong-bao-tai-khoan-thu-vien-danh-cho-tan-sinh-vien-uit-khoa-2024 | 2026-08-03 | `2024-activity-news` |
+| `k3-tuition-extension` | Gia hạn học phí | https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi | 2026-08-03 | `2026-03-23` |
+| `k3-bcu-scholarship-2026` | Học bổng | https://oep.uit.edu.vn/vi/node/24821 | 2026-08-03 | `2026-06-01` |
+| `k3-dormitory-registration` | Ký túc xá | https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm | 2026-08-03 | `2023-08-19` |
+| `k3-health-insurance-2026` | Bảo hiểm y tế | https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026 | 2026-08-03 | `2025-12-09` |
 
-**Backend đã chạy hiện tại:** mock embeddings fallback, chỉ dùng kiểm tra pipeline.
+Quy trình: lấy phần nội dung công khai cần thiết, loại menu/footer, lưu Markdown và YAML front matter. Metadata chung: `doc_id`, `title`, `audience`, `department`, `category`, `language`, `source_url`, `retrieved_at`, `document_version`. Ingestion giữ thêm `source` và `chunk_index` trên từng chunk.
 
-**Chiến lược tốt nhất:** [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM]
+Hạn chế: corpus nhỏ, mỗi tài liệu chỉ có một heading cấp 1 và chỉ đại diện một trường đại học; benchmark không suy rộng ra toàn bộ dịch vụ đại học.
 
-Chưa phân tích Retrieval Precision, Chunk Coherence, Metadata Utility, Grounding Quality hay Data Strategy Impact vì chưa có benchmark hợp lệ. Không kết luận từ score mock.
+## 3. Benchmark queries
 
-## 7. Demo flow dự kiến
+| ID | Query | Gold answer | Source | Pass criteria |
+|---|---|---|---|---|
+| Q1 | Sinh viên xác nhận đăng ký học phần ở hệ thống nào? | `dkhp.uit.edu.vn`, tài khoản chứng thực | `k3-course-registration` | Top-3 có cả hệ thống và cách đăng nhập |
+| Q2 | Hạn hoàn thành học phí được gia hạn? | Trước 17/04/2026 | `k3-tuition-extension` | Top-3 nêu đúng ngày |
+| Q3 | Mức học bổng BCU cho sinh viên đứng đầu? | 3.500.000 đồng | `k3-bcu-scholarship-2026` | Top-3 có đối tượng và mức tiền |
+| Q4 | Hạn đăng ký KTX sau nhập học? | 07 ngày | `k3-dormitory-registration` | Lọc `audience=student`; Top-3 có mốc bắt đầu và thời hạn |
+| Q5 | Sinh viên đóng BHYT 2026 bao nhiêu? | 631.800 đồng | `k3-health-insurance-2026` | Top-3 nêu trực tiếp phần sinh viên đóng |
 
-```text
-Chọn corpus thật và query
-→ parse front matter
-→ chọn cấu hình chunking
-→ ingest vào EmbeddingStore bằng local embedder
-→ search/search_with_filter top-3
-→ hiển thị score + nguồn + chunk
-→ KnowledgeBaseAgent tạo câu trả lời grounded
-→ đối chiếu gold evidence
-```
+Schema đầy đủ và expected evidence nằm trong `evaluation/benchmark_queries.json`.
 
-## 8. Hạn chế và đề xuất cải tiến
+## 4. Strategy từng thành viên
 
-- Thiếu ít nhất ba tài liệu thật và toàn bộ gold evidence.
-- Chưa xác minh trên Python 3.11; máy audit chỉ có Python 3.13.14.
-- Chưa cài/chạy local multilingual model nên chưa thể so sánh semantic retrieval.
-- Cần kiểm tra URL, quyền sử dụng, ngày truy xuất và version trước benchmark.
-- Sau khi có dữ liệu, chạy đúng năm query trên cả ba cấu hình, ghi toàn bộ top-1/top-3 thay vì chỉ ví dụ thuận lợi.
+| Thành viên | Strategy | Chunk size | Overlap | Metadata | top_k |
+|---|---|---:|---:|---|---:|
+| Trương Đình Khoa | Recursive | 450 | 0 | Giữ toàn bộ; Q4 lọc audience | 3 |
+| Diêm Công Thành | Fixed-size | 450 | 50 | Giữ toàn bộ; Q4 lọc audience | 3 |
+| Nguyễn Quang Huy | Sentence | 3 câu | 0 | Giữ toàn bộ; Q4 lọc audience | 3 |
+| Trương Đình Khoa (bổ sung K3) | Heading + Recursive | 450 | 0 | Giữ toàn bộ; Q4 lọc audience | 3 |
 
-## 9. Phân công
+Thử nghiệm bổ sung tách tại Markdown heading rồi recursive khi section quá dài. Vì mỗi tài liệu hiện chỉ có một H1, kết quả giống recursive; đây là bằng chứng thực nghiệm về giới hạn corpus, không phải kết luận heading luôn không hữu ích.
 
-| Công việc | Người phụ trách | Trạng thái |
-|---|---|---|
-| Xác minh và thu thập nguồn | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
-| Chuẩn hóa metadata/corpus | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
-| Thống nhất gold answers | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
-| Chạy cấu hình A/B/C | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
-| Tổng hợp demo và failure analysis | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
+Tất cả strategy dùng cùng model local `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`, vector 384 chiều, không fallback.
+
+## 5. Kết quả từng query
+
+| Query | Strategy | Top-1 | Top-3 | Rank đúng | Nhận xét |
+|---|---|---:|---:|---:|---|
+| Q1 | Recursive | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q2 | Recursive | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q3 | Recursive | 0 | 1 | 3 | Top-1 cùng chủ đề nhưng thiếu đủ evidence |
+| Q4 | Recursive | 1 | 1 | 1 | Filter audience không đổi rank |
+| Q5 | Recursive | 0 | 1 | 2 | Rank 1 chưa có câu mức đóng đầy đủ |
+| Q1 | Fixed | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q2 | Fixed | 0 | 1 | 2 | Overlap tạo chunk cạnh tranh ở rank 1 |
+| Q3 | Fixed | 1 | 1 | 1 | Mức tiền và đối tượng cùng chunk |
+| Q4 | Fixed | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q5 | Fixed | 0 | 1 | 2 | Evidence đầy đủ ở rank 2 |
+| Q1 | Sentence | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q2 | Sentence | 0 | 1 | 3 | Câu hạn thanh toán ở rank 3 |
+| Q3 | Sentence | 1 | 1 | 1 | Câu đầy đủ, dễ đọc |
+| Q4 | Sentence | 1 | 1 | 1 | Evidence đầy đủ ở rank 1 |
+| Q5 | Sentence | 0 | 1 | 2 | Evidence đầy đủ ở rank 2 |
+
+Heading+Recursive có cùng rank với Recursive cho cả 5 query. Score và toàn bộ evidence text nằm trong `evaluation/benchmark_results.json`.
+
+## 6. So sánh tổng hợp
+
+| Strategy | Hit@1 | Hit@3 | MRR | Precision@3 | Coherence (0–2) | Grounding (0–2) |
+|---|---:|---:|---:|---:|---:|---:|
+| Recursive 450 | 0.6000 | 1.0000 | 0.7667 | 0.3333 | 2.0000 | 1.6000 |
+| Fixed 450/50 | 0.6000 | 1.0000 | **0.8000** | 0.3333 | 1.0000 | 1.6000 |
+| Sentence 3 | 0.6000 | 1.0000 | 0.7667 | 0.3333 | **2.0000** | 1.6000 |
+| Heading + Recursive 450 | 0.6000 | 1.0000 | 0.7667 | 0.3333 | **2.0000** | 1.6000 |
+
+Precision@3 là số chunk có đủ expected evidence chia cho 3; mỗi query chỉ cần một chunk evidence nên giá trị 0.3333 là kỳ vọng khi Top-3 chứa đúng một chunk hoàn chỉnh. Q4 được chạy cả có và không filter; `audience=student` không cải thiện rank trong corpus nhỏ này, nên Metadata Utility là trung tính chứ không bị phóng đại.
+
+## 7. Failure cases
+
+Không có lỗi Hit@3. Các lỗi Top-1:
+
+| Query | Strategy | Expected | Actual | Root cause | Cải thiện |
+|---|---|---|---|---|---|
+| Q3 | Recursive/Heading | Chunk có “đứng đầu” + 3.500.000 | Đúng ở rank 3 | Query gần các chunk học bổng khác cùng tài liệu | Tăng trọng số heading hoặc hybrid keyword |
+| Q5 | Tất cả | Câu “sinh viên đóng 631.800” | Đúng ở rank 2 | Chunk khác cùng tài liệu có ngữ nghĩa BHYT rộng hơn | Rerank theo số tiền/evidence term |
+| Q2 | Fixed | Câu hạn 17/04/2026 | Đúng ở rank 2 | Overlap tạo chunk gần nhau | Giảm overlap hoặc rerank |
+| Q2 | Sentence | Câu hạn 17/04/2026 | Đúng ở rank 3 | Nhóm 3 câu làm loãng ý về hạn | Thử 1–2 câu/chunk |
+
+Không quy lỗi cho model khi corpus/chunking giải thích được các miss.
+
+## 8. Kết luận
+
+- Hit@3 tốt nhất: cả bốn cấu hình đều 1.0000.
+- MRR tốt nhất và cấu hình chi phí/triển khai đơn giản nhất trong benchmark này: Fixed 450/50 (0.8000).
+- Chunk dễ đọc nhất: Recursive, Sentence và Heading+Recursive (coherence 2.0000).
+- Đề xuất nhóm: dùng Recursive 450 cho câu trả lời cần evidence dễ đọc; dùng Fixed 450/50 làm baseline/rerieval đơn giản. Không có một strategy thắng mọi tiêu chí.
+- Hướng phát triển: mở rộng corpus nhiều section, thử hybrid lexical+dense reranking và đánh giá filter trên tài liệu có cùng category nhưng khác audience.
+
+## 9. Bằng chứng chạy
+
+- `.venv\Scripts\python.exe -m pytest tests/ -v`: 42 passed trong 0.08s.
+- `.venv\Scripts\python.exe scripts\validate_dataset.py`: 6/6 hợp lệ.
+- `.venv\Scripts\python.exe scripts\run_semantic_benchmark.py`: local model, 5 query, 4 cấu hình, exit 0.
+- `.venv\Scripts\python.exe main.py`: exit 0, nạp 13 chunk cấu hình mặc định.
