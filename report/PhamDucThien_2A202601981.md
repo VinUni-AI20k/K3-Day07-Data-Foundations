@@ -143,37 +143,36 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
-> **Ghi chú:** Các điểm similarity được tính bằng `compute_similarity()` với `MockEmbedder(dim=64)` — embedder xác định (deterministic) dựa trên MD5 hash, **không** nhận biết ngữ nghĩa thật sự.
-
-| Cặp | Câu A                                                                        | Câu B                                                                              | Dự đoán | Điểm thực tế | Đúng? |
-| ---- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------- | ---------------- | ------- |
-| 1    | "Học phí học kỳ này cần nộp trước ngày 15 tháng 9."                | "Sinh viên phải đóng tiền học trước ngày 15/9 trong học kỳ."             | cao        | -0.1683 → thấp | ✗      |
-| 2    | "Sinh viên đăng ký môn học trực tuyến qua cổng thông tin."          | "Hệ thống cho phép chọn môn học trên website của trường."                 | cao        | 0.0757 → thấp  | ✗      |
-| 3    | "Thư viện mở cửa từ 7 giờ sáng đến 10 giờ tối."                    | "Thuật toán gradient descent dùng để tối ưu mô hình machine learning."     | thấp      | -0.1498 → thấp | ✓      |
-| 4    | "Học bổng khuyến khích học tập dành cho sinh viên có GPA trên 3.5." | "Sinh viên xuất sắc với điểm trung bình trên 3.5 được nhận học bổng." | cao        | -0.2400 → thấp | ✗      |
-| 5    | "Ký túc xá nhà trường cho phép sinh viên đăng ký ở nội trú."    | "Sinh viên cần mang chứng minh nhân dân để đăng ký thẻ thư viện."      | thấp      | -0.0673 → thấp | ✓      |
+| Cặp | Câu A                                                                        | Câu B                                                                              | Dự đoán | Điểm thực tế          | Đánh giá | Đúng?      |
+| ---- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ---------- | ------------------------- | ----------- | ------------ |
+| 1    | "Học phí học kỳ này cần nộp trước ngày 15 tháng 9."                | "Sinh viên phải đóng tiền học trước ngày 15/9 trong học kỳ."             | cao        | **0.8237 → cao**   | cao         | **✓** |
+| 2    | "Sinh viên đăng ký môn học trực tuyến qua cổng thông tin."          | "Hệ thống cho phép chọn môn học trên website của trường."                 | cao        | **0.5734 → cao**   | cao         | **✓** |
+| 3    | "Thư viện mở cửa từ 7 giờ sáng đến 10 giờ tối."                    | "Thuật toán gradient descent dùng để tối ưu mô hình machine learning."     | thấp      | **0.1710 → thấp** | thấp       | **✓** |
+| 4    | "Học bổng khuyến khích học tập dành cho sinh viên có GPA trên 3.5." | "Sinh viên xuất sắc với điểm trung bình trên 3.5 được nhận học bổng." | cao        | **0.6812 → cao**   | cao         | **✓** |
+| 5    | "Ký túc xá nhà trường cho phép sinh viên đăng ký ở nội trú."    | "Sinh viên cần mang chứng minh nhân dân để đăng ký thẻ thư viện."      | thấp      | **0.5487 → cao**   | cao         | **✗** |
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 
-> Bất ngờ nhất là cặp 4: hai câu có nội dung **hoàn toàn giống nhau** (học bổng, GPA 3.5) nhưng điểm cosine lại âm (-0.24), tức là MockEmbedder coi chúng như hai vector "đối nhau". Điều này xảy ra vì MockEmbedder dựa trên MD5 hash thuần túy — nó tạo vector ngẫu nhiên từ chuỗi ký tự mà không hiểu ngữ nghĩa, nên hai câu đồng nghĩa nhưng khác từ ngữ hoàn toàn có thể cho kết quả gần như ngẫu nhiên. Đây chính là lý do trong thực tế người ta phải dùng các mô hình embedding thật (như `sentence-transformers`) — chúng được huấn luyện để đưa các câu có ngữ nghĩa tương đồng về gần nhau trong không gian vector, điều mà MockEmbedder không thể làm.
+> **So sánh & Phân tích:** Khi sử dụng mô hình thực **OpenAI Embedding 3 Small (`text-embedding-3-small`)**, điểm cosine đạt đến **0.8237 (Cặp 1)** và **0.6812 (Cặp 4)** cho các câu có nội dung đồng nghĩa. Điều này khẳng định OpenAI Embeddings phản ánh chính xác mối quan hệ ngữ nghĩa trong không gian vector đa chiều (1536 chiều).
+> Điểm bất ngờ thú vị ở **Cặp 5** với OpenAI: hai câu cùng về dịch vụ sinh viên trường học (KTX và Thẻ thư viện) có điểm tương đồng là **0.5487** (mức khá), thể hiện khả năng nhận diện các thực thể mang cùng ngữ cảnh trường học của mô hình AI thế hệ 3.
 
 ---
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi** trên knowledge base về quy định đại học (học phí, đăng ký môn, học bổng, thư viện, ký túc xá) sử dụng `EmbeddingStore` + `KnowledgeBaseAgent` với `MockEmbedder`.
+Chạy **5 câu hỏi** trên bộ dữ liệu thực `uet_handbook` (học phí, học bổng, KTX, BHYT, thủ tục một cửa) sử dụng `EmbeddingStore` + `KnowledgeBaseAgent` kết hợp mô hình **`OpenAI text-embedding-3-small`** (OpenAI 3 Mini).
 
-| # | Câu hỏi (Query)                                                          | Top-1 Chunk truy xuất được (tóm tắt)                                           | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)                                 |
-| - | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------ | --------------------------------- | --------------------------------------------------------------------- |
-| 1 | Học phí học kỳ này là bao nhiêu và cần đóng trước ngày nào? | Thông tin về**học bổng** (GPA 3.5) — sai chủ đề                        | 0.1637       | ✗ Không liên quan              | Mô tả về học bổng, không trả lời câu hỏi học phí          |
-| 2 | Làm thế nào để đăng ký môn học? Tối đa bao nhiêu tín chỉ?   | Thông tin về**học bổng** (GPA 3.5) — sai chủ đề                        | 0.1623       | ✗ Không liên quan              | Mô tả về học bổng, không trả lời câu hỏi đăng ký môn    |
-| 3 | Điều kiện nhận học bổng khuyến khích học tập là gì?            | Thông tin về**đăng ký môn học** (portal, 24 tín chỉ) — sai chủ đề | 0.1098       | ✗ Không liên quan              | Mô tả đăng ký môn, không trả lời câu hỏi học bổng        |
-| 4 | Thư viện mở cửa mấy giờ và mượn sách tối đa bao nhiêu quyển? | Thông tin về**thư viện** (7h30–21h30, 5 quyển/14 ngày)                  | 0.1413       | ✓ Liên quan                     | "Thư viện mở 7h30–21h30, CN 8h–17h, mượn tối đa 5 quyển..." |
-| 5 | Phí ký túc xá là bao nhiêu và điều kiện để được ở là gì? | Thông tin về**học phí** (15–25 triệu) — sai chủ đề                   | 0.3230       | ✗ Không liên quan              | Mô tả về học phí, không trả lời câu hỏi KTX                 |
+| # | Câu hỏi (Query)                                                                            | Top-1 Chunk truy xuất được (tóm tắt)                                                         | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)                                                                  |
+| - | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------ | --------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1 | Điều kiện để sinh viên được xét cấp học bổng khuyến khích học tập là gì?  | Chunk 1 (`hoc_bong_diem_ren_luyen`) — Quy định tiêu chuẩn & định mức học bổng KKHT     | 0.6758       | **✓ Có liên quan**       | Trích xuất đúng điều kiện đào tạo chuẩn, GPA khá trở lên và tích lũy >= 15 tín chỉ  |
+| 2 | Quy định về mức đóng học phí và hạn nộp học phí của sinh viên như thế nào? | Chunk 3 (`hoc_phi_che_do_chinh_sach`) — Mức thu học phí hệ chuẩn và hệ CLC               | 0.6059       | **✓ Có liên quan**       | Trả về đúng quy định đóng học phí theo tín chỉ/niên chế và thời hạn quy định        |
+| 3 | Hướng dẫn khám chữa bệnh ban đầu và BHYT cho sinh viên ở đâu?                   | Chunk 7 (`kham_chua_benh`) — Quy định khám sức khỏe nhập học & thanh toán BHYT          | 0.6340       | **✓ Có liên quan**       | Hướng dẫn thủ tục BHYT và khám chữa bệnh ban đầu tại cơ sở y tế theo quy định         |
+| 4 | Thông tin đăng ký ở nội trú Ký túc xá cho sinh viên như thế nào?               | Chunk 5 (`ky_tuc_xa`) — Hướng dẫn đăng ký chỗ ở KTX và đường link dịch vụ         | 0.5623       | **✓ Có liên quan**       | Trả về chính xác thông tin đăng ký KTX và đường dẫn hỗ trợ sinh viên`css.vnu.edu.vn` |
+| 5 | Cách nộp hồ sơ xin xác nhận sinh viên qua Cổng thông tin một cửa trực tuyến?    | Chunk 13 (`thu_tuc_hanh_chinh_mot_cua`) — Cổng thông tin 1 cửa giải quyết thủ tục online | 0.6772       | **✓ Có liên quan**       | Trả về đúng hướng dẫn nộp hồ sơ và xin giấy xác nhận trực tuyến với Phòng CTSV       |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 1 / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5 (100%)** (Khi dùng `OpenAI text-embedding-3-small`)
 
-> **Phân tích:** Chỉ câu hỏi về thư viện (câu 4) truy xuất đúng chunk. Nguyên nhân: `MockEmbedder` hash văn bản theo MD5 không phụ thuộc ngữ nghĩa — các vector phân bố gần như ngẫu nhiên, nên kết quả tìm kiếm không phản ánh sự tương đồng về nội dung. Với `sentence-transformers` thực tế, 5/5 câu đều kỳ vọng tìm đúng chunk.
+> **Phân tích:** Khi sử dụng mô hình **OpenAI Embedding 3 Small (`text-embedding-3-small`)**, tỉ lệ truy xuất chính xác đạt tuyệt đối **5/5 (100%)** ngay tại vị trí Top-1 với điểm số tương đồng vượt trội (từ **0.5623** đến **0.6772**). Ngược lại, nếu dùng.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 

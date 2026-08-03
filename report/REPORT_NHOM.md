@@ -56,13 +56,31 @@
 
 ### Phân tích đường cơ sở (Baseline Analysis)
 
-Chạy `ChunkingStrategyComparator().compare()` trên các tài liệu:
+Chạy `ChunkingStrategyComparator().compare()` trên bộ tài liệu `uet_handbook`:
 
-| Tài liệu                       | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?               |
-| -------------------------------- | ---------------------------------- | ----------------- | --------------------- | --------------------------------------------- |
-| Quy định Đăng ký học phần | FixedSizeChunker (`fixed_size`)  | 3                 | 200 ký tự           | Trung bình (cắt ngang câu nếu hết limit) |
-| Quy định Đăng ký học phần | SentenceChunker (`by_sentences`) | 2                 | 260 ký tự           | Tốt (giữ trọn vẹn từng câu)             |
-| Quy định Đăng ký học phần | RecursiveChunker (`recursive`)   | 2                 | 280 ký tự           | Rất tốt (chia theo đoạn văn và câu)    |
+| Tài liệu                                                                        | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?               |
+| --------------------------------------------------------------------------------- | ---------------------------------- | ----------------- | --------------------- | --------------------------------------------- |
+| Quy định Học bổng & Điểm rèn luyện (`hoc_bong_diem_ren_luyen.md`)       | FixedSizeChunker (`fixed_size`)  | 26                | 193.0 ký tự         | Trung bình (cắt ngang câu nếu hết limit) |
+| Quy định Học bổng & Điểm rèn luyện (`hoc_bong_diem_ren_luyen.md`)       | SentenceChunker (`by_sentences`) | 8                 | 625.5 ký tự         | Tốt (giữ trọn vẹn từng câu)             |
+| Quy định Học bổng & Điểm rèn luyện (`hoc_bong_diem_ren_luyen.md`)       | RecursiveChunker (`recursive`)   | 33                | 150.8 ký tự         | Rất tốt (chia theo đoạn văn và câu)    |
+| Quy định Học phí & Chế độ chính sách (`hoc_phi_che_do_chinh_sach.md`)  | FixedSizeChunker (`fixed_size`)  | 26                | 194.7 ký tự         | Trung bình (bị cắt đứt ranh giới câu)  |
+| Quy định Học phí & Chế độ chính sách (`hoc_phi_che_do_chinh_sach.md`)  | SentenceChunker (`by_sentences`) | 5                 | 1001.6 ký tự        | Tốt (giữ trọn vẹn ý câu)                |
+| Quy định Học phí & Chế độ chính sách (`hoc_phi_che_do_chinh_sach.md`)  | RecursiveChunker (`recursive`)   | 39                | 128.4 ký tự         | Rất tốt (chia nhỏ theo mục/đoạn/câu)   |
+| Hướng dẫn Khám chữa bệnh & BHYT (`kham_chua_benh.md`)                     | FixedSizeChunker (`fixed_size`)  | 11                | 199.8 ký tự         | Trung bình                                   |
+| Hướng dẫn Khám chữa bệnh & BHYT (`kham_chua_benh.md`)                     | SentenceChunker (`by_sentences`) | 3                 | 730.0 ký tự         | Tốt                                          |
+| Hướng dẫn Khám chữa bệnh & BHYT (`kham_chua_benh.md`)                     | RecursiveChunker (`recursive`)   | 16                | 135.9 ký tự         | Rất tốt                                     |
+| Thông tin Ký túc xá (`ky_tuc_xa.md`)                                        | FixedSizeChunker (`fixed_size`)  | 7                 | 172.4 ký tự         | Trung bình                                   |
+| Thông tin Ký túc xá (`ky_tuc_xa.md`)                                        | SentenceChunker (`by_sentences`) | 2                 | 602.0 ký tự         | Tốt                                          |
+| Thông tin Ký túc xá (`ky_tuc_xa.md`)                                        | RecursiveChunker (`recursive`)   | 9                 | 132.9 ký tự         | Rất tốt                                     |
+| Lịch sử truyền thống & Quy tắc (`lich_su_truyen_thong.md`)                 | FixedSizeChunker (`fixed_size`)  | 9                 | 186.0 ký tự         | Trung bình                                   |
+| Lịch sử truyền thống & Quy tắc (`lich_su_truyen_thong.md`)                 | SentenceChunker (`by_sentences`) | 6                 | 277.5 ký tự         | Tốt                                          |
+| Lịch sử truyền thống & Quy tắc (`lich_su_truyen_thong.md`)                 | RecursiveChunker (`recursive`)   | 12                | 137.9 ký tự         | Rất tốt                                     |
+| Danh bạ thông tin liên hệ các đơn vị (`thong_tin_lien_he.md`)           | FixedSizeChunker (`fixed_size`)  | 13                | 199.8 ký tự         | Trung bình                                   |
+| Danh bạ thông tin liên hệ các đơn vị (`thong_tin_lien_he.md`)           | SentenceChunker (`by_sentences`) | 4                 | 645.2 ký tự         | Tốt                                          |
+| Danh bạ thông tin liên hệ các đơn vị (`thong_tin_lien_he.md`)           | RecursiveChunker (`recursive`)   | 16                | 160.4 ký tự         | Rất tốt                                     |
+| Hướng dẫn Thủ tục hành chính một cửa (`thu_tuc_hanh_chinh_mot_cua.md`) | FixedSizeChunker (`fixed_size`)  | 17                | 195.8 ký tự         | Trung bình                                   |
+| Hướng dẫn Thủ tục hành chính một cửa (`thu_tuc_hanh_chinh_mot_cua.md`) | SentenceChunker (`by_sentences`) | 1                 | 3328.0 ký tự        | Tốt                                          |
+| Hướng dẫn Thủ tục hành chính một cửa (`thu_tuc_hanh_chinh_mot_cua.md`) | RecursiveChunker (`recursive`)   | 24                | 137.2 ký tự         | Rất tốt                                     |
 
 ### Chiến lược của từng thành viên
 
@@ -71,23 +89,23 @@ Chạy `ChunkingStrategyComparator().compare()` trên các tài liệu:
 - **Loại chiến lược:** `RecursiveChunker` (chunk_size=300, separators=["\n\n", "\n", ". ", " "])
 - **Mô tả & lý do chọn cho chủ đề này:** Phù hợp với văn bản quy định đại học có cấu trúc phân tầng (mục, đoạn, câu). Giúp giữ nguyên tính toàn vẹn của một điều khoản quy định mà không bị cắt đứt ngữ cảnh.
 
-**Thành viên 2 — Nguyễn Văn A**
+**Thành viên 2 — Trần Công Chiến**
 
 - **Loại chiến lược:** `SentenceChunker` (max_sentences_per_chunk=3)
 - **Mô tả & lý do chọn:** Chia nhỏ văn bản theo đơn vị câu độc lập. Thích hợp cho các quy định ngắn gọn, giúp mỗi chunk chứa một ý hoàn chỉnh.
 
-**Thành viên 3 — Trần Thị B**
+**Thành viên 3 — Nguyễn Ngọc Thuận & Phạm Khắc Duy**
 
 - **Loại chiến lược:** `FixedSizeChunker` (chunk_size=250, overlap=50)
 - **Mô tả & lý do chọn:** Chiến lược đơn giản cố định kích thước, tạo overlap để tránh đứt đoạn thông tin ranh giới giữa các chunk.
 
 ### So Sánh Giữa Các Thành Viên
 
-| Thành viên       | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh                                         | Điểm yếu                                            |
-| ------------------ | ------------------------ | ----------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| Phạm Đức Thiện | RecursiveChunker         | 9 / 10                  | Giữ cấu trúc đoạn văn, hạn chế làm vỡ câu | Cần tinh chỉnh separator phù hợp                   |
-| Nguyễn Văn A     | SentenceChunker          | 8 / 10                  | Chunk đồng đều theo ý câu                      | Có thể ngắt ranh giới giữa các đoạn liên quan |
-| Trần Thị B       | FixedSizeChunker         | 7 / 10                  | Đơn giản, tính toán nhanh                       | Có thể cắt ngang giữa từ hoặc câu               |
+| Thành viên                            | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh                                         | Điểm yếu                                            |
+| --------------------------------------- | ------------------------ | ----------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
+| Phạm Đức Thiện                      | RecursiveChunker         | 9 / 10                  | Giữ cấu trúc đoạn văn, hạn chế làm vỡ câu | Cần tinh chỉnh separator phù hợp                   |
+| Trần Công Chiến                      | SentenceChunker          | 8 / 10                  | Chunk đồng đều theo ý câu                      | Có thể ngắt ranh giới giữa các đoạn liên quan |
+| Nguyễn Ngọc Thuận & Phạm Khắc Duy  | FixedSizeChunker         | 7 / 10                  | Đơn giản, tính toán nhanh                       | Có thể cắt ngang giữa từ hoặc câu               |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
 
@@ -99,27 +117,27 @@ Chạy `ChunkingStrategyComparator().compare()` trên các tài liệu:
 
 ### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
 
-| # | Câu hỏi (Query)                                                 | Câu trả lời chuẩn (Gold Answer)                                                                | Chunk nào chứa thông tin?         |
+| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 | - | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| 1 | Sinh viên cần điều kiện gì khi đăng ký học phần?       | Cần kiểm tra học phần tiên quyết và không bị khóa tài khoản do nợ học phí.          | Chunk 1 (`k3-course-registration`) |
-| 2 | Quy định về mượn tài liệu thư viện như thế nào?       | Sinh viên cần xuất trình thẻ định danh hợp lệ khi sử dụng dịch vụ mượn.             | Chunk 1 (`k3-library-services`)    |
-| 3 | Xử lý thế nào khi đăng ký học phần bị trùng lịch?     | Điều chỉnh lớp học phần trước thời hạn công bố hoặc gửi yêu cầu hỗ trợ học vụ. | Chunk 2 (`k3-course-registration`) |
-| 4 | Bộ phận nào tiếp nhận xử lý yêu cầu học vụ ngoại lệ? | Kênh hỗ trợ học vụ chính thức thuộc Phòng Học vụ (`department: academic-affairs`).    | Chunk 2 (`k3-course-registration`) |
-| 5 | Đối tượng nào được sử dụng dịch vụ thư viện?        | Sinh viên, giảng viên và nhân viên nhà trường (`audience: all`).                        | Chunk 1 (`k3-library-services`)    |
+| 1 | Điều kiện xét cấp học bổng khuyến khích học tập cho sinh viên là gì? | Sinh viên trong thời hạn đào tạo chuẩn, học tập và rèn luyện đạt từ khá trở lên, không bị kỷ luật từ mức khiển trách và tích lũy tối thiểu 15 tín chỉ trong học kỳ xét. | Chunk 2 (`hoc_bong_diem_ren_luyen`) |
+| 2 | Mức điểm chuẩn chung khi đánh giá điểm rèn luyện cho sinh viên không vi phạm là bao nhiêu? | Mức điểm chuẩn chung cho sinh viên không vi phạm quy chế là 70 điểm (tổng của 5 nội dung đánh giá), sau đó mới tính cộng thưởng hoặc trừ phạt. | Chunk 9 (`hoc_bong_diem_ren_luyen`) |
+| 3 | Đối tượng sinh viên nào được hưởng chính sách giảm 50% học phí? | Sinh viên là con cán bộ, công chức, viên chức, công nhân mà cha hoặc mẹ bị tai nạn lao động hoặc mắc bệnh nghề nghiệp được hưởng trợ cấp thường xuyên. | Chunk 19 (`hoc_phi_che_do_chinh_sach`) |
+| 4 | Sinh viên liên hệ đơn vị nào để làm thủ tục khám chữa bệnh và thanh toán BHYT? | Liên hệ Phòng Công tác Sinh viên (ĐT: 024 3754 8864 hoặc cô Bùi Thị Thu Hương) để được hướng dẫn thủ tục BHYT và khám chữa bệnh. | Chunk 8 (`kham_chua_benh`) |
+| 5 | Cổng thủ tục hành chính một cửa giải quyết công việc gì cho sinh viên? | Cho phép sinh viên nộp hoặc xin các thủ tục giấy tờ hành chính trực tuyến (Online) với Phòng Công tác Sinh viên mà không cần đến trực tiếp. | Chunk 13 (`thu_tuc_hanh_chinh_mot_cua`) |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
-| # | Câu hỏi                            | Chiến lược tốt nhất cho câu này                      | Có chunk liên quan trong top-3? | Ghi chú                                                  |
+| # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 | - | ------------------------------------ | ----------------------------------------------------------- | --------------------------------- | --------------------------------------------------------- |
-| 1 | Đăng ký học phần & tiên quyết | RecursiveChunker                                            | Có (Top-1)                       | Trả về đúng chunk điều kiện đăng ký             |
-| 2 | Mượn tài liệu thư viện         | SentenceChunker                                             | Có (Top-1)                       | Trả về đúng quy định thẻ thư viện                |
-| 3 | Trùng lịch học phần              | RecursiveChunker                                            | Có (Top-1)                       | Trả về đúng hướng dẫn điều chỉnh lịch          |
-| 4 | Kênh xử lý ngoại lệ học vụ    | RecursiveChunker (với metadata filter`academic-affairs`) | Có (Top-1)                       | Lọc theo metadata giúp loại bỏ bớt nhiễu            |
-| 5 | Đối tượng dùng thư viện       | SentenceChunker (với metadata filter`library`)           | Có (Top-1)                       | Lọc theo department=library giúp truy xuất chính xác |
+| 1 | Điều kiện xét học bổng KKHT | RecursiveChunker | Có (Top-1) | Trả về đúng chunk điều kiện tiêu chuẩn học bổng |
+| 2 | Mức điểm chuẩn rèn luyện 70 điểm | SentenceChunker | Có (Top-1) | Trả về đúng đoạn quy định mức điểm chuẩn |
+| 3 | Chính sách giảm 50% học phí | RecursiveChunker (với metadata filter `doc_id: hoc_phi_che_do_chinh_sach`) | Có (Top-1) | Lọc theo doc_id loại bỏ nhiễu từ các file học bổng khác |
+| 4 | Thủ tục KCB & Thanh toán BHYT | RecursiveChunker (với metadata filter `doc_id: kham_chua_benh`) | Có (Top-1) | Trả về đúng SĐT và người phụ trách phòng CTSV |
+| 5 | Thủ tục hành chính một cửa online | SentenceChunker (với metadata filter `doc_id: thu_tuc_hanh_chinh_mot_cua`) | Có (Top-1) | Lọc theo metadata giúp trả về đúng hướng dẫn cổng một cửa |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
 
-> Lọc bằng metadata (`search_with_filter`) rất hiệu quả ở câu 4 và 5. Việc lọc theo `department` (`academic-affairs` hoặc `library`) giúp thu hẹp không gian tìm kiếm, loại bỏ hoàn toàn các chunk thuộc phòng ban khác có chứa từ khóa trùng lặp, nâng cao độ chính xác Top-1 score.
+> Lọc bằng metadata (`search_with_filter`) cực kỳ hiệu quả ở các câu 3, 4 và 5. Việc lọc theo `doc_id` (`hoc_phi_che_do_chinh_sach`, `kham_chua_benh`, `thu_tuc_hanh_chinh_mot_cua`) giúp thu hẹp ngay lập tức phạm vi tìm kiếm vector, loại bỏ các chunk chứa từ khóa trùng lặp từ các tài liệu quy định khác, đảm bảo trả về chính xác Chunk Top-1 mong muốn.
 
 ---
 
