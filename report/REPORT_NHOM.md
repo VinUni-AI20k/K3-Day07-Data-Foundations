@@ -122,7 +122,7 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 | 2 | điều kiện | Sinh viên không nộp học phí đúng hạn trong kỳ đăng ký học kỳ cuối 2025 sẽ bị xử lý thế nào? | Bị xóa tên khỏi danh sách lớp đã đăng ký. | `ueh-course-registration-plan-hk-cuoi-2025` |
 | 3 | quy trình | Các bước đăng ký cấp thẻ sinh viên nhựa tại UEH là gì? | B1 Cổng GTĐT → B2 điền thông tin → B3 thanh toán 100,000 đồng/1 thẻ → B4 CNTT in thẻ → B5 lấy thẻ A203 (chiều T3 / sáng T5). | `ueh-student-card-services` |
 | 4 | liệt kê | UEH Smart Library cung cấp quyền truy cập những cơ sở dữ liệu học thuật quốc tế nào? | ScienceDirect, SpringerLink, Jora… | `ueh-library-reading-culture` |
-| 5 | số liệu + filter `audience=student` | Buổi đào tạo trực tiếp của Thư viện UEH mang tên gì và có bao nhiêu người tham dự buổi đó? *(không nêu đối tượng)* | “Làm chủ kỹ năng tìm kiếm thông tin học thuật”; 59 sinh viên (Buổi 1). Không lọc dễ lẫn bản faculty: “Khai thác CSDL… UEH Mekong”; 64 giảng viên/viên chức. | `ueh-library-training-student` |
+| 5 | số liệu + filter `document_version=2026-q3` | Thời gian thanh toán nội trú phí KTX UEH Quý III (tháng 7, 8, 9) là khi nào? | Từ 00h00 ngày 01/7/2026 đến 23h59 ngày 13/7/2026. Không lọc dễ lẫn bản 2025: 01/7/2025–13/7/2025. | `ueh-dorm-fee-2026-q3` |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
@@ -137,7 +137,7 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 | 5 | buổi đào tạo + filter | *(chưa chốt)* | Sentence + mock: **Không** | Filter `audience=student` đã bật; cần local để đo hiệu quả |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> Dự kiến có ích ở câu #5: corpus có cặp `ueh-library-training-student` / `ueh-library-training-faculty` cùng chủ đề nhưng tên buổi và số liệu khác — không lọc `audience=student` dễ trả lời nhầm đối tượng. Kết quả CP6 sẽ so sánh `search()` vs `search_with_filter()` trên cùng embedder local.
+> Dự kiến có ích ở câu #5: corpus main có `ueh-dorm-fee-2025` và `ueh-dorm-fee-2026-q3` cùng Quý III (7–9) nhưng khác năm — cần filter `document_version=2026-q3` mới lấy đúng khung 2026. CP6 so sánh `search()` vs `search_with_filter()` trên embedder local.
 
 ---
 
