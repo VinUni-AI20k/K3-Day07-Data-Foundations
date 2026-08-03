@@ -4,7 +4,11 @@ import os
 import sys
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+
 from dotenv import load_dotenv
+
 
 from ingest import build_knowledge_base
 from src.agent import KnowledgeBaseAgent
