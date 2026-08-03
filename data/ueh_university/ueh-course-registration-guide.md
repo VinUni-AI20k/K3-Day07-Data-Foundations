@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-course-registration-guide"
+doc_id: ueh-course-registration-guide
 title: "Thông báo hướng dẫn đăng ký học phần trực tuyến cho sinh viên ĐHCQ; LTĐHCQ, VB2ĐHCQ – Đào tạo UEH"
 source_url: "https://daotao.ueh.edu.vn/thong-bao-huong-dan-dang-ky-hoc-phan-truc-tuyen-cho-sinh-vien-dhcq-ltdhcq-vb2dhcq/"
 retrieved_at: "2026-08-03"
 document_version: "not-stated"
-audience: "student"
+audience: student
 department: "dao-tao"
 category: "course-registration"
 language: "vi"

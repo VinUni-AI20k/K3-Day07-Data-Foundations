@@ -40,12 +40,14 @@ class EmbeddingStore:
     def _make_record(self, doc: Document) -> dict[str, Any]:
         metadata = dict(doc.metadata)
         metadata.setdefault("doc_id", doc.id)
-        return {
-            "id": doc.id,
+        record = {
+            "id": f"{doc.id}_{self._next_index}",
             "content": doc.content,
             "embedding": self._embedding_fn(doc.content),
             "metadata": metadata,
         }
+        self._next_index += 1
+        return record
 
     def _all_records(self) -> list[dict[str, Any]]:
         """Return every stored record as plain dicts, regardless of backend."""

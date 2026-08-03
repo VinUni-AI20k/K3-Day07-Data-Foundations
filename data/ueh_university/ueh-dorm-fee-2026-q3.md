@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-dorm-fee-2026-q3"
+doc_id: ueh-dorm-fee-2026-q3
 title: "Thông báo về việc thu nội trú phí Ký túc xá Quý III/2026 (Tháng 7,8,9 năm 2026) – Ban Chăm sóc người học"
 source_url: "https://dsa.ueh.edu.vn/tin-tuc/thong-bao-ve-viec-thu-noi-tru-phi-ky-tuc-xa-quy-iii-2026-thang-789-nam-2026/"
 retrieved_at: "2026-08-03"
 document_version: "2026-q3"
-audience: "student"
+audience: student
 department: "ktx"
 category: "dormitory"
 language: "vi"

@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-library-reading-culture"
+doc_id: ueh-library-reading-culture
 title: "Văn hóa đọc tại UEH: Khi tri thức trở thành “vốn liếng” của những nhà lãnh đạo tương lai – Ban Chăm sóc người học"
 source_url: "https://dsa.ueh.edu.vn/tin-tuc/van-hoa-doc-tai-ueh-khi-tri-thuc-tro-thanh-von-lieng-cua-nhung-nha-lanh-dao-tuong-lai/"
 retrieved_at: "2026-08-03"
 document_version: "not-stated"
-audience: "student"
+audience: student
 department: "thu-vien"
 category: "library"
 language: "vi"

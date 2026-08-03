@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-dorm-fee-2025"
+doc_id: ueh-dorm-fee-2025
 title: "Thông báo Khung thời gian thu nội trú phí Ký túc xá UEH năm 2025 – Ban Chăm sóc người học"
 source_url: "https://dsa.ueh.edu.vn/tin-tuc/thong-bao-khung-thoi-gian-thu-noi-tru-phi-ky-tuc-xa-ueh-nam-2025/"
 retrieved_at: "2026-08-03"
 document_version: "2025"
-audience: "student"
+audience: student
 department: "ktx"
 category: "dormitory"
 language: "vi"

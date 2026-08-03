@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-student-card-services"
+doc_id: ueh-student-card-services
 title: "THẺ SINH VIÊN – Ban Chăm sóc người học"
 source_url: "https://dsa.ueh.edu.vn/chuyen-trang-ho-tro-dich-vu-tien-ich-ueh/the-sinh-vien/"
 retrieved_at: "2026-08-03"
 document_version: "not-stated"
-audience: "student"
+audience: student
 department: "dich-vu-sv"
 category: "student-services"
 language: "vi"

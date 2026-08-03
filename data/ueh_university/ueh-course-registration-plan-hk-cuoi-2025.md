@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-course-registration-plan-hk-cuoi-2025"
+doc_id: ueh-course-registration-plan-hk-cuoi-2025
 title: "Thông báo kế hoạch đăng ký học phần và nộp học phí – Học kỳ cuối – Năm 2025 đối với sinh viên Đại học chính quy, Văn bằng 2, Liên thông ĐHCQ, Vừa làm vừa học – Đào tạo UEH"
 source_url: "https://daotao.ueh.edu.vn/thong-bao-ke-hoach-dang-ky-hoc-phan-va-nop-hoc-phi-hoc-ky-cuoi-nam-2025-doi-voi-sinh-vien-dai-hoc-chinh-quy-van-bang-2-lien-thong-dhcq-vua-lam-vua-hoc/"
 retrieved_at: "2026-08-03"
 document_version: "2025-hoc-ky-cuoi"
-audience: "student"
+audience: student
 department: "dao-tao"
 category: "course-registration"
 language: "vi"

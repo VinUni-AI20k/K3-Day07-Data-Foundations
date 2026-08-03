@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-scholarship-regulation"
+doc_id: ueh-scholarship-regulation
 title: "Quy định xét cấp học bổng khuyến khích học tập cho sinh viên Đại học chính quy – Đào tạo UEH"
 source_url: "https://daotao.ueh.edu.vn/quy-dinh-xet-cap-hoc-bong-khuyen-khich-hoc-tap-cho-sinh-vien-dai-hoc-chinh-quy/"
 retrieved_at: "2026-08-03"
 document_version: "not-stated"
-audience: "student"
+audience: student
 department: "hoc-bong"
 category: "scholarship"
 language: "vi"

@@ -1,10 +1,10 @@
 ---
-doc_id: "ueh-tuition-fee-2026-2027"
+doc_id: ueh-tuition-fee-2026-2027
 title: "Thông báo về mức học phí các hệ đào tạo năm học 2026-2027 (học kỳ cuối 2026, học kỳ đầu 2027) và chính sách hỗ trợ học phí học kỳ cuối 2026 – Ban Chăm sóc người học"
 source_url: "https://dsa.ueh.edu.vn/tin-tuc/thong-bao-ve-muc-hoc-phi-cac-he-dao-tao-nam-hoc-2026-2027-hoc-ky-cuoi-2026-hoc-ky-dau-2027-va-chinh-sach-ho-tro-hoc-phi-hoc-ky-cuoi-2026/"
 retrieved_at: "2026-08-03"
 document_version: "2026-2027"
-audience: "student"
+audience: student
 department: "tai-chinh"
 category: "tuition"
 language: "vi"

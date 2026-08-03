@@ -19,7 +19,13 @@ class KnowledgeBaseAgent:
 
     def answer(self, question: str, top_k: int = 3) -> str:
         results = self.store.search(question, top_k=top_k)
-        context = "\n\n".join(f"[{i}] {r['content']}" for i, r in enumerate(results, start=1))
+        if not results:
+            return "Không tìm thấy tài liệu liên quan trong knowledge base để trả lời câu hỏi này."
+
+        context = "\n\n".join(
+            f"[{i}] (nguồn: {r['metadata'].get('doc_id', 'unknown')}) {r['content']}"
+            for i, r in enumerate(results, start=1)
+        )
         prompt = (
             "Answer the question using only the context below. "
             "If the context does not contain the answer, say so explicitly.\n\n"
