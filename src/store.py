@@ -41,7 +41,7 @@ class EmbeddingStore:
         metadata = dict(doc.metadata)
         metadata.setdefault("doc_id", doc.id)
         return {
-            "id": doc.id,
+            "id": f"{doc.id}::{self._next_index}",
             "content": doc.content,
             "metadata": metadata,
             "embedding": self._embedding_fn(doc.content),
@@ -75,14 +75,17 @@ class EmbeddingStore:
             return
 
         if self._use_chroma:
-            ids = [doc.id for doc in docs]
-            documents = [doc.content for doc in docs]
-            embeddings = [self._embedding_fn(doc.content) for doc in docs]
+            ids = []
+            documents = []
+            embeddings = []
             metadatas = []
             for doc in docs:
-                metadata = dict(doc.metadata)
-                metadata.setdefault("doc_id", doc.id)
-                metadatas.append(metadata)
+                record = self._make_record(doc)
+                ids.append(record["id"])
+                documents.append(record["content"])
+                embeddings.append(record["embedding"])
+                metadatas.append(record["metadata"])
+                self._next_index += 1
             self._collection.add(
                 ids=ids,
                 documents=documents,
@@ -92,6 +95,7 @@ class EmbeddingStore:
         else:
             for doc in docs:
                 self._store.append(self._make_record(doc))
+                self._next_index += 1
 
     def search(self, query: str, top_k: int = 5) -> list[dict[str, Any]]:
         """
