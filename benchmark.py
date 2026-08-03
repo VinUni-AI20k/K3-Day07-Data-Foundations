@@ -8,8 +8,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from ingest import build_knowledge_base
-from src.src_DoanNhatBinh_02018.chunking import FixedSizeChunker
-from src.src_DoanNhatBinh_02018.embeddings import (
+from src.src_NguyenMinhThu_01631.chunking import FixedSizeChunker
+from src.src_NguyenMinhThu_01631.embeddings import (
     OPENAI_EMBEDDING_MODEL,
     OpenAIEmbedder,
 )
