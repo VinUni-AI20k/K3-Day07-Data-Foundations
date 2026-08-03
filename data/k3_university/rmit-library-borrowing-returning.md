@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-library-borrowing-returning"
+doc_id: rmit-library-borrowing-returning
 title: "Borrowing and returning"
 source_url: "https://www.rmit.edu.vn/libraryvn/borrowing-and-resources/borrowing-and-returning"
 retrieved_at: "2026-08-03"

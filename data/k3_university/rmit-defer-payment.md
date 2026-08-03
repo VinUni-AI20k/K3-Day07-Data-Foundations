@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-defer-payment"
+doc_id: rmit-defer-payment
 title: "Defer a payment"
 source_url: "https://www.rmit.edu.vn/students/my-studies/fees-and-payments/defer-a-payment"
 retrieved_at: "2026-08-03"

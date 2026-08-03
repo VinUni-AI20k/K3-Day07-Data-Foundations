@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-fees-payments"
+doc_id: rmit-fees-payments
 title: "Fees and payments"
 source_url: "https://www.rmit.edu.vn/students/my-studies/fees-and-payments"
 retrieved_at: "2026-08-03"

@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-student-cards"
+doc_id: rmit-student-cards
 title: "RMIT student cards"
 source_url: "https://www.rmit.edu.vn/students/support/admin-support/rmit-student-cards"
 retrieved_at: "2026-08-03"

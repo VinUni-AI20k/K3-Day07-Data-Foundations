@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-change-cancel-enrolment"
+doc_id: rmit-change-cancel-enrolment
 title: "Change or cancel your enrolment"
 source_url: "https://www.rmit.edu.vn/students/my-studies/enrolment/change-or-cancel-your-enrolment"
 retrieved_at: "2026-08-03"

@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-enrolment"
+doc_id: rmit-enrolment
 title: "Enrolment at RMIT Vietnam"
 source_url: "https://www.rmit.edu.vn/students/my-studies/enrolment"
 retrieved_at: "2026-08-03"

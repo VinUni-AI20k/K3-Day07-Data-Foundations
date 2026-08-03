@@ -1,5 +1,5 @@
 ---
-doc_id: "rmit-student-support"
+doc_id: rmit-student-support
 title: "Student support"
 source_url: "https://www.rmit.edu.vn/students/support"
 retrieved_at: "2026-08-03"
