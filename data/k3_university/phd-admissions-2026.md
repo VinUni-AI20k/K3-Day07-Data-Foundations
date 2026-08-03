@@ -12,53 +12,6 @@ language: "vi"
 
 # Tuyển sinh chương trình Tiến sĩ VinUni năm 2026
 
-Tiến sĩ - Admission
-
-Tiến sĩ
-
-Trang chủ
-Sau Đại học
-Tiến sĩ
-
-Tiến sĩ 
-
-Giới thiệu
-
-Thạc sĩ
-Thạc sĩ Khoa học ngành Khoa học Máy tính
-
-Thạc sĩ Khoa học ngành Kỹ thuật Điện
-
-Thạc sĩ Khoa học ngành Kỹ thuật Cơ khí
-
-Thạc sĩ Quản trị Kinh doanh về Đổi mới sáng tạo và Trí tuệ nhân tạo
-Thông báo tuyển sinh
-
-Quy chế tuyển sinh
-
-Chương trình Thạc sĩ điều dưỡng
-
-Tiến sĩ
-Tiến sĩ Khoa học Máy tính
-
-Câu hỏi thường gặp
-
-Chương trình Bác sĩ Nội trú
-Chi tiết Chương trình
-
-Tuyển sinh
-Thông báo Tuyển sinh
-
-Kỳ thi Tuyển sinh
-
-Quy chế Tuyển sinh
-
-Sự kiện Tuyển sinh
-
-Hướng dẫn ứng tuyển
-
-Câu hỏi thường gặp
-
 Chào mừng bạn đến với chương trình tiến sĩ
 
 Chương trình Tiến sĩ tại VinUniversity là cánh cửa đưa các nhà nghiên cứu trẻ bước vào hành trình tri thức đỉnh cao, với mục tiêu đào tạo nên những chuyên gia hàng đầu và nhà lãnh đạo tư duy trong lĩnh vực của họ.

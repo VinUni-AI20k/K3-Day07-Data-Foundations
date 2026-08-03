@@ -12,33 +12,6 @@ language: "vi"
 
 # Chương trình học bổng VinUni năm 2026 dành cho sinh viên đại học
 
-Học bổng - Admission
-
-Học bổng
-
-Trang chủ
-Học bổng và Hỗ trợ tài chính
-Cử nhân
-Học bổng
-
-Học bổng 
-
-Cử nhân
-Học bổng
-
-Hỗ trợ tài chính
-
-Khoản vay sinh viên
-
-Sau đại học
-Học bổng
-Thạc sĩ Quản trị Kinh Doanh
-
-Tiến sĩ Khoa học Máy tính
-
-Hướng dẫn tạo hồ sơ Hỗ trợ tài chính
-
-HỌC BỔNG CHƯƠNG TRÌNH ĐẠI HỌC
 
 Nhằm tiếp tục thực hiện sứ mệnh nuôi dưỡng và phát triển nhân tài, Tập đoàn Vingroup – Nhà sáng lập Trường Đại học VinUni – tiếp tục khẳng định cam kết mạnh mẽ trong việc duy trì Quỹ Học bổng để hỗ trợ các thế hệ sinh viên VinUni trong tương lai.
 

@@ -12,60 +12,6 @@ language: "vi"
 
 # Tuyển sinh đại học VinUni năm 2026 - Hướng dẫn ứng tuyển
 
-Ứng viên năm nhất - Admission
-
-Ứng viên năm nhất
-
-Trang chủ
-Đại học
-Ứng tuyển vào VinUni
-Ứng viên năm nhất
-
-Ứng viên năm nhất 
-
-Giới thiệu
-
-Ứng tuyển vào VinUni
-Ứng viên năm nhất
-Quy trình Ứng tuyển
-
-Danh mục Hồ sơ Ứng tuyển
-
-Tiêu chí Tuyển sinh
-
-Sinh viên chuyển tiếp
-
-Sinh viên quốc tế
-
-Thời hạn ứng tuyển
-
-Câu hỏi Thường gặp
-Tuyển sinh
-
-Chương trình Đào tạo
-
-Đối tác chiến lược và Trao đổi Quốc tế
-
-Giảng viên – Sinh viên Đồng môn
-
-Việc làm – Thực tập
-
-Học phí, Học bổng, và Hỗ trợ Tài chính
-
-Yêu cầu Trình độ Tiếng Anh
-
-Cuộc sống tại Ký túc xá
-
-Thông tin Liên hệ
-
-PHƯƠNG THỨC ỨNG TUYỂN
-
-Dưới đây là Video hướng dẫn cách ứng tuyển vào VinUni, sẽ hỗ trợ bạn trong quá trình chuẩn bị hồ sơ
-
-Đăng ký để được tư vấn trực tiếp tại đây. 
-
-Tiêu chí Tuyển sinh
-
 1. Chuẩn bị
 
 Chuẩn bị chu đáo là chìa khóa cho một hồ sơ chất lượng cao và một quá trình ứng tuyển nhẹ nhàng. Bạn sẽ tìm thấy thông tin hữu ích trong phần Câu hỏi thường gặp tại đây.

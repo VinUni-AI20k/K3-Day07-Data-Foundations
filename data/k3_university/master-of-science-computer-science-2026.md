@@ -12,33 +12,8 @@ language: "vi"
 
 # Chương trình Thạc sĩ Khoa học Máy tính VinUni năm 2026
 
-Thạc sĩ Khoa học ngành Khoa học Máy tính - Admission
-
-Thạc sĩ Khoa học ngành Khoa học Máy tính
-
-Trang chủ
-Thạc sĩ Khoa học ngành Khoa học Máy tính
-
-Thạc sĩ Khoa học ngành Khoa học Máy tính 
-
-Tổng quan chương trình
-
-Chi tiết chương trình
-
-Tuyển sinh
-Cách thức ứng tuyển
-
-Thông báo tuyển sinh
-
-Quy chế tuyển sinh
-
-Câu hỏi thường gặp
-
-Thông tin liên hệ
-
 Thư Chào mừng
 
- 
 
 Thân gửi Ứng viên chương trình Thạc sĩ Khoa học,
 
