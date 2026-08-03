@@ -14,9 +14,28 @@ class KnowledgeBaseAgent:
     """
 
     def __init__(self, store: EmbeddingStore, llm_fn: Callable[[str], str]) -> None:
-        # TODO: store references to store and llm_fn
-        pass
+        # Lưu tham chiếu đến store và llm_fn
+        self.store = store
+        self.llm_fn = llm_fn
 
     def answer(self, question: str, top_k: int = 3) -> str:
-        # TODO: retrieve chunks, build prompt, call llm_fn
-        raise NotImplementedError("Implement KnowledgeBaseAgent.answer")
+        # Bước 1: Truy xuất các chunks liên quan nhất từ store
+        results = self.store.search(question, top_k=top_k)
+
+        # Bước 2: Xây dựng prompt với ngữ cảnh từ các chunks
+        if results:
+            context_parts = []
+            for i, result in enumerate(results, 1):
+                context_parts.append(f"[Chunk {i}]: {result['content']}")
+            context = "\n".join(context_parts)
+        else:
+            context = "Không có thông tin liên quan."
+
+        prompt = (
+            f"Dựa vào các đoạn văn bản sau đây:\n\n"
+            f"{context}\n\n"
+            f"Hãy trả lời câu hỏi: {question}"
+        )
+
+        # Bước 3: Gọi LLM để sinh câu trả lời
+        return self.llm_fn(prompt)
