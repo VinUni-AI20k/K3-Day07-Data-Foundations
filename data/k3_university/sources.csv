@@ -1,3 +1,10 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+che-do-hoc-bong-sinh-vien,data/k3_university/che-do-hoc-bong-sinh-vien.md,Chế độ học bổng dành cho sinh viên,https://camnang.iuh.edu.vn/che-do-hoc-bong-danh-cho-sinh-vien.php,2026-08-03,not-stated,public-page
+chinh-sach-mien-giam-hoc-phi,data/k3_university/chinh-sach-mien-giam-hoc-phi.md,Chính sách miễn giảm học phí và hỗ trợ chi phí học tập,https://camnang.iuh.edu.vn/chinh-sach-mien-giam-hoc-phi-va-ho-tro-chi-phi-hoc-tap.php,2026-08-03,not-stated,public-page
+huong-dan-dang-ky-hoc-phan,data/k3_university/huong-dan-dang-ky-hoc-phan.md,Hướng dẫn đăng ký học phần,https://camnang.iuh.edu.vn/huong-dan-dang-ky-hoc-phan.php,2026-08-03,not-stated,public-page
+huong-dan-nop-hoc-phi-truc-tuyen,data/k3_university/huong-dan-nop-hoc-phi-truc-tuyen.md,Hướng dẫn nộp học phí trực tuyến,https://camnang.iuh.edu.vn/huong-dan-nop-tien-hoc-phi-bang-hinh-thuc-truc-tuyen.php,2026-08-03,not-stated,public-page
+huong-dan-su-dung-thu-vien,data/k3_university/huong-dan-su-dung-thu-vien.md,Hướng dẫn sử dụng thư viện,https://camnang.iuh.edu.vn/huong-dan-su-dung-thu-vien.php,2026-08-03,not-stated,public-page
+noi-quy-hoc-duong,data/k3_university/noi-quy-hoc-duong.md,Nội quy học đường,https://camnang.iuh.edu.vn/noi-quy-hoc-duong.php,2026-08-03,not-stated,public-page
+quy-che-dao-tao-tin-chi,data/k3_university/quy-che-dao-tao-tin-chi.md,Quy chế đào tạo theo hệ thống tín chỉ,https://camnang.iuh.edu.vn/quy-che-dao-tao-theo-he-thong-tin-chi.php,2026-08-03,not-stated,public-page
+quy-dinh-nghi-hoc-tam-thoi,data/k3_university/quy-dinh-nghi-hoc-tam-thoi.md,Quy định về nghỉ học tạm thời và bảo lưu kết quả học tập,https://camnang.iuh.edu.vn/quy-dinh-ve-nghi-hoc-tam-thoi-va-bao-luu-ket-qua-hoc-tap.php,2026-08-03,not-stated,public-page
+tu-van-tam-ly-cham-soc-suc-khoe,data/k3_university/tu-van-tam-ly-cham-soc-suc-khoe.md,Tư vấn tâm lý và chăm sóc sức khỏe,https://camnang.iuh.edu.vn/tu-van-tam-ly-cham-soc-suc-khoe.php,2026-08-03,not-stated,public-page
