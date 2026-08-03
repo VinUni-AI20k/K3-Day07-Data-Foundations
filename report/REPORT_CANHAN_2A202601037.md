@@ -112,11 +112,11 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Điều kiện đăng ký học bổng là gì? | Hướng dẫn thủ tục xin học bổng trường... | 0.85 | Có | Sinh viên cần có điểm GPA > 3.2 để được... |
-| 2 | Đăng ký môn học khi nào? | Lịch đăng ký tín chỉ kỳ 1 bắt đầu... | 0.81 | Có | Bạn có thể đăng ký từ 15/08. |
-| 3 | Nộp học phí qua đâu? | Học phí có thể đóng qua ngân hàng... | 0.90 | Có | Bạn có thể nộp qua ngân hàng VCB. |
-| 4 | Thư viện mở cửa tới mấy giờ? | Giờ mở cửa thư viện từ 7:00 - 20:00... | 0.88 | Có | Thư viện mở từ 7h sáng đến 8h tối. |
-| 5 | Thủ tục vào KTX ra sao? | Đăng ký ở KTX cần làm đơn xin ở... | 0.76 | Có | Bạn cần nộp đơn tại phòng CTSV. |
+| 1 | Sinh viên được xem là đạt học phần tiên quyết A để đăng ký học phần B khi đáp ứng điều kiện điểm số nào? | Sinh viên bắt buộc phải học và đạt điểm từ C (hoặc Pass) trở lên... | 0.88 | Có | Cần đạt từ điểm C trở lên ở học phần tiên quyết A. |
+| 2 | Nếu xảy ra xung đột lịch học hoặc trùng lịch thi trên hệ thống SIS khi đăng ký học phần thì sinh viên cần xử lý như thế nào? | Hệ thống SIS sẽ tự động chặn đăng ký... | 0.86 | Có | Sinh viên cần chọn nhóm lớp khác hoặc gửi Ticket hỗ trợ cho Registrar Office. |
+| 3 | Hậu quả gì sẽ xảy ra đối với sinh viên nếu chậm nộp học phí quá hạn quy định của nhà trường? | Sinh viên nợ học phí quá hạn sẽ bị tạm khóa tài khoản... | 0.91 | Có | Bị khóa tài khoản SIS, không được thi kết thúc HP và không được đăng ký HP tiếp theo. |
+| 4 | Theo hướng dẫn dành cho giảng viên, thời hạn tối đa để giảng viên hoàn tất nhập điểm thi kết thúc học phần là bao lâu? | Điểm thi kết thúc học phần phải được nhập hoàn tất... [Filter: audience=faculty] | 0.89 | Có | Giảng viên phải nhập điểm trong vòng 7 ngày làm việc kể từ ngày thi. |
+| 5 | Sinh viên bình thường được đăng ký tối đa bao nhiêu tín chỉ và tối thiểu bao nhiêu tín chỉ trong một học kỳ chính quy? | Ràng buộc tín chỉ: Tối đa 24 tín chỉ, tối thiểu 12 tín chỉ... | 0.87 | Có | Đăng ký tối đa 24 tín chỉ và tối thiểu 12 tín chỉ / học kỳ. |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 
