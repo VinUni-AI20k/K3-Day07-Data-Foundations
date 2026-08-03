@@ -1,128 +1,119 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** [Tên sinh viên]
-**Nhóm:** [Tên nhóm]
-**Ngày:** [Ngày nộp]
+**Họ tên:** [CHỜ SINH VIÊN CUNG CẤP]
 
-> **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
+**Nhóm:** [CHỜ NHÓM CUNG CẤP]
 
-**Tổng điểm phần cá nhân: 60** = Khởi động (5) + Hướng tiếp cận (10) + Hoàn thiện code (30) + Dự đoán độ tương tự (5) + Kết quả truy xuất của tôi (10).
+**Ngày cập nhật kỹ thuật:** 2026-08-03
 
----
+> Báo cáo này chỉ ghi kết quả đã được xác minh trong repository. Corpus K3 hiện chỉ là dữ liệu khởi động nên chưa đủ điều kiện chấm retrieval thực tế.
 
-## 1. Khởi động (Warm-up) — Cá nhân (5 điểm)
+## 1. Mục tiêu cá nhân và phần khởi động
 
-### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
+Mục tiêu là hoàn thiện ba module `chunking.py`, `store.py`, `agent.py`, giữ nguyên public API, bảo toàn metadata và xây dựng luồng RAG deterministic cho unit test.
 
-**Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-> *Viết 1-2 câu:*
+Cosine similarity cao nghĩa là hai vector có hướng gần nhau; giá trị gần 0 thể hiện ít liên hệ theo không gian embedding, còn gần -1 là ngược hướng. Ví dụ khái niệm có độ tương tự cao: “Sinh viên đăng ký học phần trên cổng học vụ” và “Cổng học vụ cho phép sinh viên chọn lớp học phần”. Cặp thấp: “Quy định mượn sách thư viện” và “Cách huấn luyện mô hình thị giác máy tính”. Cosine thường phù hợp với text embedding vì tập trung vào hướng của vector thay vì độ lớn.
 
-**Ví dụ có độ tương tự CAO:**
-- Câu A:
-- Câu B:
-- Tại sao tương đồng:
+Với tài liệu 10.000 ký tự, `chunk_size=500`, `overlap=50`:
 
-**Ví dụ có độ tương tự THẤP:**
-- Câu A:
-- Câu B:
-- Tại sao khác:
-
-**Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-> *Viết 1-2 câu:*
-
-### Bài toán tính toán Chunking (Bài tập 1.2)
-
-**Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
-
-**Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-> *Viết 1-2 câu:*
-
----
-
-## 2. Hướng tiếp cận của tôi (My Approach) — Cá nhân (10 điểm)
-
-Giải thích cách tiếp cận của bạn khi lập trình (implement) các phần chính trong gói `src`.
-
-### Các hàm chia nhỏ (Chunking Functions)
-
-**`SentenceChunker.chunk`** — hướng tiếp cận:
-> *Viết 2-3 câu: dùng biểu thức chính quy (regex) gì để phát hiện câu? Xử lý trường hợp ngoại lệ (edge case) nào?*
-
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
-> *Viết 2-3 câu: thuật toán hoạt động thế nào? Base case (trường hợp cơ sở) là gì?*
-
-### Lớp EmbeddingStore
-
-**`add_documents` + `search`** — hướng tiếp cận:
-> *Viết 2-3 câu: lưu trữ thế nào? Tính độ tương tự ra sao?*
-
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
-> *Viết 2-3 câu: lọc (filter) trước hay sau? Xóa bằng cách nào?*
-
-### Tác tử KnowledgeBaseAgent
-
-**`answer`** — hướng tiếp cận:
-> *Viết 2-3 câu: cấu trúc prompt? Cách đưa ngữ cảnh (inject context) vào thế nào?*
-
----
-
-## 3. Hoàn thiện code (Core Implementation) — Cá nhân (30 điểm)
-
-Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
-
-### Kết Quả Kiểm Thử (Test Results)
-
-```
-# Dán kết quả (output) của: pytest tests/ -v
+```text
+ceil((10000 - 50) / (500 - 50)) = ceil(9950 / 450) = 23 chunks
 ```
 
-**Số lượng bài test vượt qua (pass):** __ / 42
+Nếu overlap tăng lên 100 thì kết quả là `ceil(9900 / 400) = 25 chunks`. Overlap lớn hơn giữ thêm ngữ cảnh qua ranh giới nhưng tăng số chunk, dung lượng và chi phí retrieval.
 
----
+## 2. Các TODO đã hoàn thành
 
-## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
+- `SentenceChunker.chunk`
+- `RecursiveChunker.chunk` và `_split`
+- `compute_similarity`
+- `ChunkingStrategyComparator.compare`
+- Toàn bộ phương thức của `EmbeddingStore`
+- `KnowledgeBaseAgent.__init__` và `answer`
+- Sửa lỗi stdout UTF-8 tại hai entrypoint Windows để `python ingest.py` và `python main.py` chạy được
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|------|-----------|-----------|---------|--------------|-------|
-| 1 | | | cao / thấp | | |
-| 2 | | | cao / thấp | | |
-| 3 | | | cao / thấp | | |
-| 4 | | | cao / thấp | | |
-| 5 | | | cao / thấp | | |
+## 3. Mô tả triển khai
 
-**Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
-> *Viết 2-3 câu:*
+### SentenceChunker
 
----
+Văn bản được chuẩn hóa whitespace rồi nhận diện câu bằng regex giữ lại `.`, `!`, `?`, `…` và dấu nháy/ngoặc đóng sau dấu câu. Các câu được ghép tuần tự theo `max_sentences_per_chunk`; văn bản rỗng hoặc chỉ có whitespace trả về danh sách rỗng.
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+### RecursiveChunker
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Thuật toán thử separator đúng thứ tự cấu hình. Đoạn còn quá dài mới được chuyển xuống separator mịn hơn; separator được gắn lại vào piece để không mất nội dung. Khi hết separator hoặc gặp `""`, thuật toán cắt cứng theo `chunk_size`, bảo đảm dừng và không sinh chunk rỗng.
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+### Cosine similarity
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+Hai vector phải cùng chiều và không rỗng. Hàm dùng `math.fsum` cho dot product và norm; vector zero trả `0.0`, còn sai chiều/rỗng raise `ValueError` rõ ràng.
 
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *Viết 2-3 câu:*
+### ChunkingStrategyComparator
 
----
+Comparator chạy `FixedSizeChunker`, `SentenceChunker`, `RecursiveChunker` và trả đúng schema: `count`, `avg_length`, `min_length`, `max_length`, `chunks`.
 
-## Tự Đánh Giá (Phần Cá Nhân)
+### EmbeddingStore
 
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Khởi động (Warm-up) | / 5 |
-| Hướng tiếp cận của tôi (My Approach) | / 10 |
-| Hoàn thiện code (Core Implementation — tests) | / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | / 10 |
-| **Tổng phần cá nhân** | **/ 60** |
+Mỗi record có ID tài liệu, storage ID duy nhất, bản sao metadata, embedding và thứ tự chèn. Search dùng đúng embedder của store, cosine similarity, sắp xếp score giảm dần và dùng thứ tự chèn để phá hòa deterministic. Filter kiểm tra đủ mọi cặp key-value trước search. Delete khớp chính xác `metadata.doc_id`; metadata đầu vào không bị sửa.
+
+### KnowledgeBaseAgent
+
+Agent retrieve đúng `top_k`, đưa content và nguồn/doc ID vào vùng `<retrieved_context>`, coi nội dung tài liệu là dữ liệu không tin cậy để giảm prompt injection, và yêu cầu LLM chỉ trả lời từ context. Store rỗng trả thông báo thiếu thông tin mà không gọi LLM.
+
+## 4. Quyết định kỹ thuật và trường hợp biên
+
+- Giữ in-memory store làm nguồn kết quả deterministic; ChromaDB chỉ là mirror tùy chọn khi package khả dụng.
+- Cho phép nội dung giống nhau với ID khác nhau; storage ID nội bộ tránh xung đột.
+- `top_k <= 0`, câu hỏi rỗng, chunk size không hợp lệ và overlap không hợp lệ đều raise `ValueError`.
+- Đã kiểm tra: empty/whitespace text, một câu không dấu kết, dấu câu tiếng Việt cạnh dấu nháy, câu/đoạn dài, nhiều đoạn, fallback cắt cứng, metadata preservation, vector zero/rỗng/sai chiều, store rỗng, filter không khớp, xóa thiếu ID và duplicate text.
+
+## 5. Cấu hình retrieval cá nhân và dự đoán trước benchmark
+
+Cấu hình demo hiện tại dùng `FixedSizeChunker(chunk_size=500, overlap=50)`, metadata từ YAML front matter và mock embedder 64 chiều. Dự đoán cần kiểm chứng sau khi có corpus thật: sentence/recursive chunking có thể tạo chunk dễ đọc hơn fixed-size trên tài liệu quy định có cấu trúc; metadata `audience`, `department`, `category` có thể tăng precision khi query xác định đối tượng.
+
+Không dùng dự đoán này làm kết luận benchmark.
+
+## 6. Bằng chứng kiểm thử
+
+```text
+Python thực tế: 3.13.14 (máy chưa cài Python 3.11)
+Dependencies: pytest 9.1.1, python-dotenv 1.2.2
+Baseline: 11 passed, 31 failed
+Sau triển khai: 42 passed, 0 failed, 0 skipped (0.06s)
+Ingestion self-check: parse 4 khóa metadata, tạo 18 chunk
+Main demo: nạp 2 tài liệu template thành 3 chunk; exit code 0
+Supplemental edge checks: OK
+```
+
+Lệnh đã chạy:
+
+```powershell
+python -m pytest tests/ -v
+python ingest.py
+python main.py
+```
+
+## 7. Benchmark retrieval thực tế
+
+**Embedding backend thực tế:** mock embeddings fallback
+
+**Corpus:** 2 tài liệu khởi động, đều tự ghi là template và dùng URL `example.edu`
+
+**Số benchmark query hợp lệ:** 0
+
+**Kết quả:** [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM]
+
+Không ghi gold answer, điểm retrieval, success/failure case hoặc chiến lược tốt nhất vì chưa có 5–10 tài liệu nguồn thật và chưa chạy local multilingual embedder. Kết quả score của mock trong `main.py` chỉ xác minh pipeline, không phản ánh semantic retrieval.
+
+## 8. Hạn chế và hướng cải thiện
+
+1. Cài Python 3.11 và chạy lại toàn bộ test để xác minh đúng runtime chuẩn của lab.
+2. Thu thập 5–10 nguồn đại học công khai, thay URL/template và kiểm tra metadata một-một với `sources.csv`.
+3. Cài `requirements-local.txt`, chạy cùng năm query trên ba cấu hình chunking, lưu top-1/top-3 và gold evidence.
+4. Bổ sung ngưỡng relevance hoặc cơ chế đánh giá context nếu thiết kế agent được mở rộng ngoài API hiện tại.
+
+## 9. Phần cần sinh viên/nhóm hoàn thiện
+
+- Thông tin sinh viên và nhóm: [CHỜ NHÓM CUNG CẤP]
+- Năm cặp similarity prediction bằng local embedder: [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM]
+- Năm benchmark query/gold answer thống nhất: [CHỜ NHÓM CUNG CẤP]
+- Phân tích retrieval thành công/thất bại và so sánh dự đoán: [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM]
+- Tự đánh giá điểm: [CHỜ SINH VIÊN CUNG CẤP]

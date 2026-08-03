@@ -85,6 +85,9 @@ def run_manual_demo(question: str | None = None, data_dir: str | None = None) ->
 
 
 def main() -> int:
+    """Configure portable console output and run the manual demo."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     question = " ".join(sys.argv[1:]).strip() or None
     data_dir = os.getenv("LAB_DATA_DIR", DEFAULT_DATA_DIR)
     return run_manual_demo(question=question, data_dir=data_dir)

@@ -1,146 +1,120 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** [Tên nhóm]
-**Thành viên:** [Họ tên từng thành viên]
-**Ngày:** [Ngày nộp]
+**Nhóm:** [CHỜ NHÓM CUNG CẤP]
 
-> **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
+**Thành viên:** [CHỜ NHÓM CUNG CẤP]
 
-**Tổng điểm phần nhóm: 40** = Lựa chọn tài liệu (10) + Thiết kế chiến lược (15) + Chất lượng truy xuất (10) + Thuyết trình (5).
+**Ngày cập nhật kỹ thuật:** 2026-08-03
 
----
+## 1. Chủ đề và trạng thái dữ liệu
 
-## 1. Lựa chọn tài liệu (Document Set Quality) — Nhóm (10 điểm)
+**Chủ đề K3:** dịch vụ và quy định đại học.
 
-### Phạm vi bộ tài liệu (Scope)
+**Trạng thái:** corpus chưa đạt điều kiện benchmark.
 
-**Chủ đề (cố định theo lớp K3):** Dịch vụ / quy định đại học (đăng ký môn, học phí, học bổng, thư viện, ký túc xá…).
+Repository hiện có đúng hai file trong `data/k3_university/`:
 
-**Phạm vi cụ thể nhóm tập trung:**
-> *1 câu — ví dụ: thư viện + đăng ký môn học.*
+| File | Phạm vi | Trạng thái nguồn |
+|---|---|---|
+| `course-registration.md` | Đăng ký học phần | Template, URL `example.edu`, cần thay bằng nguồn thật |
+| `library-services.md` | Dịch vụ thư viện | Template, URL `example.edu`, cần thay bằng nguồn thật |
 
-### Danh sách tài liệu (Data Inventory)
+Hai dòng trong `sources.csv` đều ghi `example-template-replace-me`. Vì vậy không coi đây là dữ liệu crawl thực tế và không dùng làm gold evidence.
 
-| # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
-|---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+## 2. Dữ liệu còn thiếu và nguồn cần thu thập
 
-**Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+Cần bổ sung tối thiểu 3 tài liệu (khuyến nghị 5–8 tài liệu) từ trang chính thức/công khai của trường:
 
-### Cấu trúc Metadata (Metadata Schema)
+1. Quy định đăng ký, hủy và điều chỉnh học phần.
+2. Biểu phí, thời hạn và phương thức đóng học phí.
+3. Điều kiện, hồ sơ và lịch xét học bổng.
+4. Quy định mượn, gia hạn và xử lý quá hạn thư viện.
+5. Điều kiện đăng ký, phí và nội quy ký túc xá.
+6. FAQ hoặc kênh hỗ trợ sinh viên chính thức.
 
-| Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
-|----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+Không tự động crawl hay khẳng định đã thu thập các nguồn trên.
 
----
+## 3. Cách thu thập, format và metadata schema
 
-## 2. Thiết kế chiến lược (Strategy Design) — Nhóm (15 điểm)
+Mỗi nguồn công khai được làm sạch thành một file UTF-8 `.md`/`.txt`; menu, footer và dữ liệu nhạy cảm bị loại bỏ. `sources.csv` phải khớp một-một với các file. Mỗi tài liệu dùng YAML front matter:
 
-> Mỗi thành viên thử **một chiến lược khác nhau** trên cùng bộ tài liệu; nhóm tổng hợp và so sánh ở đây.
+| Trường | Kiểu | Mục đích |
+|---|---|---|
+| `doc_id` | string | ID ổn định, duy nhất |
+| `title` | string | Tên tài liệu/nguồn |
+| `source_url` | string | Truy vết trang gốc |
+| `retrieved_at` | date | Ngày lấy dữ liệu |
+| `document_version` | string/date | Phiên bản hoặc ngày hiệu lực |
+| `audience` | enum | Lọc student/faculty/staff/all |
+| `department` | string | Lọc đơn vị phụ trách |
+| `category` | string | Lọc nhóm chính sách/dịch vụ |
+| `language` | string | Quản lý ngôn ngữ corpus |
 
-### Phân tích đường cơ sở (Baseline Analysis)
+Ingestion đã được xác minh theo luồng: front matter → `Document` → chunk → gắn `doc_id`, `chunk_index`, source metadata → embedding → store.
 
-Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
+## 4. Template năm benchmark query
 
-| Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-|-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+> Các câu dưới đây là **template chờ corpus thật**, chưa phải benchmark đã chạy. Không có gold answer vì repository chưa có nguồn thật hỗ trợ.
 
-### Chiến lược của từng thành viên
+| ID | Câu hỏi dự kiến | Gold answer | Tài liệu nguồn cần có | Chunk kỳ vọng | Tiêu chí pass |
+|---|---|---|---|---|---|
+| Q1 | Sinh viên được đăng ký hoặc điều chỉnh học phần trong thời gian nào? | [CHỜ NGUỒN THẬT] | Quy định đăng ký học phần | Mục lịch/thời hạn | Top-3 chứa đúng điều khoản và câu trả lời trích được bằng chứng |
+| Q2 | Điều kiện và thời hạn đóng học phí là gì? | [CHỜ NGUỒN THẬT] | Thông báo/quy định học phí | Mục điều kiện + hạn nộp | Top-3 có đúng mục, không suy đoán số tiền/thời hạn |
+| Q3 | Sinh viên cần đáp ứng điều kiện nào để xét học bổng? | [CHỜ NGUỒN THẬT] | Quy định học bổng | Mục đối tượng + điều kiện | Top-3 chứa đủ điều kiện bắt buộc |
+| Q4 | Sinh viên có thể gia hạn tài liệu thư viện như thế nào? | [CHỜ NGUỒN THẬT] | Quy định mượn/gia hạn | Mục gia hạn | Top-3 có quy trình và ngoại lệ nếu nguồn nêu |
+| Q5 | Quy định đăng ký ký túc xá dành cho sinh viên là gì? | [CHỜ NGUỒN THẬT] | Nội quy/hướng dẫn KTX | Mục đăng ký cho student | Dùng `metadata_filter={"audience": "student"}` và top-3 có đúng đối tượng |
 
-> Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
+## 5. Ba cấu hình cần so sánh
 
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
-- **Code snippet (nếu custom):**
-```python
-# Dán mã nguồn (implementation) vào đây
+| Cấu hình | Chunker | Tham số cần cố định | Metadata |
+|---|---|---|---|
+| A | `FixedSizeChunker` | `chunk_size`, `overlap` | Toàn bộ front matter + `doc_id`, `chunk_index` |
+| B | `SentenceChunker` | `max_sentences_per_chunk`, quy tắc ghép câu | Như A |
+| C | `RecursiveChunker` | `chunk_size`, danh sách separator | Như A |
+
+Chiến lược của từng thành viên: [CHỜ NHÓM CUNG CẤP]
+
+## 6. Bảng kết quả so sánh
+
+| Query | Strategy | Top-1 đúng? | Top-3 có chunk đúng? | Score | Nguồn | Nhận xét |
+|---|---|---:|---:|---:|---|---|
+| [CHƯA CHẠY] | [CHƯA CHẠY] | — | — | — | — | [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM] |
+
+**Embedding backend yêu cầu khi benchmark:** local multilingual embedder.
+
+**Backend đã chạy hiện tại:** mock embeddings fallback, chỉ dùng kiểm tra pipeline.
+
+**Chiến lược tốt nhất:** [CHƯA CÓ KẾT QUẢ THỰC NGHIỆM]
+
+Chưa phân tích Retrieval Precision, Chunk Coherence, Metadata Utility, Grounding Quality hay Data Strategy Impact vì chưa có benchmark hợp lệ. Không kết luận từ score mock.
+
+## 7. Demo flow dự kiến
+
+```text
+Chọn corpus thật và query
+→ parse front matter
+→ chọn cấu hình chunking
+→ ingest vào EmbeddingStore bằng local embedder
+→ search/search_with_filter top-3
+→ hiển thị score + nguồn + chunk
+→ KnowledgeBaseAgent tạo câu trả lời grounded
+→ đối chiếu gold evidence
 ```
 
-**Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
+## 8. Hạn chế và đề xuất cải tiến
 
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
+- Thiếu ít nhất ba tài liệu thật và toàn bộ gold evidence.
+- Chưa xác minh trên Python 3.11; máy audit chỉ có Python 3.13.14.
+- Chưa cài/chạy local multilingual model nên chưa thể so sánh semantic retrieval.
+- Cần kiểm tra URL, quyền sử dụng, ngày truy xuất và version trước benchmark.
+- Sau khi có dữ liệu, chạy đúng năm query trên cả ba cấu hình, ghi toàn bộ top-1/top-3 thay vì chỉ ví dụ thuận lợi.
 
-### So Sánh Giữa Các Thành Viên
+## 9. Phân công
 
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-|-----------|----------|----------------------|-----------|----------|
-| | | | | |
-| | | | | |
-| | | | | |
-
-**Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
-
----
-
-## 3. Câu hỏi đánh giá & Chất lượng truy xuất (Retrieval Quality) — Nhóm (10 điểm)
-
-### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
-
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
-
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
-|---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-
-### Tổng hợp chất lượng truy xuất của nhóm
-
-> Cách chấm (theo `docs/SCORING.md`): **2 điểm/câu** — top-3 chứa chunk liên quan + agent trả lời đúng (2), có liên quan nhưng thiếu/không ở top-1 (1), không có trong top-3 (0).
-
-| # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
-|---|---------|-------------------------------|-------------------------------|---------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
-
-**Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> *Viết 2-3 câu:*
-
----
-
-## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
-
-**Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> *Liệt kê 2-3 ý:*
-
-**Bài học rút ra khi so sánh trong nhóm:**
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
-
-**Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> *Viết 2-3 câu:*
-
----
-
-## Tự Đánh Giá (Phần Nhóm)
-
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Lựa chọn tài liệu (Document Set Quality) | / 10 |
-| Thiết kế chiến lược (Strategy Design) | / 15 |
-| Chất lượng truy xuất (Retrieval Quality) | / 10 |
-| Thuyết trình (Demo) | / 5 |
-| **Tổng phần nhóm** | **/ 40** |
+| Công việc | Người phụ trách | Trạng thái |
+|---|---|---|
+| Xác minh và thu thập nguồn | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
+| Chuẩn hóa metadata/corpus | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
+| Thống nhất gold answers | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
+| Chạy cấu hình A/B/C | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
+| Tổng hợp demo và failure analysis | [CHỜ NHÓM CUNG CẤP] | Chưa thực hiện |
