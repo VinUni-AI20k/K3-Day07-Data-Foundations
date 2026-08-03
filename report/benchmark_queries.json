@@ -1,0 +1,46 @@
+[
+  {
+    "id": "Q1",
+    "query": "Sinh viên từ khóa K70 trở về trước đăng ký lớp chính thức học kỳ 2026.1 từ thời điểm nào đến thời điểm nào?",
+    "gold_answer": "Đợt đăng ký chính thức diễn ra từ 16h00 ngày 22/07/2026 đến 14h00 ngày 03/08/2026.",
+    "gold_doc_id": "hust-course-registration-20261",
+    "gold_locator": "II. Thời gian và kế hoạch đăng ký > Các đợt đăng ký lớp chính",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q2",
+    "query": "Điều kiện để sinh viên đăng ký form học tích hợp kỹ sư chuyên sâu kỳ 2025.3 là gì và hạn cuối đăng ký là ngày nào?",
+    "gold_answer": "Sinh viên phải tích lũy từ 115 tín chỉ bậc cử nhân trở lên và đã hoặc đang làm đồ án tốt nghiệp cử nhân tại kỳ 2025.3. Form mở từ 27/07/2026 đến hết 10/08/2026.",
+    "gold_doc_id": "hust-integrated-engineer-registration-20253",
+    "gold_locator": "Mục 1 và Mục 2.2",
+    "metadata_filter": {
+      "audience": "student"
+    }
+  },
+  {
+    "id": "Q3",
+    "query": "Theo Quy chế đào tạo HUST năm 2025, sinh viên cử nhân hoặc kỹ sư rút học phần trong 7 tuần đầu phải đóng bao nhiêu học phí và ngoại lệ ở học kỳ 2 là gì?",
+    "gold_answer": "Nếu đơn rút học phần trong 7 tuần đầu được chấp thuận, người học đóng 50% học phí học phần. Ngoại lệ: nếu đề nghị trong tuần đầu tiên của học kỳ 2 và được chấp thuận thì không phải đóng học phí học phần. Quy định này không áp dụng cho học kỳ hè.",
+    "gold_doc_id": "hust-academic-regulations-2025",
+    "gold_locator": "Chương I, Điều 9, khoản 3",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q4",
+    "query": "Sinh viên chương trình đào tạo chuẩn từ khóa K70 phải học song hành các học phần tiếng Anh nào ở học kỳ 3, 4, 5 và cần chuẩn đầu ra tối thiểu bậc mấy?",
+    "gold_answer": "Nếu chưa học hoặc chưa được miễn, sinh viên phải đăng ký song hành FL1133 ở học kỳ 3, FL1134 ở học kỳ 4 và FL1135 ở học kỳ 5. Chuẩn đầu ra của chương trình chuẩn, trừ nhóm ngành ngôn ngữ, là chứng chỉ tối thiểu Bậc 3.",
+    "gold_doc_id": "hust-foreign-language-regulations-k70",
+    "gold_locator": "Phụ lục III, Bảng 3.2",
+    "metadata_filter": null
+  },
+  {
+    "id": "Q5",
+    "query": "Học viên chương trình kỹ sư chuyên sâu tích hợp được công nhận tối đa bao nhiêu tín chỉ từ bảng điểm cử nhân, các tín chỉ đó được ghi điểm gì và tổng khối lượng chương trình tối thiểu là bao nhiêu?",
+    "gold_answer": "Học viên được công nhận tối đa 12 tín chỉ đủ điều kiện từ bảng điểm cử nhân; các tín chỉ này ghi điểm R, không tính vào CPA tốt nghiệp KSCS mà chỉ tính vào tổng tín chỉ tích lũy. Cùng với 48 tín chỉ của khung KSCS tích hợp, tổng khối lượng tối thiểu là 60 tín chỉ.",
+    "gold_doc_id": "hust-engineer-course-recognition-guide",
+    "gold_locator": "Mục II, khoản 2",
+    "metadata_filter": {
+      "category": "course-recognition"
+    }
+  }
+]
