@@ -1,6 +1,6 @@
 # Biến thể K3 (K3 Variant) — Truy xuất Dịch vụ Đại học (University Services Retrieval)
 
-K3 dùng chung cam kết mã nguồn cốt lõi (core coding contract) với K4, nhưng Giai đoạn 2 (Phase 2) phải xây dựng cơ sở tri thức (knowledge base) về **dịch vụ hoặc quy định đại học** (ví dụ: đăng ký môn, học phí, học bổng, thư viện, ký túc xá).
+K3 dùng chung cam kết mã nguồn cốt lõi (core coding contract) với K4, nhưng Giai đoạn 2 (Phase 2) phải xây dựng cơ sở tri thức (knowledge base) về **quy định đại học** (ví dụ: đăng ký môn, học phí, học bổng, thư viện, ký túc xá).
 
 ## Quy tắc riêng của K3
 

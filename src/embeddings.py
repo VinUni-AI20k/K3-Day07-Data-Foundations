@@ -60,4 +60,5 @@ class OpenAIEmbedder:
         return [float(value) for value in response.data[0].embedding]
 
 
+# Đổi text thành list
 _mock_embed = MockEmbedder()
