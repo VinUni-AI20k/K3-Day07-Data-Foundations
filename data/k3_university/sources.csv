@@ -1,3 +1,8 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+hust-noi-quy-thu-vien,data/k3_university/hust-noi-quy-thu-vien.md,Nội quy Thư viện HUST,https://library.hust.edu.vn/vi/node/210,2026-08-03,not-stated,public-source
+hust-quy-dinh-lam-the,data/k3_university/hust-quy-dinh-lam-the.md,Quy định làm thẻ bạn đọc,https://library.hust.edu.vn/vi/node/305,2026-08-03,not-stated,public-source
+hust-gio-phuc-vu,data/k3_university/hust-gio-phuc-vu.md,Giờ phục vụ Thư viện,https://library.hust.edu.vn/vi/node/416,2026-08-03,not-stated,public-source
+hust-quy-trinh-muon-tra,data/k3_university/hust-quy-trinh-muon-tra.md,Quy trình mượn trả sách tại Phòng 111,https://library.hust.edu.vn/vi/node/483,2026-08-03,not-stated,public-source
+hust-tai-lieu-phong-doc,data/k3_university/hust-tai-lieu-phong-doc.md,Nội dung tài liệu tại các phòng đọc chuyên ngành,https://library.hust.edu.vn/sites/default/files/4-LC-theophong-2019%20OK.pdf,2026-08-03,2019,public-source
+hust-sap-xep-kho-mo,data/k3_university/hust-sap-xep-kho-mo.md,Phương pháp sắp xếp kho mở,https://library.hust.edu.vn/sites/default/files/cach%20xep%20gia-2014.pdf,2026-08-03,2014,public-source
+hust-danh-muc-giao-trinh,data/k3_university/hust-danh-muc-giao-trinh.md,Danh mục tài liệu phòng mượn giáo trình năm 2023,https://library.hust.edu.vn/sites/default/files/6-Danh%20mục%20tài%20liệu%20giáo%20trình%202023.pdf,2026-08-03,2023,public-source
