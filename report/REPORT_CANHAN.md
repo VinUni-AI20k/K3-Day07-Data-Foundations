@@ -169,25 +169,47 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Sinh viên đăng ký học phần ở đâu? | `k3-course-registration` chunk 1 — "…trước khi xác nhận đăng ký. Khi gặp lỗi trùng lịch…" | 0.462 | ⚠️ Một phần — câu trả lời thật ("đăng ký trong cổng học vụ") nằm ở **chunk 0, xếp #2 (0.459)** | Trả lời được nhưng phải dựa vào ngữ cảnh #2, không phải #1 |
-| 2 | Học phần tiên quyết được kiểm tra khi nào? | `k3-course-registration` chunk 1 — bắt đầu bằng "trước khi xác nhận đăng ký." | 0.526 | ⚠️ Một phần — chunk bị **cắt giữa câu**, mất chủ ngữ "sinh viên cần kiểm tra điều kiện" | Ghép được ý nhưng ngữ cảnh không tự đứng vững |
-| 3 | Bị trùng lịch học thì xử lý thế nào? | `k3-course-registration` chunk 1 — "…sinh viên điều chỉnh lớp học phần trước thời hạn điều chỉnh được công bố" | 0.320 | ✅ Có, đúng top-1 | Trả lời đúng: điều chỉnh lớp trước thời hạn công bố |
-| 4 | Cần mang gì khi mượn tài liệu ở thư viện? | `k3-library-services` chunk 0 — "…cần mang thẻ định danh hợp lệ khi sử dụng dịch vụ mượn" | 0.642 | ✅ Có, đúng top-1 | Trả lời đúng: thẻ định danh hợp lệ |
-| 5 | Quy định dành riêng cho sinh viên về đăng ký học phần? (`metadata_filter={"audience": "student"}`) | `k3-course-registration` chunk 1 | 0.621 | ✅ Có — bộ lọc loại đúng tài liệu `audience=all` | Trả lời trong phạm vi tài liệu dành cho sinh viên |
+| 1 | Sinh viên đăng ký học phần ở website nào và cần lưu ý gì trước khi đăng ký? | `huong-dan-dang-ky-hoc-phan` chunk 2 — "…Sinh viên đăng nhập trang đăng ký học phần bằng tài khoản và mật khẩu truy cập Cổng thông tin Sinh viên" | 0.815 | ⚠️ **Một phần** — đúng tài liệu, nhưng địa chỉ `dkhp.iuh.edu.vn` nằm ở chunk 1 và **không lọt cả top-5** | Nêu được các lưu ý (chương trình khung, mã lớp, điều kiện ràng buộc) nhưng **không trả lời được "website nào"** |
+| 2 | Sinh viên nộp học phí trực tuyến bằng những cách nào? | `huong-dan-nop-hoc-phi-truc-tuyen` chunk 1 — "…sinh viên cung cấp MÃ SỐ SINH VIÊN… Gạch nợ trực tiếp qua ứng dụng trên điện thoại" | 0.670 | ✅ Có, top-1 đúng và chunk này **có cả cách 2** ("áp dụng cho tất cả ngân hàng") | Nêu đủ 2 cách nộp; riêng link `sv.iuh.edu.vn` lấy từ hạng 3 — mà hạng 3 lại là **tài liệu khác** (`chinh-sach-mien-giam-hoc-phi`) |
+| 3 | Mức học bổng khuyến khích học tập tối đa là bao nhiêu? | `che-do-hoc-bong-sinh-vien` chunk 3 — chứa đúng chuỗi "Mức học bổng sinh viên nhận được lên tới **130% học phí**" | 0.797 | ✅ Có, top-1 chứa trọn đáp án | Trả lời đúng: lên tới 130% học phí, cho SV đại học chính quy trong thời gian học chính khóa |
+| 4 | Kho sách ngoại văn của thư viện nằm ở tầng nào? | `huong-dan-su-dung-thu-vien` chunk 2 — "TÀI LIỆU GIẤY… kho sách tại các tầng lầu: Tầng trệt… Lầu 2… **Lầu 3: Kho sách ngoại văn**" | 0.706 | ✅ Có, top-1 chứa trọn đáp án | Trả lời đúng: Lầu 3 |
+| 5 | Sinh viên bị ốm phải điều trị dài ngày thì việc học được giải quyết thế nào? (`metadata_filter={"audience": "student"}`) | `quy-dinh-nghi-hoc-tam-thoi` chunk 1 — "…chứng nhận của cơ sở khám bệnh, chữa bệnh có thẩm quyền theo quy định của **Bộ Y tế**" | 0.573 | ✅ Có, top-1 đúng — bộ lọc đã loại nhiễu `tu-van-tam-ly` (`audience=all`) | Trả lời đúng: nộp đơn nghỉ học tạm thời + bảo lưu, gửi Phòng Đào tạo, kèm chứng nhận y tế |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5** (nhưng chỉ **3/5** có chunk liên quan ở đúng top-1 → theo rubric `docs/SCORING.md` tự đánh giá 8/10 điểm phần này)
+> **Cách chấm:** tôi chấm theo đúng chữ trong `docs/SCORING.md` — 2 điểm cần *top-3 có chunk liên quan **và** câu trả lời của agent chính xác*. Nếu chỉ chấm ở mức "đúng tài liệu" thì cả 5 câu đều top-1 và ra 10/10, nhưng như vậy là **tự chấm dễ cho mình**: Q1 tuy top-1 đúng tài liệu nhưng agent không thể trả lời được phần "website nào" vì thông tin đó không có trong ngữ cảnh.
+>
+> Q1 = 1 điểm, Q2–Q5 = 2 điểm mỗi câu.
+
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5** (cả 5 câu đều có gold doc ở **top-1**). Nhưng theo tiêu chí "agent trả lời chính xác" thì Q1 chỉ đạt một phần → tự đánh giá **9/10**.
 
 **Quan sát về `search_with_filter` (Q5, đối chứng có/không lọc):**
 
 | | Rank 1 | Rank 2 | Rank 3 |
 |---|---|---|---|
-| Không lọc | 0.621 (`course-registration`, student) | 0.513 (`course-registration`, student) | 0.368 (`library-services`, **all**) |
-| Lọc `audience=student` | 0.621 (student) | 0.513 (student) | — (chỉ còn 2 ứng viên) |
+| Không lọc | 0.573 `quy-dinh-nghi-hoc-tam-thoi` (student) | **0.531 `tu-van-tam-ly-cham-soc-suc-khoe` (all)** ← nhiễu | 0.523 `quy-che-dao-tao-tin-chi` (student) |
+| Lọc `audience=student` | 0.573 (student) | 0.523 `quy-che-dao-tao-tin-chi` | 0.518 `quy-che-dao-tao-tin-chi` |
 
-> Bộ lọc làm đúng việc: loại tài liệu `audience=all` khỏi kết quả nên precision tăng, đổi lại **recall giảm** — corpus chỉ còn 2 chunk hợp lệ nên `top_k=3` không lấp đủ. Trên corpus 5–10 tài liệu thật, đây là đánh đổi phải cân lại.
+> Bộ lọc làm đúng việc ở câu này: `tu-van-tam-ly-cham-soc-suc-khoe` trùng rất nhiều từ khóa ("ốm", "sức khỏe", "điều trị") nên chen lên hạng 2, nhưng nội dung là trạm y tế và bảo hiểm y tế — **không trả lời được câu hỏi về việc học**. Lọc `audience=student` đẩy nó ra và thay bằng văn bản học vụ thực sự liên quan.
+>
+> **Nhưng lọc không phải lúc nào cũng tốt.** Tôi thử câu "Sinh viên cần mang theo giấy tờ gì khi vào trường?": đáp án đúng nằm ở `noi-quy-hoc-duong` (`audience=all`, 0.675 — "không đeo thẻ sinh viên…"), và lọc `audience=student` **xóa mất chính đáp án đó**. Kết luận: lọc chỉ tăng precision khi tài liệu `all` là nhiễu; khi tài liệu `all` chính là nguồn trả lời thì lọc phá recall.
 
 **Điểm yếu đã thấy ở chiến lược baseline (đầu vào cho Giai đoạn 2):**
-> `FixedSizeChunker(500, 50)` gộp cả khối chú thích template + tiêu đề + đoạn nội dung vào **một chunk 500 ký tự**, làm loãng tín hiệu: Q1 bị đẩy đúng-đáp-án xuống hạng #2 với khoảng cách điểm cực nhỏ (0.462 vs 0.459), Q2 nhận chunk cắt giữa câu. Hướng cải thiện tôi sẽ thử ở Giai đoạn 2: chunk **theo heading/mục** (đúng gợi ý K3 trong `K3_VARIANT.md`) hoặc `SentenceChunker` để mỗi chunk là một quy định tự đứng vững, và loại bỏ phần boilerplate trước khi nạp.
+> `FixedSizeChunker(500, 50)` cắt theo **số ký tự, không theo cấu trúc**, nên một quy trình bị xé làm đôi: ở Q1, câu "Sinh viên đăng ký các học phần qua Website của Trường https://dkhp.iuh.edu.vn/" rơi vào **chunk 1**, còn phần "Lưu ý" hướng dẫn thao tác nằm ở **chunk 2**. Câu hỏi khớp ngữ nghĩa với phần thao tác nên chunk 2 lên hạng 1 (0.815), còn chunk chứa URL không lọt nổi top-5 — agent có ngữ cảnh nhưng **thiếu đúng dữ kiện được hỏi**.
+>
+> Q2 lộ một vấn đề khác về grounding: chuỗi `sv.iuh.edu.vn` xuất hiện ở hạng 3 nhưng thuộc **tài liệu khác** (`chinh-sach-mien-giam-hoc-phi`). Agent vẫn "trả lời đúng", nhưng dẫn nguồn sai tài liệu — đúng loại lỗi mà tiêu chí *Source Traceability* trong `docs/EVALUATION.md` muốn phát hiện.
+>
+> Hướng cải thiện cho Giai đoạn 2: chunk **theo heading/mục** (gợi ý K3 trong `K3_VARIANT.md`) để mỗi chunk là một quy trình trọn vẹn kèm URL của nó, hoặc tăng `overlap` để URL và phần thao tác cùng nằm trong một chunk.
+
+**So sánh với thành viên khác (cùng 5 câu, cùng corpus, khác chunker):**
+
+| Câu | Tôi — `FixedSizeChunker(500, 50)` | Trần Trung Hiếu — `RecursiveChunker(500)` |
+|---|---|---|
+| Q1 đăng ký học phần | 0.815, top-1 | 0.791, top-1 |
+| Q2 học phí trực tuyến | 0.670, top-1 | 0.706, top-1 |
+| Q3 học bổng | 0.797, top-1 — chunk top-1 **chứa** "130%" | 0.773, top-1 — "130%" ở **top-2** |
+| Q4 thư viện | 0.706, top-1 | 0.706, top-1 |
+| Q5 ốm dài ngày (có lọc) | **0.573, top-1** | 0.528, gold doc ở **top-3** |
+
+> Khác biệt rõ nhất ở Q5: `RecursiveChunker` cắt theo `\n\n` trước, nên `quy-che-dao-tao-tin-chi` (39.962 ký tự — chiếm phần lớn corpus) sinh nhiều chunk "chung chung" dễ chen lên hạng cao, đẩy tài liệu ngắn `quy-dinh-nghi-hoc-tam-thoi` xuống. Fixed-size cắt đều nên tài liệu ngắn không bị lép vế. Ngược lại ở Q2 thì Recursive nhỉnh hơn vì giữ được ranh giới đoạn của phần liệt kê ngân hàng.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 > *[Điền sau buổi demo — cần nghe chiến lược của các thành viên khác trước khi viết.]*
@@ -202,5 +224,5 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
 | Hoàn thiện code (Core Implementation — tests) | 30 / 30 (42/42 test pass) |
 | Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | 8 / 10 *(tạm tính — chờ 5 câu hỏi chốt của nhóm)* |
-| **Tổng phần cá nhân** | **58 / 60** *(tạm tính)* |
+| Kết quả truy xuất của tôi (Competition Results) | 9 / 10 *(5/5 gold doc ở top-1; trừ 1 điểm ở Q1 vì agent thiếu dữ kiện được hỏi)* |
+| **Tổng phần cá nhân** | **59 / 60** |
