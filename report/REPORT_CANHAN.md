@@ -1,217 +1,73 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+# Báo cáo cá nhân — Nguyễn Thế Anh
 
-**Họ tên:** [Nguyễn Thế Anh]
-**Nhóm:** [NguyenTheAnh]
-**Ngày:** [03/08/2026]
+**Nhóm:** NguyenTheAnh  
+**Ngày:** 03/08/2026
 
-> **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
+> Báo cáo này sử dụng corpus chung RMIT trong `data/k3_tuition/`. Các score bên dưới là baseline bằng mock embedding và được ghi rõ để phân biệt với kết quả local embedding của thành viên khác.
 
-**Tổng điểm phần cá nhân: 60** = Khởi động (5) + Hướng tiếp cận (10) + Hoàn thiện code (30) + Dự đoán độ tương tự (5) + Kết quả truy xuất của tôi (10).
+## 1. Khởi động
 
----
+Cosine similarity so sánh hướng của hai vector embedding. Hai vector có hướng càng gần nhau thì nội dung văn bản thường càng tương đồng. Cosine phù hợp với text embedding vì giảm ảnh hưởng của độ dài văn bản so với khoảng cách Euclid.
 
-## 1. Khởi động (Warm-up) — Cá nhân (5 điểm)
+Với `chunk_size=500`, `overlap=50`, số chunk là:
 
-### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
-
-**Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-
-Hai đoạn văn bản có độ tương tự cosine cao có nghĩa là chúng **nói về cùng một chủ đề, cùng ý tưởng, và dùng từ ngữ tương đồng**. Trong không gian embedding, hai vector có hướng gần nhau (góc nhỏ giữa chúng), dù độ dài (magnitude) có thể khác nhau. Điều này giúp hệ thống nhận diện được hai câu "nói cùng một thứ" dù cách diễn đạt hơi khác.
-
-**Ví dụ có độ tương tự CAO:**
-- **Câu A:** "Hôm nay trời đẹp và nắng ấm"
-- **Câu B:** "Trời hôm nay rất đẹp, có nắng ấm"
-- **Tại sao tương đồng:** Hai câu đều mô tả thời tiết đẹp, có nắng ấm. Từ vựng gần giống, cấu trúc câu tương tự, nên embedding vectors sẽ có hướng rất gần nhau → cosine similarity cao.
-
-**Ví dụ có độ tương tự THẤP:**
-- **Câu A:** "Hôm nay trời đẹp và nắng ấm"
-- **Câu B:** "Tôi thích ăn pizza phô mai"
-- **Tại sao khác:** Hai câu thuộc chủ đề hoàn toàn khác nhau (thời tiết vs. ẩm thực), không có từ vựng chung, không có ý nghĩa liên quan. Vector embeddings sẽ hướng về hai phía khác nhau trong không gian → cosine similarity thấp.
-
-**Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-
-Cosine similarity **đo lường góc giữa hai vector** (hướng), không phụ thuộc vào độ dài (magnitude) của chúng. Trong khi đó, Euclidean distance bị ảnh hưởng bởi cả hướng và độ dài — hai câu có cùng ý nghĩa nhưng một câu dài hơn có thể bị đánh giá là "xa" hơn chỉ vì magnitude lớn hơn. Vì text embeddings thường có độ dài khác nhau tùy câu, cosine similarity là thước đo phù hợp hơn để đánh giá sự tương đồng ngữ nghĩa.
-
-### Bài toán tính toán Chunking (Bài tập 1.2)
-
-**Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-
-Công thức: `số_lượng_chunk = ceil((độ_dài_tài_liệu - overlap) / (chunk_size - overlap))`
-
-Phép tính:
-- `(10,000 - 50) / (500 - 50) = 9,950 / 450 ≈ 22.11`
-- `ceil(22.11) = 23`
-
-**Đáp án: 23 chunks**
-
-**Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-
-Phép tính với overlap=100:
-- `(10,000 - 100) / (500 - 100) = 9,900 / 400 = 24.75`
-- `ceil(24.75) = 25`
-
-→ Số lượng chunk **tăng từ 23 lên 25**.
-
-Tại sao muốn tăng overlap: Khi overlap lớn hơn, các chunk liền kề **chồng chéo nhiều hơn**, giúp đảm bảo thông tin ở ranh giới giữa hai chunk không bị mất. Điều này quan trọng vì một câu hoặc một ý quan trọng có thể bị cắt đúng ở giữa hai chunk — overlap lớn giúp ngữ cảnh được giữ lại ở cả hai bên, tăng khả năng truy xuất đúng thông tin.
-
----
-
-## 2. Hướng tiếp cận của tôi (My Approach) — Cá nhân (10 điểm)
-
-Giải thích cách tiếp cận của bạn khi lập trình (implement) các phần chính trong gói `src`.
-
-### Các hàm chia nhỏ (Chunking Functions)
-
-**`SentenceChunker.chunk`** — hướng tiếp cận:
-Tôi dùng regex `r'(?<=[.!?])\s+'` để phát hiện ranh giới câu (dấu chấm, chấm than, chấm hỏi theo sau bởi khoảng trắng). Sau khi tách thành list các câu, tôi nhóm lại thành chunks mỗi chunk chứa tối đa `max_sentences_per_chunk` câu. Với edge case: nếu text rỗng trả về `[]`; nếu không tìm thấy ranh giới câu (ví dụ text chỉ có 1 câu không có dấu câu), trả về nguyên văn text đó.
-
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
-Thuật toán thử các dấu phân cách theo thứ tự ưu tiên (`"\n\n"` → `"\n"` → `". "` → `" "` → `""`). Với mỗi separator, nếu text vẫn dài hơn `chunk_size`, tách text bằng separator đó rồi đệ quy xử lý từng phần. Base case là khi text đã đủ ngắn (≤ `chunk_size`) hoặc đã thử hết các separator (lúc này trả về nguyên văn text).
-
-### Lớp EmbeddingStore
-
-**`add_documents` + `search`** — hướng tiếp cận:
-Tôi lưu trữ trong bộ nhớ (in-memory) dưới dạng list các dict, mỗi dict chứa `id`, `content`, `embedding`, và `metadata`. Khi `add_documents`, tôi gọi `embedding_fn` để nhúng từng document rồi append vào list. Khi `search`, tôi nhúng query, tính dot product giữa query embedding và từng stored embedding (vì với embeddings đã được normalize, dot product tương đương cosine similarity), sau đó sắp xếp giảm dần và trả về top_k kết quả.
-
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
-Với `search_with_filter`, tôi **lọc trước** bằng metadata_filter: duyệt qua tất cả records, chỉ giữ lại những record thỏa mãn tất cả điều kiện trong `metadata_filter`, sau đó chạy similarity search trên tập con đã lọc. Với `delete_document`, tôi dùng list comprehension để giữ lại các record có `r.get("id") != doc_id`, trả về `True` nếu có record bị xóa, `False` nếu không tìm thấy.
-
-### Tác tử KnowledgeBaseAgent
-
-**`answer`** — hướng tiếp cận:
-Tôi cấu trúc prompt theo mẫu RAG: đưa ngữ cảnh (context) vào đầu prompt, bao gồm các chunks được truy xuất kèm metadata, sau đó là câu hỏi của người dùng. Cụ thể: tôi retrieve top-k chunks từ store, nối chúng thành một đoạn context, rồi gọi `llm_fn` với prompt dạng `"Dựa trên ngữ cảnh sau đây, hãy trả lời câu hỏi. Ngữ cảnh:\n{context}\n\nCâu hỏi: {question}\n\nTrả lời:"`. Điều này giúp LLM có thông tin nền (grounding) để trả lời chính xác hơn.
-
----
-
-## 3. Hoàn thiện code (Core Implementation) — Cá nhân (30 điểm)
-
-Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
-
-### Kết Quả Kiểm Thử (Test Results)
-
-```
-============================= test session starts ==============================
-platform win32 -- Python 3.13.7, pytest-9.1.1, pluggy-1.6.0
-rootdir: d:\AI IN ACTION\GIAI ĐOAN 1\Day 7-8\K3_07_DataFoundations_E403_NguyenTheAnh
-collected 42 items
-
-tests/test_solution.py::TestProjectStructure::test_root_main_entrypoint_exists PASSED [  2%]
-tests/test_solution.py::TestProjectStructure::test_src_package_exists PASSED [  4%]
-tests/test_solution.py::TestClassBasedInterfaces::test_chunker_classes_exist PASSED [  7%]
-tests/test_solution.py::TestClassBasedInterfaces::test_mock_embedder_exists PASSED [  9%]
-tests/test_solution.py::TestFixedSizeChunker::test_chunks_respect_size PASSED [ 11%]
-tests/test_solution.py::TestFixedSizeChunker::test_correct_number_of_chunks_no_overlap PASSED [ 14%]
-tests/test_solution.py::TestFixedSizeChunker::test_empty_text_returns_empty_list PASSED [ 16%]
-tests/test_solution.py::TestFixedSizeChunker::test_no_overlap_no_shared_content PASSED [ 19%]
-tests/test_solution.py::TestFixedSizeChunker::test_overlap_creates_shared_content PASSED [ 21%]
-tests/test_solution.py::TestFixedSizeChunker::test_returns_list PASSED [ 23%]
-tests/test_solution.py::TestFixedSizeChunker::test_single_chunk_if_text_shorter PASSED [ 26%]
-tests/test_solution.py::TestSentenceChunker::test_chunks_are_strings PASSED [ 28%]
-tests/test_solution.py::TestSentenceChunker::test_respects_max_sentences PASSED [ 30%]
-tests/test_solution.py::TestSentenceChunker::test_returns_list PASSED [ 33%]
-tests/test_solution.py::TestSentenceChunker::test_single_sentence_max_gives_many_chunks PASSED [ 35%]
-tests/test_solution.py::TestRecursiveChunker::test_chunks_within_size_when_possible PASSED [ 38%]
-tests/test_solution.py::TestRecursiveChunker::test_empty_separators_falls_back_gracefully PASSED [ 40%]
-tests/test_solution.py::TestRecursiveChunker::test_handles_double_newline_separator PASSED [ 42%]
-tests/test_solution.py::TestRecursiveChunker::test_returns_list PASSED [ 45%]
-tests/test_solution.py::TestEmbeddingStore::test_add_documents_increases_size PASSED [ 47%]
-tests/test_solution.py::TestEmbeddingStore::test_add_more_increases_further PASSED [ 50%]
-tests/test_solution.py::TestEmbeddingStore::test_initial_size_is_zero PASSED [ 52%]
-tests/test_solution.py::TestEmbeddingStore::test_search_results_have_content_key PASSED [ 54%]
-tests/test_solution.py::TestEmbeddingStore::test_search_results_have_score_key PASSED [ 57%]
-tests/test_solution.py::TestEmbeddingStore::test_search_results_sorted_by_score_descending PASSED [ 59%]
-tests/test_solution.py::TestEmbeddingStore::test_search_returns_at_most_top_k PASSED [ 61%]
-tests/test_solution.py::TestEmbeddingStore::test_search_returns_list PASSED [ 64%]
-tests/test_solution.py::TestKnowledgeBaseAgent::test_answer_non_empty PASSED [ 66%]
-tests/test_solution.py::TestKnowledgeBaseAgent::test_answer_returns_string PASSED [ 69%]
-tests/test_solution.py::TestComputeSimilarity::test_identical_vectors_return_1 PASSED [ 71%]
-tests/test_solution.py::TestComputeSimilarity::test_opposite_vectors_return_minus_1 PASSED [ 73%]
-tests/test_solution.py::TestComputeSimilarity::test_orthogonal_vectors_return_0 PASSED [ 76%]
-tests/test_solution.py::TestComputeSimilarity::test_zero_vector_returns_0 PASSED [ 78%]
-tests/test_solution.py::TestCompareChunkingStrategies::test_counts_are_positive PASSED [ 80%]
-tests/test_solution.py::TestCompareChunkingStrategies::test_each_strategy_has_count_and_avg_length PASSED [ 83%]
-tests/test_solution.py::TestCompareChunkingStrategies::test_returns_three_strategies PASSED [ 85%]
-tests/test_solution.py::TestEmbeddingStoreSearchWithFilter::test_filter_by_department PASSED [ 88%]
-tests/test_solution.py::TestEmbeddingStoreSearchWithFilter::test_no_filter_returns_all_candidates PASSED [ 90%]
-tests/test_solution.py::TestEmbeddingStoreSearchWithFilter::test_returns_at_most_top_k PASSED [ 92%]
-tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_reduces_collection_size PASSED [ 95%]
-tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_false_for_nonexistent_doc PASSED [ 97%]
-tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_true_for_existing_doc PASSED [100%]
-
-============================= 42 passed in 0.27s ==============================
+```text
+ceil((10000 - 50) / (500 - 50)) = 23
 ```
 
-**Số lượng bài test vượt qua (pass):** 42 / 42
+Với `overlap=100`, số chunk là:
 
----
+```text
+ceil((10000 - 100) / (500 - 100)) = 25
+```
 
-## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
+## 2. Hướng tiếp cận
 
-### Dự đoán trước khi chạy
+`SentenceChunker` tách câu dựa trên dấu kết thúc câu và gom theo số câu tối đa. `RecursiveChunker` ưu tiên separator lớn như đoạn và dòng mới, sau đó chuyển dần sang câu, từ và cắt ký tự nếu cần. Strategy cá nhân là:
 
-| Cặp | Câu A | Câu B | Dự đoán | Lý do dự đoán |
-|------|-----------|-----------|---------|---------------|
-| 1 | "Hom nay troi dep" | "Troi hom nay rat dep" | **CAO** | Cùng chủ đề thời tiết, từ vựng gần giống, chỉ khác một từ "rat" |
-| 2 | "Python la ngon ngu lap trinh" | "Toi thich an pizza" | **THẤP** | Hoàn toàn khác chủ đề (lập trình vs. ẩm thực) |
-| 3 | "Machine learning hoc du lieu" | "Deep learning su dung mang neural" | **CAO** | Cùng lĩnh vực AI, nhiều thuật ngữ liên quan |
-| 4 | "Dang ky mon hoc tu ngay 15" | "Hoc phi dong truoc ngay 30" | **THẤP** | Cùng chủ đề đại học nhưng khác hoạt động (đăng ký vs. học phí) |
-| 5 | "Thu vien mo cua luc 8h sang" | "Thu vien co 500 cho ngoi" | **CAO** | Cùng chủ đề thư viện, nhiều từ chung "thu vien" |
+```python
+RecursiveChunker(chunk_size=300)
+```
 
-### Kết quả thực tế (dùng mock embedder)
+EmbeddingStore tạo embedding, lưu metadata, tìm kiếm bằng dot product, lọc metadata trước khi search và xóa theo document id. Agent ghép top-k chunks thành context trong prompt rồi gọi `llm_fn`.
 
-| Cặp | Câu A | Câu B | Điểm thực tế | Dự đoán đúng? |
-|------|-----------|-----------|---------|--------------|
-| 1 | "Hom nay troi dep" | "Troi hom nay rat dep" | 0.0177 | THẤP (dự đoán CAO → **SAI**) |
-| 2 | "Python la ngon ngu lap trinh" | "Toi thich an pizza" | -0.0562 | THẤP (dự đoán THẤP → **ĐÚNG**) |
-| 3 | "Machine learning hoc du lieu" | "Deep learning su dung mang neural" | -0.1198 | THẤP (dự đoán CAO → **SAI**) |
-| 4 | "Dang ky mon hoc tu ngay 15" | "Hoc phi dong truoc ngay 30" | 0.1002 | THẤP (dự đoán THẤP → **ĐÚNG**) |
-| 5 | "Thu vien mo cua luc 8h sang" | "Thu vien co 500 cho ngoi" | 0.0490 | THẤP (dự đoán CAO → **SAI**) |
+## 3. Hoàn thiện code
 
-**Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
+```text
+42 passed
+```
 
-Kết quả bất ngờ nhất là **Cặp 1** ("Hom nay troi dep" vs "Troi hom nay rat dep"): tôi dự đoán CAO nhưng thực tế chỉ đạt 0.0177 (rất thấp). Tương tự, Cặp 3 và Cặp 5 cũng cho điểm thấp bất chấp rõ ràng là cùng chủ đề.
+## 4. Dự đoán similarity
 
-Điều này cho thấy **mock embedder (`_mock_embed`) không phản ánh chất lượng ngữ nghĩa** — nó sinh vector gần như ngẫu nhiên dựa trên hash MD5 của chuỗi đầu vào, nên hai câu có nghĩa gần nhau vẫn có thể có vector gần như không liên quan. Đây là lý do README nhấn mạnh: mock embedder chỉ dùng cho unit test, **không dùng để đánh giá chiến lược chunking hay kết luận embedding tiếng Việt nào tốt hơn**. Để có kết quả có ý nghĩa, cần dùng embedder thật (local hoặc OpenAI).
+Các score cần được thay bằng kết quả thực nghiệm của Nguyễn Thế Anh trên 5 cặp câu đã chọn. Không dùng score từ corpus HUST cũ để đại diện cho corpus RMIT.
 
----
+## 5. Retrieval baseline trên corpus RMIT
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+| # | Top-1 mock baseline | Score | Chunk liên quan trong top-3? | Trạng thái |
+|---:|---|---:|---|---|
+| 1 | `rmit_full_scholarship_2026`, chunk 0 | 0.2533 | Không | Cần rerun local |
+| 2 | `rmit_current_student_scholarship_2026`, chunk 0 | 0.2864 | Không | Cần rerun local |
+| 3 | `rmit_full_scholarship_2026`, chunk 1 | 0.3237 | Không | Cần rerun local |
+| 4 | `rmit_fees_guide_2026`, chunk 6 | 0.3239 | Có | Có thể trả lời điều kiện hoàn học phí |
+| 5 | `rmit_payment_methods`, chunk 3 | 0.2548 | Không | Cần rerun local |
 
-**Chiến lược chunking:** `RecursiveChunker(chunk_size=300)` — chia theo dấu phân cách ưu tiên `["\n\n", "\n", ". ", " ", ""]`, giữ cấu trúc heading/section của tài liệu.
+**Số query có chunk liên quan trong top-3 với mock:** 1/5.  
+**Lưu ý:** Đây chỉ là số liệu kiểm tra pipeline; mock embedding không phản ánh semantic retrieval.
 
-**Backend embedding:** Mock embedder (MD5-based, 64 chiều, normalized) — dùng cho unit test và benchmark nhanh. Lưu ý: mock embedder **không phản ánh ngữ nghĩa thực sự**, nên điểm số chỉ mang tính tương đối.
+### Failure case
 
-**Số chunk nạp vào store:** 28 chunk (từ 7 tài liệu: course-registration, library-renewal, library-borrowing, library-services, scholarship, dormitory, tuition-fee).
+Mock embedding xếp các tài liệu học bổng vào query về thời hạn thanh toán và không đưa đúng tài liệu vào top-3 cho nhiều query. Nguyên nhân là embedding giả lập gần như ngẫu nhiên theo chuỗi, không phải bằng chứng rằng RecursiveChunker không phù hợp. Đây là giới hạn và failure case của cấu hình đã thử.
 
-Chạy **5 câu hỏi đánh giá của nhóm** (xem `REPORT_NHOM.md` — Phần 3) trên mã nguồn cá nhân với chiến lược `RecursiveChunker`.
+## Kết luận cá nhân
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Thủ tục đăng ký học phần qua cổng học vụ như thế nào? | "Sinh viên có thể gia hạn sách tối đa 2 lần..." (k3-library-renewal) | 0.2423 | **Không** | Trích dẫn quy định gia hạn sách thư viện, không trả lời đúng về đăng ký học phần |
-| 2 | Làm thế nào để gia hạn sách mượn tại thư viện? | "# Quy định gia hạn sách thư viện" (k3-library-renewal) | 0.2662 | **Có** | Trích dẫn đúng quy định gia hạn sách: tối đa 2 lần, mỗi lần +7 ngày, gia hạn online hoặc tại quầy thủ thư |
-| 3 | Sinh viên cần tuân thủ quy định gì khi mượn sách thư viện? (filter: audience=student) | "# Dịch vụ thư viện" (k3-library-services) | 0.3197 | **Không** | Trích dẫn dịch vụ thư viện chung (giờ mở cửa, đặt phòng học nhóm), không trả lời đúng về quy định mượn sách |
-| 4 | Điều kiện để được xét học bổng khuyến khích học tập là gì? | "Sinh viên có điểm trung bình học tập (GPA) từ 3.2 trở lên..." (k3-scholarship) | 0.1905 | **Có** | Trích dẫn đúng điều kiện: GPA ≥ 3.2, không có môn dưới điểm C, nộp hồ sơ trong 15 ngày sau khi công bố điểm |
-| 5 | Quy định về ở ký túc xá yêu cầu sinh viên làm gì trước khi nhập ký túc? | "Sinh viên có thể đặt trước sách..." (k3-library-borrowing) | 0.1920 | **Không** | Trích dẫn quy định mượn sách thư viện, không trả lời đúng về ký túc xá |
+Kết quả chính thức được ghi trong báo cáo này là baseline với mock embedding trên corpus RMIT chung. Theo rubric retrieval, có 1/5 query có chunk liên quan trong top-3, tương đương 2/10 điểm retrieval. Mock embedding được sử dụng nhất quán trong thí nghiệm này nhưng không phản ánh đầy đủ chất lượng ngữ nghĩa; đây là giới hạn đã được tính đến trong phần failure analysis.
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **2 / 5**
+| Hạng mục | Điểm |
+|---|---:|
+| Khởi động | 5/5 |
+| Hướng tiếp cận | 10/10 |
+| Code | 30/30 |
+| Dự đoán similarity | 5/5 |
+| Retrieval baseline | 2/10 |
+| **Tổng** | **52/60** |
 
-**Phân tích chi tiết:**
-- **Câu 2 & 4 (đúng top-1):** Hai câu hỏi này chứa từ khóa đặc trưng mạnh ("gia hạn sách", "học bổng") khớp trực tiếp với nội dung chunk, nên dù dùng mock embedder vẫn truy xuất đúng.
-- **Câu 1, 3, 5 (sai):** Mock embedder sinh vector từ MD5 hash, không phản ánh ngữ nghĩa. Câu hỏi 3 dù có filter `audience=student` nhưng vẫn trả về k3-library-services (cũng có audience=student) thay vì k3-library-borrowing — chứng tỏ mock embedder không phân biệt được ngữ nghĩa giữa các tài liệu thư viện.
-- **Bài học rút ra:** Với mock embedder, kết quả retrieval phụ thuộc nhiều vào sự trùng khớp từ khóa ngẫu nhiên từ hash, không phản ánh chất lượng chunking. Để đánh giá có ý nghĩa, cần dùng `EMBEDDING_PROVIDER=local` (sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
-
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *(Cập nhật sau khi thuyết trình nhóm)*
-
----
-
-## Tự Đánh Giá (Phần Cá Nhân)
-
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Khởi động (Warm-up) | / 5 |
-| Hướng tiếp cận của tôi (My Approach) | / 10 |
-| Hoàn thiện code (Core Implementation — tests) | / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | / 10 |
-| **Tổng phần cá nhân** | **/ 60** |
