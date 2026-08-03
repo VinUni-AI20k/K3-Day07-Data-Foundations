@@ -103,11 +103,11 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Tất cả sinh viên đại học nhập học từ năm 2025 đến năm 2030 sẽ nhận được mức hỗ trợ học phí là bao nhiêu? | | | | |
+| 2 | Ứng viên nữ theo đuổi lĩnh vực khoa học công nghệ có thể nhận học bổng nào và trị giá bao nhiêu? | | | | |
+| 3 | Kỳ tuyển sinh sớm (Early Round) hệ đại học năm 2026 của VinUni diễn ra vào khoảng thời gian nào? | | | | |
+| 4 | Sinh viên ứng tuyển vào kỳ Tuyển sinh sớm và tham gia VinUni Open Day sẽ nhận được đặc quyền tài chính gì? | | | | |
+| 5 | Chương trình Tiến sĩ tại VinUni tập trung nghiên cứu chuyên sâu vào những lĩnh vực trọng yếu nào? | | | | |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
 
