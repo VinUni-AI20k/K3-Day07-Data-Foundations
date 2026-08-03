@@ -1,8 +1,8 @@
 doc_id,title,source_url,retrieved_at,document_version,audience,department,category,language
-k3-course-registration,Quy định đăng ký học phần,https://hust.edu.vn/,2026-08-02,2026.1,student,academic-affairs,course-registration,vi
-k3-library-services,Dịch vụ thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,student,library,library-services,vi
-k3-library-renewal,Gia hạn sách thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,student,library,library-renewal,vi
-k3-library-borrowing,Mượn sách thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,student,library,library-borrowing,vi
-k3-scholarship,Học bổng khuyến khích học tập,https://hust.edu.vn/,2026-08-02,2026.1,student,student-affairs,scholarship,vi
-k3-dormitory-rules,Quy định ký túc xá,https://ktx.hust.edu.vn/,2026-08-02,2026.1,student,dormitory,dormitory-rules,vi
-k3-tuition-fee,Quy định đóng học phí,https://hust.edu.vn/,2026-08-02,2026.1,student,academic-affairs,tuition,vi
+k3-course-registration,"Quy định đăng ký học phần","https://hust.edu.vn",2026-08-02,"2026.1","student","academic-affairs","course-registration","vi"
+k3-library-services,"Dịch vụ thư viện","https://library.hust.edu.vn/",2026-08-02,"2026.1","student","library","library-services","vi"
+k3-library-renewal,"Gia hạn sách thư viện","https://library.hust.edu.vn/",2026-08-02,"2026.1","student","library","library-renewal","vi"
+k3-library-borrowing,"Mượn sách thư viện","https://library.hust.edu.vn/",2026-08-02,"2026.1","student","library","library-borrowing","vi"
+k3-scholarship,"Học bổng khuyến khích học tập","https://hust.edu.vn",2026-08-02,"2026.1","student","student-affairs","scholarship","vi"
+k3-dormitory-rules,"Quy định ký túc xá","https://ktx.hust.edu.vn",2026-08-02,"2026.1","student","dormitory","dormitory-rules","vi"
+k3-tuition-fee,"Quy định đóng học phí","https://hust.edu.vn",2026-08-02,"2026.1","student","academic-affairs","tuition","vi"

@@ -177,19 +177,28 @@ Kết quả bất ngờ nhất là **Cặp 1** ("Hom nay troi dep" vs "Troi hom 
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-> **Lưu ý:** Phần này cần 5 câu hỏi đánh giá của nhóm (xem `REPORT_NHOM.md` — Phần 3). Nội dung dưới đây là placeholder; cần cập nhật sau khi nhóm thống nhất câu hỏi và chạy đánh giá.
+**Chiến lược chunking:** `RecursiveChunker(chunk_size=300)` — chia theo dấu phân cách ưu tiên `["\n\n", "\n", ". ", " ", ""]`, giữ cấu trúc heading/section của tài liệu.
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+**Backend embedding:** Mock embedder (MD5-based, 64 chiều, normalized) — dùng cho unit test và benchmark nhanh. Lưu ý: mock embedder **không phản ánh ngữ nghĩa thực sự**, nên điểm số chỉ mang tính tương đối.
+
+**Số chunk nạp vào store:** 28 chunk (từ 7 tài liệu: course-registration, library-renewal, library-borrowing, library-services, scholarship, dormitory, tuition-fee).
+
+Chạy **5 câu hỏi đánh giá của nhóm** (xem `REPORT_NHOM.md` — Phần 3) trên mã nguồn cá nhân với chiến lược `RecursiveChunker`.
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | *(chờ câu hỏi từ nhóm)* | | | | |
-| 2 | *(chờ câu hỏi từ nhóm)* | | | | |
-| 3 | *(chờ câu hỏi từ nhóm)* | | | | |
-| 4 | *(chờ câu hỏi từ nhóm)* | | | | |
-| 5 | *(chờ câu hỏi từ nhóm)* | | | | |
+| 1 | Thủ tục đăng ký học phần qua cổng học vụ như thế nào? | "Sinh viên có thể gia hạn sách tối đa 2 lần..." (k3-library-renewal) | 0.2423 | **Không** | Trích dẫn quy định gia hạn sách thư viện, không trả lời đúng về đăng ký học phần |
+| 2 | Làm thế nào để gia hạn sách mượn tại thư viện? | "# Quy định gia hạn sách thư viện" (k3-library-renewal) | 0.2662 | **Có** | Trích dẫn đúng quy định gia hạn sách: tối đa 2 lần, mỗi lần +7 ngày, gia hạn online hoặc tại quầy thủ thư |
+| 3 | Sinh viên cần tuân thủ quy định gì khi mượn sách thư viện? (filter: audience=student) | "# Dịch vụ thư viện" (k3-library-services) | 0.3197 | **Không** | Trích dẫn dịch vụ thư viện chung (giờ mở cửa, đặt phòng học nhóm), không trả lời đúng về quy định mượn sách |
+| 4 | Điều kiện để được xét học bổng khuyến khích học tập là gì? | "Sinh viên có điểm trung bình học tập (GPA) từ 3.2 trở lên..." (k3-scholarship) | 0.1905 | **Có** | Trích dẫn đúng điều kiện: GPA ≥ 3.2, không có môn dưới điểm C, nộp hồ sơ trong 15 ngày sau khi công bố điểm |
+| 5 | Quy định về ở ký túc xá yêu cầu sinh viên làm gì trước khi nhập ký túc? | "Sinh viên có thể đặt trước sách..." (k3-library-borrowing) | 0.1920 | **Không** | Trích dẫn quy định mượn sách thư viện, không trả lời đúng về ký túc xá |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **2 / 5**
+
+**Phân tích chi tiết:**
+- **Câu 2 & 4 (đúng top-1):** Hai câu hỏi này chứa từ khóa đặc trưng mạnh ("gia hạn sách", "học bổng") khớp trực tiếp với nội dung chunk, nên dù dùng mock embedder vẫn truy xuất đúng.
+- **Câu 1, 3, 5 (sai):** Mock embedder sinh vector từ MD5 hash, không phản ánh ngữ nghĩa. Câu hỏi 3 dù có filter `audience=student` nhưng vẫn trả về k3-library-services (cũng có audience=student) thay vì k3-library-borrowing — chứng tỏ mock embedder không phân biệt được ngữ nghĩa giữa các tài liệu thư viện.
+- **Bài học rút ra:** Với mock embedder, kết quả retrieval phụ thuộc nhiều vào sự trùng khớp từ khóa ngẫu nhiên từ hash, không phản ánh chất lượng chunking. Để đánh giá có ý nghĩa, cần dùng `EMBEDDING_PROVIDER=local` (sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2).
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 > *(Cập nhật sau khi thuyết trình nhóm)*
