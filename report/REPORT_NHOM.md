@@ -70,20 +70,29 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+| Defer a payment | FixedSizeChunker (`fixed_size`, size=400, overlap=50) | 20 | 392.8 | Có overlap nhưng có thể cắt giữa điều kiện. |
+| Defer a payment | SentenceChunker (`by_sentences`, 3 câu/chunk) | 13 | 527.5 | Giữ trọn câu nhưng chunk khá dài. |
+| Defer a payment | RecursiveChunker (`recursive`, size=400) | 20 | 343.2 | Giữ tốt ranh giới đoạn/dòng của danh sách điều kiện. |
+| Borrowing and returning | FixedSizeChunker (`fixed_size`, size=400, overlap=50) | 17 | 388.4 | Có thể cắt rời hạn mức và quy tắc gia hạn. |
+| Borrowing and returning | SentenceChunker (`by_sentences`, 3 câu/chunk) | 9 | 641.7 | Các dòng số liệu ít dấu câu làm chunk quá dài. |
+| Borrowing and returning | RecursiveChunker (`recursive`, size=400) | 16 | 360.7 | Giữ các dòng hạn mức/thời hạn gần nhau. |
+| RMIT student cards | FixedSizeChunker (`fixed_size`, size=400, overlap=50) | 19 | 387.4 | Có overlap nhưng đôi khi cắt giữa danh sách công dụng. |
+| RMIT student cards | SentenceChunker (`by_sentences`, 3 câu/chunk) | 12 | 533.6 | Danh sách không có dấu chấm làm chunk dài. |
+| RMIT student cards | RecursiveChunker (`recursive`, size=400) | 19 | 337.8 | Phù hợp cấu trúc dòng và mục của trang dịch vụ. |
+
+> Baseline dùng phần thân tài liệu do `load_documents()` đã bỏ YAML front matter; các số liệu trên không tính metadata.
 
 ### Chiến lược của từng thành viên
 
 > Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
 
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
+**Thành viên 1 — Nhữ Trọng Thành**
+- **Loại chiến lược:** `RecursiveChunker(chunk_size=400)` với separator mặc định `\n\n → \n → . → khoảng trắng → ký tự`.
+- **Mô tả & lý do chọn cho chủ đề này:** Corpus là các trang quy định/dịch vụ có nhiều mục và danh sách theo dòng. Recursive chunking ưu tiên giữ các ranh giới tự nhiên này, đồng thời vẫn hạ xuống từ hoặc ký tự khi một mục vượt 400 ký tự.
+- **Kết quả Checkpoint 5:** `bench.py` nạp 103 chunks và in top-3 cùng câu trả lời có nguồn cho đủ 5 query đã khóa.
 - **Code snippet (nếu custom):**
 ```python
-# Dán mã nguồn (implementation) vào đây
+chunker = RecursiveChunker(chunk_size=400)
 ```
 
 **Thành viên 2 — [Tên]**
@@ -100,12 +109,14 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| | | | | |
+| Nhữ Trọng Thành | RecursiveChunker (`chunk_size=400`) | 0/10 với MockEmbedder | Chunk có ranh giới dòng/đoạn khá mạch lạc; đủ `doc_id`, `chunk_index`, nguồn để truy vết failure. | MockEmbedder không biểu diễn ngữ nghĩa; không evidence marker nào xuất hiện trong top-3. Recursive không overlap nên mỗi đoạn bằng chứng chỉ có một cơ hội được xếp hạng. |
 | | | | | |
 | | | | | |
 
+> Hai dòng còn lại chờ kết quả `bench.py` của các thành viên khác trên cùng corpus, 5 query và embedder; không suy diễn hoặc điền thay khi chưa có output thực tế.
+
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+> Chưa thể kết luận strategy tốt nhất từ baseline mock và khi chưa có kết quả của các thành viên còn lại. MockEmbedder chỉ kiểm tra pipeline; nhóm cần chạy lại mọi strategy bằng cùng một multilingual semantic embedder rồi so sánh chunk-level trên đúng năm evidence marker đã khóa.
 
 ---
 
@@ -117,11 +128,11 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | **[Số liệu + filter]** Đối với sinh viên đại học và sau đại học, hạn mức mượn, thời hạn mượn, số lần và thời lượng gia hạn là bao nhiêu? Dùng filter `audience=all`. | 25 tài liệu trong 30 ngày; gia hạn 1 lần thêm 15 ngày, tối đa 45 ngày, nếu chưa quá hạn và không bị đặt giữ. | `rmit-library-borrowing-returning`, Recursive-400 chunks 3–4. |
+| 2 | **[Điều kiện]** Sinh viên cần đáp ứng những điều kiện nào để được xin gia hạn thanh toán cho Standard Course? | Không ở học kỳ đầu; nợ cũ dưới 5 triệu đồng; chứng minh hoàn cảnh bất ngờ và khả năng trả đủ trong tối đa 45 ngày; đã tuân thủ các hạn gia hạn trước. | `rmit-defer-payment`, Recursive-400 chunks 7–8. |
+| 3 | **[Quy trình]** Muốn hủy toàn bộ đăng ký chương trình, sinh viên phải nộp biểu mẫu nào và ở đâu? | Hoàn thành Program Cancellation form trong mục Submit Request của myRMIT. | `rmit-change-cancel-enrolment`, Recursive-400 chunk 10. |
+| 4 | **[Liệt kê]** Thẻ sinh viên RMIT có thể được sử dụng cho những mục đích nào? | Mượn tài liệu; in/scan/photocopy; vào khu vực an ninh; xác minh tại kỳ đánh giá và điểm dịch vụ; nhận ưu đãi. | `rmit-student-cards`, Recursive-400 chunks 3–4. |
+| 5 | **[Ngoại lệ]** Nếu hủy đăng ký sau Census Date nhưng không tham gia lớp học, sinh viên có còn phải trả học phí và các khoản phí khác không? | Có. Sinh viên vẫn phải chịu học phí và các khoản phí khác dù không tham gia lớp học. | `rmit-change-cancel-enrolment`, Recursive-400 chunk 9. |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
@@ -129,14 +140,14 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 |---|---------|-------------------------------|-------------------------------|---------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+| 1 | Hạn mức/thời gian mượn | Chưa kết luận; Recursive-400 hiện tại | Không | Có filter: top-3 đều đúng doc thư viện nhưng là chunks 13, 9, 8; evidence nằm ở chunks 3–4. |
+| 2 | Điều kiện gia hạn thanh toán | Chưa kết luận; Recursive-400 hiện tại | Không | Top-3 là `fees-payments:2`, `fees-payments:7`, `student-cards:6`; thiếu cả hai evidence marker. |
+| 3 | Quy trình hủy chương trình | Chưa kết luận; Recursive-400 hiện tại | Không | Top-1 đúng chủ đề đăng ký nhưng ở `rmit-enrolment:0`; không chứa Program Cancellation form. |
+| 4 | Công dụng thẻ sinh viên | Chưa kết luận; Recursive-400 hiện tại | Không | Top-3 có đúng doc thẻ nhưng là chunk 4 (ưu đãi); bằng chứng chính ở chunk 3 nên không được tính liên quan. |
+| 5 | Nghĩa vụ phí sau Census Date | Chưa kết luận; Recursive-400 hiện tại | Không | Top-1 là quy định hư hỏng sách; không có câu về nghĩa vụ học phí trong top-3. |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> *Viết 2-3 câu:*
+> Có tác dụng ở Q1 về precision cấp tài liệu: có filter `audience=all`, ba kết quả đều thuộc `rmit-library-borrowing-returning`; không filter, top-3 bị lẫn `rmit-defer-payment` và `rmit-enrolment`. Tuy nhiên filter chưa cải thiện precision cấp chunk vì cả hai lượt đều không lấy được chunks 3–4 chứa số liệu, cho thấy metadata chỉ thu hẹp phạm vi chứ không thay thế semantic ranking.
 
 ---
 
