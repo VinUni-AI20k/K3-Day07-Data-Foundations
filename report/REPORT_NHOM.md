@@ -48,13 +48,19 @@
 
 ### Phân tích đường cơ sở (Baseline Analysis)
 
-Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
+Chạy `ChunkingStrategyComparator().compare(body, chunk_size=200)` trên 3 tài liệu của `data/vinuni_course_registration/` (đã bỏ front matter bằng `ingest.parse_front_matter()` trước khi so sánh, nếu không sẽ đo luôn cả khối YAML):
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+| summer-2026-new-student-portal (2183 ký tự) | FixedSizeChunker (`fixed_size`) | 13 | 186.4 | Kém — cắt thuần theo số ký tự nên thường xẻ giữa câu hoặc giữa dòng heading (`## Class Status`), overlap 20 ký tự không đủ để bù ngữ cảnh mất đi. |
+| summer-2026-new-student-portal (2183 ký tự) | SentenceChunker (`by_sentences`) | 9 | 240.0 | Trung bình — không cắt giữa câu, nhưng gộp câu theo số lượng cố định (3 câu/chunk) chứ không theo ranh giới heading, nên một chunk có thể lẫn câu cuối mục này với câu đầu mục sau. |
+| summer-2026-new-student-portal (2183 ký tự) | RecursiveChunker (`recursive`) | 16 | 134.7 | Tốt nhất trong 3 — ưu tiên tách theo đoạn (`\n\n`) rồi mới xuống dòng/câu/từ, nên phần lớn chunk trùng khớp ranh giới đoạn văn tự nhiên của tài liệu. |
+| undergraduate-academic-regulations (4767 ký tự) | FixedSizeChunker (`fixed_size`) | 27 | 195.8 | Kém — tài liệu quy định có nhiều mục đánh số, cắt cố định theo ký tự phá vỡ cấu trúc mục thường xuyên hơn ở tài liệu dài. |
+| undergraduate-academic-regulations (4767 ký tự) | SentenceChunker (`by_sentences`) | 14 | 338.1 | Trung bình — câu trong văn bản quy định khá dài (338 ký tự/chunk trung bình dù chỉ 3 câu), chunk to nhưng vẫn có thể lẫn nội dung của hai điều khoản khác nhau. |
+| undergraduate-academic-regulations (4767 ký tự) | RecursiveChunker (`recursive`) | 38 | 123.6 | Tốt hơn nhưng chunk nhỏ (123.6 ký tự) — đoạn văn dài vẫn bị hạ xuống tách theo câu/từ, không giữ được cả một điều khoản trong một chunk. Đây chính là ca `HeadingChunker` (tách theo `##`, giữ nguyên heading) được kỳ vọng làm tốt hơn. |
+| registration-hub (2293 ký tự) | FixedSizeChunker (`fixed_size`) | 13 | 194.8 | Kém — tương tự các tài liệu khác, không nhận biết ranh giới ngữ nghĩa. |
+| registration-hub (2293 ký tự) | SentenceChunker (`by_sentences`) | 14 | 162.2 | Trung bình — tài liệu này nhiều câu ngắn (danh sách bước đăng ký) nên chunk theo câu khá đều, nhưng vẫn không tôn trọng ranh giới mục. |
+| registration-hub (2293 ký tự) | RecursiveChunker (`recursive`) | 18 | 125.8 | Tốt nhất trong 3 — bám theo đoạn/dòng, phù hợp với cấu trúc danh sách theo bước của tài liệu. |
 
 ### Chiến lược của từng thành viên
 
