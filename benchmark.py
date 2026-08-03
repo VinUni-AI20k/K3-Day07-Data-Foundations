@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -18,7 +19,10 @@ DATA_DIR = os.getenv("LAB_DATA_DIR", "data/k3_university")
 
 
 def main() -> int:
-    load_dotenv(override=False)
+    # Use the key belonging to this project.  ``override=False`` would keep a
+    # stale OPENAI_API_KEY inherited from an older PowerShell session.
+    env_file = Path(__file__).with_name(".env")
+    load_dotenv(dotenv_path=env_file, override=True)
 
     if not os.getenv("OPENAI_API_KEY"):
         raise RuntimeError(
