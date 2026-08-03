@@ -1,5 +1,18 @@
+---
+doc_id: hoc-bong-diem-ren-luyen
+title: Học bổng và đánh giá điểm rèn luyện
+source_url: https://handbook.uet.vnu.edu.vn/H%E1%BB%8Dc%20b%E1%BB%95ng/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: student
+department: ctsv
+category: scholarship-and-conduct
+language: vi
+---
 
-* Học bổng khuyến khích học tập
+# Học bổng và đánh giá điểm rèn luyện
+
+## Học bổng khuyến khích học tập
 
 + Định mức học bổng KKHT:
 

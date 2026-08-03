@@ -1,3 +1,16 @@
+---
+doc_id: ky-tuc-xa
+title: Thông tin ký túc xá cho sinh viên UET
+source_url: https://handbook.uet.vnu.edu.vn/K%C3%BD%20t%C3%BAc%20x%C3%A1/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: student
+department: ctsv
+category: accommodation
+language: vi
+---
+
+# Thông tin ký túc xá cho sinh viên UET
 
 Ký túc xá là cơ sở dùng chung trong toàn ĐHQGHN do Trung tâm hỗ trợ sinh viên của ĐHQGHN
 quản lý. Có 3 khu Ký túc xá: Ký túc xá Mễ Trì tại địa chỉ 182 Lương Thế Vinh (phục vụ cho sinh viên các
@@ -8,21 +21,4 @@ Trường ĐH Khoa học Tự nhiên, ĐH Khoa học Xã hội và Nhân văn); 
 viên của Trường ĐH Công nghệ, ưu tiên cho các đối tượng con em chính sách, vùng sâu vùng xa, biên giới hải
 đảo, dân tộc thiểu số…Ký túc xá Mỹ Đình dành khoảng 500 suất cho mọi đối tượng sinh viên của Trường ĐH Công
 nghệ có nhu cầu.
-Chi tiết sinh viên xem tại các đường link sau:
-
-Chi tiết sinh viên xem tại đường link sau:
-
-[http://css.vnu.edu.vn/](http://css.vnu.edu.vn/)
-
-![](./Ký túc xá_files/ktxnn.jpg)
-![](./Ký túc xá_files/ktxmd.jpg)
-
-Phòng 104-E3, 144 Xuân Thủy, Cầu Giấy, Hà Nội
-
-Email: ctsv\_dhcn@vnu.edu.vn
-
-ĐT: 02437548864
-
-Biên tập: Phòng CTSV
-
-Thiết kế: SV Trường ĐHCN
+Thông tin chi tiết: [Trung tâm Hỗ trợ sinh viên ĐHQGHN](http://css.vnu.edu.vn/).

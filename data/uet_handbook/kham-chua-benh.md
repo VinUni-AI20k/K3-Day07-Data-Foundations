@@ -1,3 +1,16 @@
+---
+doc_id: kham-chua-benh
+title: Khám chữa bệnh cho sinh viên UET
+source_url: https://handbook.uet.vnu.edu.vn/Kh%C3%A1m%20ch%E1%BB%AFa%20b%E1%BB%87nh/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: student
+department: ctsv
+category: healthcare
+language: vi
+---
+
+# Khám chữa bệnh cho sinh viên UET
 
 Bệnh viện Đại học Quốc gia Hà Nội (Hospital of Vietnam National University, Hanoi - tên
 viết tắt VNU Hospital) được thành lập từ năm 2011 và đang trong quá trình xây dựng cơ sở vật chất, đầu tư
@@ -42,14 +55,4 @@ Cơ sở 2: Cơ sở khám chữa bệnh Phạm Văn
 Số điện thoại: 0243 754
 9559
 
-Chi tiết xem tại: [http://bvdhqghn.vn/](http://bvdhqghn.vn/)
-
-Phòng 104-E3, 144 Xuân Thủy, Cầu Giấy, Hà Nội
-
-Email: ctsv\_dhcn@vnu.edu.vn
-
-ĐT: 02437548864
-
-Biên tập: Phòng CTSV
-
-Thiết kế: SV Trường ĐHCN
+Chi tiết về Bệnh viện ĐHQGHN: [http://bvdhqghn.vn/](http://bvdhqghn.vn/)

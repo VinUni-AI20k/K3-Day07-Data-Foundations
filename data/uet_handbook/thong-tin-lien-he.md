@@ -1,3 +1,18 @@
+---
+doc_id: thong-tin-lien-he
+title: Thông tin liên hệ các đơn vị UET
+source_url: https://handbook.uet.vnu.edu.vn/Th%C3%B4ng%20tin%20li%C3%AAn%20h%E1%BB%87/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: all
+department: uet
+category: contact-information
+language: vi
+---
+
+# Thông tin liên hệ các đơn vị UET
+
+## Đơn vị hỗ trợ sinh viên và đào tạo
 
 1) Phòng Đào tạo:
 
@@ -120,6 +135,3 @@ Website PTN: [http://amslab.uet.vnu.edu.vn](http://amslab.uet.vnu.edu.vn/)
 
 Website Viện: [https://uet.vnu.edu.vn/category/vien-tri-tue-nhan-tao/](https://uet.vnu.edu.vn/category/vien-tri-tue-nhan-tao/)
 
-![](./Thông tin liên hệ_files/thongtinlienhe1.jpg)
-![](./Thông tin liên hệ_files/thongtinlienhe2.jpg)
-![](./Thông tin liên hệ_files/thongtinlienhe3.jpg)

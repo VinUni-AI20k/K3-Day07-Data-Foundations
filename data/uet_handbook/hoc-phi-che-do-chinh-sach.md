@@ -1,5 +1,18 @@
+---
+doc_id: hoc-phi-che-do-chinh-sach
+title: Học phí và chế độ chính sách
+source_url: https://handbook.uet.vnu.edu.vn/H%E1%BB%8Dc%20ph%C3%AD%20-%20Ch%E1%BA%BF%20%C4%91%E1%BB%99%20ch%C3%ADnh%20s%C3%A1ch/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: student
+department: ctsv
+category: tuition-and-financial-support
+language: vi
+---
 
-* Học phí
+# Học phí và chế độ chính sách
+
+## Học phí
 
   + Học phí học lần đầu của hệ chuẩn thu theo tín chỉ, và sẽ thay đổi từng năm theo Nghị định của chính phủ.
   + Học phí học lần đầu của hệ CLC TT23 thu theo niên chế (học kỳ),

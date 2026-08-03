@@ -1,5 +1,18 @@
+---
+doc_id: lich-su-truyen-thong
+title: Lịch sử và truyền thống Trường Đại học Công nghệ
+source_url: https://uet.vnu.edu.vn/lich-su/
+retrieved_at: 2026-08-03
+document_version: not-stated
+audience: all
+department: uet
+category: university-history-and-conduct
+language: vi
+---
 
-Lịch sử hình thành và phát triển của Trường Đại học Công nghệ
+# Lịch sử và truyền thống Trường Đại học Công nghệ
+
+## Lịch sử hình thành và phát triển
 
 * Ngày 18/10/1999: Thành lập Khoa Công nghệ tiền thân của Trường ĐH Công nghệ sau này.
 * Ngày 25/05/2004: Thành lập Trường ĐH Công nghệ trên cơ sở Khoa Công nghệ.
@@ -22,8 +35,6 @@ Khẩu hiệu hành động
 
 Quy tắc ứng xử của người học
 
-![positive-vote.png](./Lịch sử - Truyền thống_files/positive-vote.png)
-
 * Thực hiện văn hóa UET theo các giá trị cốt lõi.
 * Trang phục gọn gàng, lịch sự, mang theo thẻ SV khi đến trường.
 * Xếp hàng khi giao dịch, tham gia các hoạt động.
@@ -35,8 +46,6 @@ Quy tắc ứng xử của người học
 * Không xả rác trong khuôn viên Nhà trường và trong phòng học, có ý thức bảo vệ môi
   trường.
 * Có ý thức giữ gìn, bảo quản tài sản chung (cứng và mềm).
-
-![positive-vote.png](./Lịch sử - Truyền thống_files/positive-vote.png)
 
 * Chấp hành tốt mọi nội quy và quy chế, nộp học phí đúng thời gian quy định.
 * Không xúc phạm, quấy rối người khác dưới mọi hình thức.
