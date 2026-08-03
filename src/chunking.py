@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import math
 import re
@@ -132,6 +132,26 @@ class RecursiveChunker:
         return chunks
 
 
+class HeaderChunker:
+    """Split Markdown into sections while retaining each heading."""
+    HEADER_RE = re.compile(r"(?m)^(#{1,6})\s+(.+?)\s*$")
+
+    def chunk(self, text: str) -> list[str]:
+        if not text or not text.strip():
+            return []
+        matches = list(self.HEADER_RE.finditer(text))
+        if not matches:
+            return [text.strip()]
+        chunks = []
+        if text[:matches[0].start()].strip():
+            chunks.append(text[:matches[0].start()].strip())
+        for i, match in enumerate(matches):
+            end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+            section = text[match.start():end].strip()
+            if section:
+                chunks.append(section)
+        return chunks
+
 def _dot(a: list[float], b: list[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
 
@@ -159,6 +179,7 @@ class ChunkingStrategyComparator:
         fixed = FixedSizeChunker(chunk_size=chunk_size).chunk(text)
         sentence = SentenceChunker(max_sentences_per_chunk=3).chunk(text)
         recursive = RecursiveChunker(chunk_size=chunk_size).chunk(text)
+        by_header = HeaderChunker().chunk(text)
         
         return {
             "fixed_size": {
@@ -177,3 +198,6 @@ class ChunkingStrategyComparator:
                 "chunks": recursive
             }
         }
+
+
+
