@@ -17,28 +17,32 @@
 **Chủ đề (cố định theo lớp K3):** Dịch vụ / quy định đại học (đăng ký môn, học phí, học bổng, thư viện, ký túc xá…).
 
 **Phạm vi cụ thể nhóm tập trung:**
-> *1 câu — ví dụ: thư viện + đăng ký môn học.*
+> Sổ tay sinh viên Đại học Phenikaa — 5 quy định vận hành thường gặp nhất với sinh viên: đăng ký học phần, thanh toán học phí, học bổng khuyến khích học tập, ký túc xá, dịch vụ thư viện.
 
 ### Danh sách tài liệu (Data Inventory)
 
 | # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
 |---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Đăng ký khối lượng học tập và rút bớt học phần | [sotaysv.phenikaa-uni.edu.vn/.../1.5-dang-ky-khoi-luong-hoc-tap-va-rut-bot-hoc-phan-da-dang-ky](https://sotaysv.phenikaa-uni.edu.vn/home/1.-hoat-dong-dao-tao-tai-truong-dai-hoc-phenikaa/1.5-dang-ky-khoi-luong-hoc-tap-va-rut-bot-hoc-phan-da-dang-ky) | 2026-08-03 / not-stated | 1197 | audience=student, department=academic-affairs, category=course-registration |
+| 2 | Dịch vụ Trung tâm Thông tin - Thư viện | [sotaysv.phenikaa-uni.edu.vn/.../4.-trung-tam-thong-tin-thu-vien](https://sotaysv.phenikaa-uni.edu.vn/home/4.-trung-tam-thong-tin-thu-vien) | 2026-08-03 / not-stated | 1153 | audience=all, department=library, category=library-services |
+| 3 | Các quy định về thanh toán học phí | [sotaysv.phenikaa-uni.edu.vn/.../5.-cac-quy-dinh-ve-thanh-toan-hoc-phi](https://sotaysv.phenikaa-uni.edu.vn/home/5.-cac-quy-dinh-ve-thanh-toan-hoc-phi) | 2026-08-03 / not-stated | 970 | audience=student, department=finance, category=tuition |
+| 4 | Ký túc xá sinh viên | [sotaysv.phenikaa-uni.edu.vn/.../7.-ky-tuc-xa-sinh-vien](https://sotaysv.phenikaa-uni.edu.vn/home/7.-ky-tuc-xa-sinh-vien) | 2026-08-03 / not-stated | 1121 | audience=student, department=dormitory-management, category=dormitory |
+| 5 | Học bổng KKHT, rèn luyện, khen thưởng, kỷ luật sinh viên | [sotaysv.phenikaa-uni.edu.vn/.../2.3-hoc-bong-khuyen-khich-hoc-tap...](https://sotaysv.phenikaa-uni.edu.vn/home/2.-hoat-dong-cong-tac-sinh-vien/2.3-hoc-bong-khuyen-khich-hoc-tap-ren-luyen-khen-thuong-ky-luat-sinh-vien) | 2026-08-03 / not-stated | 3869 | audience=student, department=student-affairs, category=scholarship |
+
+> Nguồn `document_version` không nêu rõ trên trang gốc nên ghi `not-stated` theo quy ước trong `docs/DATA_COLLECTION.md`.
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [x] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng (Sổ tay sinh viên công khai của Đại học Phenikaa) và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [x] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
 |----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+| `audience` | string (enum) | `student`, `all` | Bắt buộc theo K3 — lọc để tránh trả lời sai đối tượng (vd. loại tài liệu không dành cho sinh viên khỏi kết quả). |
+| `department` | string | `academic-affairs`, `library`, `finance`, `dormitory-management`, `student-affairs` | Cho phép thu hẹp truy xuất theo đơn vị phụ trách khi câu hỏi nêu rõ phòng/ban. |
+| `category` | string | `course-registration`, `tuition`, `scholarship`, `dormitory`, `library-services` | Phân loại chủ đề mịn hơn `department`, hữu ích khi một phòng ban quản lý nhiều loại quy định. |
+| `language` | string | `vi` | Chuẩn bị cho trường hợp corpus đa ngôn ngữ trong tương lai. |
 
 ---
 
