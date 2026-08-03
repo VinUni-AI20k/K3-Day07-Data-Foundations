@@ -11,15 +11,15 @@ Ghi chú cho các TODO đã hoàn thành trong Giai đoạn 1 (cá nhân) của 
 
 ## store.py
 
-- **Schema bản ghi nội bộ** (`_make_record`): `{"id": doc.id, "content": doc.content, "metadata": {**doc.metadata, "doc_id": doc.metadata.get("doc_id", doc.id)}, "embedding": embedding_fn(doc.content)}`. `metadata["doc_id"]` luôn được đảm bảo tồn tại — nếu `ingest.py` đã gắn sẵn (theo doc gốc) thì giữ nguyên, nếu không thì mặc định bằng `doc.id` của chính bản ghi. Đây là khóa mà `delete_document` và `search_with_filter` dùng để lọc.
+- **Schema bản ghi nội bộ** (`_make_record`): `{"id": f"{doc.id}::{self._next_index}", "content": doc.content, "metadata": {**doc.metadata, "doc_id": doc.metadata.get("doc_id", doc.id)}, "embedding": embedding_fn(doc.content)}`. `id` ghép thêm `_next_index` để không bao giờ trùng, kể cả khi `add_documents` được gọi nhiều lần với cùng `Document.id` (ChromaDB thật sẽ lỗi nếu `collection.add()` nhận id trùng). `metadata["doc_id"]` luôn được đảm bảo tồn tại — nếu `ingest.py` đã gắn sẵn (theo doc gốc) thì giữ nguyên, nếu không thì mặc định bằng `doc.id` của chính bản ghi. Đây là khóa mà `delete_document` và `search_with_filter` dùng để lọc.
 - **`__init__`** — thử `import chromadb` + `client.get_or_create_collection(...)`; nếu lỗi (chưa cài, hoặc môi trường không hỗ trợ) thì rơi về in-memory (`self._store: list[dict]`). Trong môi trường lab hiện tại `chromadb` **chưa được cài** nên toàn bộ test chạy qua nhánh in-memory.
 - **`add_documents` / `search` / `get_collection_size` / `search_with_filter` / `delete_document`** — mỗi hàm có 2 nhánh: Chroma (dùng `collection.add/query/count/delete`) và in-memory (list `dict`, dot-product thủ công qua `_dot` từ `chunking.py`). Điểm số dùng **dot product** (không tự chuẩn hoá lại) — hợp lý vì `MockEmbedder`/`LocalEmbedder` đều trả vector đã chuẩn hoá đơn vị, nên dot product ≈ cosine similarity.
-- **`search_with_filter`** — lọc `self._store` theo `metadata_filter` (khớp chính xác từng key) trước, rồi mới gọi `_search_records` trên tập đã lọc.
+- **`search_with_filter`** — lọc `self._store` theo `metadata_filter` (khớp chính xác từng key) trước, rồi mới gọi `_search_records` trên tập đã lọc — dùng chung `_search_records` với `search()` nên `metadata_filter=None` cho kết quả giống hệt `search()`.
 
 ## agent.py
 
 - **`KnowledgeBaseAgent.__init__`** — lưu `store`, `llm_fn`.
-- **`answer`** — `store.search(question, top_k)` → build context đánh số `[1] ... [2] ...` từ `result["content"]` → prompt RAG chuẩn (context + câu hỏi) → gọi `llm_fn(prompt)`.
+- **`answer`** — guard sớm: `store.get_collection_size() == 0` hoặc `store.search()` trả rỗng thì trả thông báo cố định, **không gọi `llm_fn`**. Ngược lại: `store.search(question, top_k)` → build context đánh số `[1] (source: doc_id) ...`, `[2] ...` (lấy `result["metadata"]["doc_id"]`, fallback `result["id"]`) để câu trả lời truy vết được về đúng file gốc → prompt RAG chuẩn (context + câu hỏi) → gọi `llm_fn(prompt)`.
 
 ## Đã xác minh thủ công
 

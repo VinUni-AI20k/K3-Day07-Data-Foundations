@@ -18,9 +18,16 @@ class KnowledgeBaseAgent:
         self.llm_fn = llm_fn
 
     def answer(self, question: str, top_k: int = 3) -> str:
+        if self.store.get_collection_size() == 0:
+            return "Knowledge base is empty: no documents have been ingested to answer from."
+
         results = self.store.search(question, top_k=top_k)
+        if not results:
+            return "No relevant context was found in the knowledge base for this question."
+
         context = "\n\n".join(
-            f"[{index}] {result['content']}" for index, result in enumerate(results, start=1)
+            f"[{index}] (source: {result['metadata'].get('doc_id', result['id'])}) {result['content']}"
+            for index, result in enumerate(results, start=1)
         )
         prompt = (
             "Answer the question using only the context below. "
