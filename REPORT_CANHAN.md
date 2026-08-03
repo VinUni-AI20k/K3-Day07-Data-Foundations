@@ -1,8 +1,8 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** [Tên sinh viên]
-**Nhóm:** [Tên nhóm]
-**Ngày:** [Ngày nộp]
+**Họ tên:** Ngô Minh Phong (hoặc điền tên bạn vào đây)
+**Nhóm:** Balerion
+**Ngày:** 2026-08-03
 
 > **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 
@@ -15,29 +15,29 @@
 ### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
 
 **Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-> *Viết 1-2 câu:*
+> *Viết 1-2 câu:* Có nghĩa là hai đoạn văn bản có ý nghĩa (ngữ nghĩa) hoặc bối cảnh rất giống nhau, thể hiện qua việc hai vector đại diện của chúng có hướng gần như song song trong không gian nhiều chiều.
 
 **Ví dụ có độ tương tự CAO:**
-- Câu A:
-- Câu B:
-- Tại sao tương đồng:
+- Câu A: "Sinh viên năm nhất phải đăng ký môn học trước ngày 15/8."
+- Câu B: "Thời hạn muộn nhất để tân sinh viên hoàn tất việc đăng ký tín chỉ là 15 tháng 8."
+- Tại sao tương đồng: Mặc dù dùng từ vựng khác nhau ("năm nhất" vs "tân sinh viên", "môn học" vs "tín chỉ"), cả hai câu đều mang cùng một thông điệp và ngữ nghĩa về hạn chót học vụ.
 
 **Ví dụ có độ tương tự THẤP:**
-- Câu A:
-- Câu B:
-- Tại sao khác:
+- Câu A: "Sinh viên năm nhất phải đăng ký môn học trước ngày 15/8."
+- Câu B: "Bảo tàng nghệ thuật mở cửa cho sinh viên tham quan vào cuối tuần."
+- Tại sao khác: Hai câu này hoàn toàn khác biệt về ngữ cảnh và chủ đề, một câu nói về thủ tục học vụ, câu kia nói về hoạt động giải trí.
 
 **Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-> *Viết 1-2 câu:*
+> *Viết 1-2 câu:* Cosine similarity chỉ đo lường "hướng" (ngữ nghĩa) của các vector mà bỏ qua "độ lớn" (chiều dài văn bản), giúp so sánh hiệu quả và công bằng các đoạn văn bản có độ dài ngắn khác nhau nhưng chung chủ đề.
 
 ### Bài toán tính toán Chunking (Bài tập 1.2)
 
 **Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
+> *Trình bày phép tính:* Số lượng chunk = làm_tròn_lên((10000 - 50) / (500 - 50)) = làm_tròn_lên(9950 / 450) = làm_tròn_lên(22.11)
+> *Đáp án:* 23 chunks.
 
 **Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-> *Viết 1-2 câu:*
+> *Viết 1-2 câu:* Nếu overlap = 100, số lượng chunk sẽ tăng lên thành 25 (làm_tròn_lên(9900 / 400)). Việc tăng độ chồng chéo giúp đảm bảo bối cảnh giữa các câu ở ranh giới cắt không bị đứt đoạn, giữ cho ngữ nghĩa được toàn vẹn.
 
 ---
 

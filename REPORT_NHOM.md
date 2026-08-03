@@ -1,8 +1,8 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** [Tên nhóm]
-**Thành viên:** [Họ tên từng thành viên]
-**Ngày:** [Ngày nộp]
+**Nhóm:** Balerion
+**Thành viên:** Nguyễn Văn Đại, Trần Hoàng Vũ, Ngô Minh Phong, Nguyễn Thùy Trang
+**Ngày:** 2026-08-03
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 
@@ -17,28 +17,31 @@
 **Chủ đề (cố định theo lớp K3):** Dịch vụ / quy định đại học (đăng ký môn, học phí, học bổng, thư viện, ký túc xá…).
 
 **Phạm vi cụ thể nhóm tập trung:**
-> *1 câu — ví dụ: thư viện + đăng ký môn học.*
+> *Nhóm tập trung vào các chính sách tuyển sinh, quy chế học thuật, quy định học bổng và các mốc thời gian quan trọng áp dụng cho các chương trình đào tạo của VinUni năm 2026.*
 
 ### Danh sách tài liệu (Data Inventory)
 
 | # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
 |---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Chính sách và quy định | https://registrar.vinuni.edu.vn/vi/ho... | 2026-08-03 / not-stated | 4,993 | audience, department, category, language |
+| 2 | Tuyển sinh đại học VinUni năm 2026 - Hướng dẫn ứng tuyển | https://admissions.vinuni.edu.vn/vi/d... | 2026-08-03 / not-stated | 5,271 | audience, department, category, language |
+| 3 | Các mốc quan trọng trong tuyển sinh đại học VinUni năm 2026 | https://admissions.vinuni.edu.vn/vi/d... | 2026-08-03 / not-stated | 3,860 | audience, department, category, language |
+| 4 | Chương trình Thạc sĩ Khoa học Máy tính VinUni năm 2026 | https://admissions.vinuni.edu.vn/vi/t... | 2026-08-03 / not-stated | 2,438 | audience, department, category, language |
+| 5 | Chương trình học bổng VinUni năm 2026 dành cho sinh viên đại học | https://admissions.vinuni.edu.vn/vi/h... | 2026-08-03 / not-stated | 3,674 | audience, department, category, language |
+| 6 | Tuyển sinh chương trình Tiến sĩ VinUni năm 2026 | https://admissions.vinuni.edu.vn/vi/c... | 2026-08-03 / not-stated | 1,751 | audience, department, category, language |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [x] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [x] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
 |----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+| audience | chuỗi | "student" | Giúp lọc tài liệu nhắm đúng đối tượng người đọc (ví dụ: chỉ tìm thông tin cho sinh viên). |
+| department | chuỗi | "admissions", "registrar" | Giúp giới hạn kết quả vào phòng ban quản lý vấn đề đó (như phòng tuyển sinh hay giáo vụ), tránh thông tin không liên quan. |
+| category | chuỗi | "scholarships", "policies-regulation" | Phân loại nội dung tài liệu để hệ thống có thể ưu tiên tìm kiếm trong những nhóm chủ đề cụ thể một cách nhanh chóng. |
+| language | chuỗi | "vi" | Cho phép hệ thống lọc tài liệu theo đúng ngôn ngữ người dùng đang hỏi, tránh nhầm lẫn. |
 
 ---
 
