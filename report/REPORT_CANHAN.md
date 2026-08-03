@@ -163,9 +163,9 @@ Dự đoán được ghi **trước** khi chạy; điểm thực tế đo bằng
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-> ⚠️ **Kết quả dưới đây là TẠM THỜI.** Nhóm chưa chốt bộ tài liệu 5–10 văn bản và 5 câu hỏi đánh giá chung (Giai đoạn 2). Tôi chạy trước trên **bộ khởi động `data/k3_university/` (2 tài liệu → 3 chunk)** với 5 câu hỏi tự đặt, để kiểm chứng pipeline cá nhân đã đúng. **Cần chạy lại và cập nhật bảng này bằng đúng 5 câu hỏi nhóm chốt trong `REPORT_NHOM.md`.**
+> **Cấu hình:** corpus nhóm `data/k3_university/` (9 tài liệu công khai IUH → **135 chunk**), `EMBEDDING_PROVIDER=local` (`paraphrase-multilingual-MiniLM-L12-v2`), chunker `FixedSizeChunker(chunk_size=500, overlap=50)` — baseline mặc định của `ingest.build_knowledge_base`, `top_k=3`. Đúng 5 câu hỏi nhóm đã chốt trong `REPORT_NHOM.md` mục 3.
 >
-> Cấu hình: `EMBEDDING_PROVIDER=local`, chunker `FixedSizeChunker(chunk_size=500, overlap=50)` (mặc định của `ingest.build_knowledge_base`), `top_k=3`.
+> Cột "Câu trả lời của Agent" là nội dung mà ngữ cảnh truy xuất được **cho phép** trả lời — `main.py` dùng `demo_llm` (LLM giả lập in lại prompt), nên tôi đánh giá dựa trên việc ngữ cảnh có chứa đủ dữ kiện hay không, chứ không phải trên văn bản do một LLM thật sinh ra.
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
