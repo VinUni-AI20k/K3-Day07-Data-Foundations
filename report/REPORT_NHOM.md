@@ -34,6 +34,7 @@
 | 9 | Quy định xét cấp học bổng khuyến khích | https://daotao.ueh.edu.vn/quy-dinh-xet-cap-hoc-bong-khuyen-khich-hoc-tap-cho-sinh-vien-dai-hoc-chinh-quy/ | 2026-08-03 / not-stated | 5,283 | audience, department, category, language |
 | 10 | Dịch vụ thẻ sinh viên UEH | https://dsa.ueh.edu.vn/chuyen-trang-ho-tro-dich-vu-tien-ich-ueh/the-sinh-vien/ | 2026-08-03 / not-stated | 1,558 | audience, department, category, language |
 | 11 | Mức học phí năm 2026–2027 | https://dsa.ueh.edu.vn/tin-tuc/thong-bao-ve-muc-hoc-phi-cac-he-dao-tao-nam-hoc-2026-2027-hoc-ky-cuoi-2026-hoc-ky-dau-2027-va-chinh-sach-ho-tro-hoc-phi-hoc-ky-cuoi-2026/ | 2026-08-03 / 2026-2027 | 1,076 | audience, department, category, language |
+| 12 | Quy định tư vấn học tập ĐHCQ | https://daotao.ueh.edu.vn/quy-dinh-cong-tac-tu-van-hoc-tap-doi-voi-sinh-vien-he-dai-hoc-chinh-quy/ | 2026-08-03 / 2016-10-24 | 12,993 | audience=faculty, department=dao-tao, category, language |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
 - [x] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
@@ -74,8 +75,12 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 | Thẻ sinh viên (`ueh-student-card-services`, 1.558 ký tự body) | FixedSizeChunker | 4 | 390 | Ổn — văn bản ngắn, ít mất ngữ cảnh |
 | | SentenceChunker | 2 | 777 | Tốt — gần như cả quy trình 5 bước nằm trong 1–2 chunk |
 | | RecursiveChunker | 4 | 396 | Ổn — tách theo heading con, quy trình Bước 1–5 vẫn gần nhau |
+| Quy định tư vấn học tập (`ueh-academic-advising-regulation`, 12.993 ký tự body) | FixedSizeChunker | 26 | 500 | Kém — cắt giữa Điều, mất context Chương |
+| | SentenceChunker | 66 | 195 | Kém — chunk quá nhỏ, tách rời các khoản trong cùng Điều |
+| | RecursiveChunker | 29 | 446 | Khá — tách tại `\n\n` nhưng không nhận biết cấu trúc Chương/Điều |
+| | **HeadingChunker** | **29** | **539** | **Tốt nhất — mỗi chunk = 1 Điều hoàn chỉnh, kèm heading Chương cha** |
 
-**Nhận xét baseline:** Với thông báo/quy định UEH (nhiều mục, bảng, bullet), `recursive` thường tạo nhiều chunk hơn nhưng giữ cấu trúc đoạn tốt hơn. `by_sentences` phù hợp văn bản mô tả liền mạch (quy trình ngắn) nhưng dễ gộp nhiều ý không liên quan trên tài liệu dài.
+**Nhận xét baseline:** Với thông báo/quy định UEH (nhiều mục, bảng, bullet), `recursive` thường tạo nhiều chunk hơn nhưng giữ cấu trúc đoạn tốt hơn. `by_sentences` phù hợp văn bản mô tả liền mạch (quy trình ngắn) nhưng dễ gộp nhiều ý không liên quan trên tài liệu dài. Với tài liệu có cấu trúc pháp lý rõ ràng (Chương/Điều), `HeadingChunker` vượt trội vì giữ nguyên ranh giới ngữ nghĩa tự nhiên và cung cấp heading context cho mỗi chunk.
 
 ### Chiến lược của từng thành viên
 
@@ -88,9 +93,28 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 - **Kết quả nạp corpus:** 75 chunk (mock embedder); cần `EMBEDDING_PROVIDER=local` để đánh giá retrieval có nghĩa ở CP6.
 
 **Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
+- **Loại chiến lược:** Custom — `HeadingChunker` (chia theo tiêu đề/mục)
+- **Mô tả & lý do chọn cho chủ đề này:** Thiết kế riêng cho tài liệu quy định học vụ UEH vốn có cấu trúc phân cấp rõ ràng: Chương (Chapter) → Điều (Article) → khoản. Chunker tách tại ranh giới tiêu đề markdown (`#`/`##`) và cấu trúc pháp lý Việt Nam (`Chương I`, `Điều 1.`), mỗi chunk là một Điều/section hoàn chỉnh. Đặc biệt, chunk được gắn heading cha (parent context) giúp kết quả truy xuất tự giải thích — ví dụ chunk `Điều 12` luôn kèm tiêu đề `Chương IV` phía trên. Trade-off: tài liệu không có heading (thông báo ngắn, bảng phí) sẽ thành 1 chunk lớn duy nhất.
+- **Tham số:** `HeadingChunker(max_chunk_size=1500, include_parents=True)` — chạy `python scripts/bench.py --chunker heading`
+- **Kết quả nạp corpus:** 63 chunk (mock embedder); 2/5 top-3 (câu #3 thẻ sinh viên — top-1, câu #5 KTX filter — top-1). Cần `EMBEDDING_PROVIDER=local` để đánh giá retrieval có nghĩa.
+- **Code snippet:**
+
+```python
+class HeadingChunker:
+    """Chia tài liệu theo heading: markdown (#/##) và pháp lý VN (Chương, Điều).
+    
+    Mỗi chunk = 1 section, kèm heading cha cho context.
+    max_chunk_size=1500 đảm bảo không quá dài; section vượt giới hạn 
+    được split thêm theo paragraph.
+    """
+    _SPLIT_PATTERN = re.compile(
+        r'^(?=#{1,4}\s|Chương\s+[IVXLCDM\d]|Điều\s+\d+\.)',
+        re.MULTILINE | re.IGNORECASE,
+    )
+    
+    def __init__(self, max_chunk_size=1500, include_parents=True): ...
+    def chunk(self, text: str) -> list[str]: ...
+```
 
 **Thành viên 3 — [Tên]**
 - **Loại chiến lược:**
@@ -99,10 +123,10 @@ Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu đại diệ
 
 ### So Sánh Giữa Các Thành Viên
 
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-|-----------|----------|----------------------|-----------|----------|
-| Thành viên 1 | SentenceChunker (`max_sentences_per_chunk=3`) | *(CP6 — chạy lại với `EMBEDDING_PROVIDER=local`)* | Chunk ít hơn recursive (75 vs 112); quy trình ngắn gom tốt | Mock embedder: 0/5 top-3; tài liệu dài dễ gộp nhiều mục |
-| | | | | |
+| Thành viên | Chiến lược (Strategy) | Số chunk | Điểm truy xuất (mock) | Điểm mạnh | Điểm yếu |
+|-----------|----------|------|----------------------|-----------|----------|
+| Thành viên 1 | SentenceChunker (`max_sentences_per_chunk=3`) | 75 | 0/5 top-3 (mock) | Giữ câu trọn vẹn; quy trình ngắn gom tốt | Tài liệu dài dễ gộp nhiều ý không liên quan |
+| Thành viên 2 | HeadingChunker (`max_chunk_size=1500, include_parents=True`) | 63 | 2/5 top-3 (mock) | Chunk = 1 Điều/section hoàn chỉnh, có heading context; ít chunk hơn → ít nhiễu | Tài liệu không có heading thành 1 chunk lớn; chunk dài hơn trung bình |
 | | | | | |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
