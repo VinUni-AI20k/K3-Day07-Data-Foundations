@@ -1,3 +1,7 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+policies-regulation,data\k3_university\policies-regulation.md,Chính sách và quy định,https://registrar.vinuni.edu.vn/vi/hoc-thuat-dich-vu/chinh-sach-quy-dinh/,2026-08-03,not-stated,public-source
+admission-guideline-2026,data\k3_university\admission-guideline-2026.md,Tuyển sinh đại học VinUni năm 2026 - Hướng dẫn ứng tuyển,https://admissions.vinuni.edu.vn/vi/dai-hoc/ung-tuyen-vao-vinuni/ung-vien-nam-nhat/,2026-08-03,not-stated,public-source
+important-dates-2026,data\k3_university\important-dates-2026.md,Các mốc quan trọng trong tuyển sinh đại học VinUni năm 2026,https://admissions.vinuni.edu.vn/vi/dai-hoc/nhung-moc-quan-trong/,2026-08-03,not-stated,public-source
+master-of-science-computer-science-2026,data\k3_university\master-of-science-computer-science-2026.md,Chương trình Thạc sĩ Khoa học Máy tính VinUni năm 2026,https://admissions.vinuni.edu.vn/vi/thac-si-khoa-hoc-may-tinh/,2026-08-03,not-stated,public-source
+undergraduate-scholarships-2026,data\k3_university\undergraduate-scholarships-2026.md,Chương trình học bổng VinUni năm 2026 dành cho sinh viên đại học,https://admissions.vinuni.edu.vn/vi/hoc-bong-va-ho-tro-tai-chinh/cu-nhan/hoc-bong/,2026-08-03,not-stated,public-source
+phd-admissions-2026,data\k3_university\phd-admissions-2026.md,Tuyển sinh chương trình Tiến sĩ VinUni năm 2026,https://admissions.vinuni.edu.vn/vi/chuong-trinh-sau-dai-hoc/tien-si/,2026-08-03,not-stated,public-source

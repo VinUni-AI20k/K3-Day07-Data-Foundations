@@ -1,2 +1,8 @@
 url,doc_id,title,audience,department,category,language,document_version,license_or_permission
-https://example.edu/library/renewal,library-renewal-policy,Quy định gia hạn tài liệu thư viện,student,library,borrowing-policy,vi,not-stated,public-source
+https://registrar.vinuni.edu.vn/vi/hoc-thuat-dich-vu/chinh-sach-quy-dinh/, policies-regulation,Chính sách và quy định,student,registrar,policies-regulation,vi,not-stated,public-source
+https://admissions.vinuni.edu.vn/vi/dai-hoc/ung-tuyen-vao-vinuni/ung-vien-nam-nhat/, admission-guideline-2026,Tuyển sinh đại học VinUni năm 2026 - Hướng dẫn ứng tuyển, student, admissions, admission-guideline, vi, not-stated, public-source
+https://admissions.vinuni.edu.vn/vi/dai-hoc/nhung-moc-quan-trong/, important-dates-2026,Các mốc quan trọng trong tuyển sinh đại học VinUni năm 2026, student, admissions, admission-timeline, vi, not-stated, public-source
+https://admissions.vinuni.edu.vn/vi/thac-si-khoa-hoc-may-tinh/, master-of-science-computer-science-2026,Chương trình Thạc sĩ Khoa học Máy tính VinUni năm 2026, student, admissions, program-details, vi, not-stated, public-source
+https://admissions.vinuni.edu.vn/vi/hoc-bong-va-ho-tro-tai-chinh/cu-nhan/hoc-bong/, undergraduate-scholarships-2026,Chương trình học bổng VinUni năm 2026 dành cho sinh viên đại học, student, admissions, scholarships, vi, not-stated, public-source
+https://admissions.vinuni.edu.vn/vi/chuong-trinh-sau-dai-hoc/tien-si/,phd-admissions-2026,Tuyển sinh chương trình Tiến sĩ VinUni năm 2026, student, admissions, phd-admissions, vi, not-stated, public-source
+

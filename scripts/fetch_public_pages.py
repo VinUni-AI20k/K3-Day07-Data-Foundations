@@ -78,7 +78,7 @@ class TextExtractor(HTMLParser):
         self.parts.append(data)
 
     def text(self) -> str:
-        text = "".join(self.parts)
+        text = "".join(self.parts).replace("\r", "")
         text = re.sub(r"[ \t]+", " ", text)
         text = re.sub(r"\n[ \t]+", "\n", text)
         text = re.sub(r"\n{3,}", "\n\n", text)
@@ -123,8 +123,16 @@ def robots_allowed(url: str, user_agent: str) -> bool:
     robots_url = f"{parsed.scheme}://{parsed.netloc}/robots.txt"
     parser = RobotFileParser(robots_url)
     try:
-        parser.read()
-    except (HTTPError, URLError, OSError) as error:
+        req = Request(robots_url, headers={"User-Agent": user_agent})
+        with urlopen(req, timeout=10) as response:
+            lines = response.read().decode("utf-8", errors="replace").splitlines()
+        parser.parse(lines)
+    except HTTPError as error:
+        if error.code in (401, 403):
+            parser.disallow_all = True
+        else:
+            parser.allow_all = True
+    except (URLError, OSError, TimeoutError) as error:
         print(f"Skipping {url}: cannot verify {robots_url} ({error})", file=sys.stderr)
         return False
     if not parser.can_fetch(user_agent, url):
