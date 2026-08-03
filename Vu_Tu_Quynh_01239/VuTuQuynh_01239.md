@@ -1,4 +1,4 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+﻿# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
 **Họ tên:** Vũ Tú Quỳnh
 **Nhóm:** [Tên nhóm]
@@ -169,24 +169,23 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Tôi sử dụng cùng 5 câu hỏi benchmark đã thống nhất trong `REPORT_NHOM.md`. Các câu hỏi được chạy trên cùng bộ dữ liệu K3 và kiểm tra kết quả top-3. Chiến lược của tôi gồm Fixed Size và Chunk By Header; bảng dưới đây ghi nhận kết quả retrieval dùng để so sánh hai cách chia nhỏ.
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-| - | ----------------- | ------------------------------------------ | ------------ | --------------------------------- | ------------------------------------- |
-| 1 |                   |                                            |              |                                   |                                       |
-| 2 |                   |                                            |              |                                   |                                       |
-| 3 |                   |                                            |              |                                   |                                       |
-| 4 |                   |                                            |              |                                   |                                       |
-| 5 |                   |                                            |              |                                   |                                       |
+|---:|---|---|---:|---|---|
+| 1 | Trên SIS, trạng thái nào xác nhận đăng ký môn học thành công? “Selected” có ý nghĩa gì và xem danh sách môn ở đâu? | `dangkymonhoc::chunk_9`; nội dung về `Registered`, `Selected` và `Your Class Schedule`. | 0.777044 | Có | Môn chỉ đăng ký thành công khi ở trạng thái `Registered`; `Selected` mới là trạng thái đã chọn; kiểm tra tại `Your Class Schedule`. |
+| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định từ năm hai và ngoại lệ sức khỏe/tôn giáo thế nào? | `ktx::chunk_1`; nội dung về nghĩa vụ ở KTX của năm nhất và các trường hợp xin đặc cách. | 0.789366 | Có | Năm nhất bắt buộc ở KTX; từ năm hai không còn bắt buộc; trường hợp sức khỏe hoặc tôn giáo có thể làm đơn xin xem xét. |
+| 3 | Sinh viên đại học được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần? | `thuvien::chunk_13`; bảng quyền mượn tài liệu dành cho sinh viên đại học. | 0.735846 | Có | Được mượn tối đa 3 tài liệu trong 2 tuần và gia hạn 1 lần. Câu hỏi này cần lọc metadata `audience=student` để giảm nhiễu. |
+| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào thời điểm nào? | `hocphi_hocbong::chunk_2`; nội dung về thanh toán học phí và hai đợt đóng trong năm. | 0.831314 | Có | Có thể quẹt thẻ Visa trực tiếp tại Phòng Kế toán - Tài chính hoặc chuyển tiền online qua Salesforce; học phí đóng hai đợt mỗi năm vào đầu kỳ Mùa thu và Mùa xuân. |
+| 5 | Theo quy trình xét tốt nghiệp, sinh viên nộp đơn, được xét/ra quyết định và nhận bằng vào tháng nào? | `totnghiep::chunk_4`; nội dung về các mốc thời gian xét tốt nghiệp. | 0.836787 | Có | Nộp đơn khoảng tháng 4, được xét và ra quyết định vào tháng 8, nhận bằng và bảng điểm vào tháng 9. |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
+
+**Đánh giá:** Cả 5 câu hỏi đều có chunk liên quan trong top-3. Các câu 1, 2, 4 và 5 chứa đủ thông tin chính trong chunk đứng đầu. Câu 3 là trường hợp cần chú ý metadata vì cùng các từ khóa về “mượn tài liệu” có thể xuất hiện ở nhiều nhóm đối tượng; bộ lọc `audience=student` giúp tăng độ chính xác và giảm kết quả nhiễu.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 
-> *Viết 2-3 câu:*
-
----
-
+> Tôi học được rằng điểm similarity cao chưa đủ để kết luận câu trả lời tốt; cần kiểm tra nội dung top-3 và đối chiếu với gold answer. Ngoài ra, việc kết hợp metadata filter với chunking phù hợp giúp retrieval chính xác hơn, đặc biệt với các tài liệu thư viện có nhiều nhóm đối tượng và quyền mượn khác nhau.
 ## Tự Đánh Giá (Phần Cá Nhân)
 
 | Tiêu chí                                           | Điểm tự đánh giá |
@@ -197,3 +196,4 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Dự đoán độ tương tự (Similarity Predictions) | 5 / 5                 |
 | Kết quả truy xuất của tôi (Competition Results) | 10 / 10                |
 | **Tổng phần cá nhân**                      | **60 / 60**      |
+
