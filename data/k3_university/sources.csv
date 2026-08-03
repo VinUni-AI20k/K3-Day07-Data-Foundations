@@ -1,3 +1,8 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+totnghiep,data/k3_university/totnghiep.md,Quy định Tốt nghiệp,https://registrar.vinuni.edu.vn/vi/hoc-thuat-dich-vu/tot-nghiep/,2026-08-03,2026.1,public-page
+tuyensinh,data/k3_university/tuyensinh.md,Tuyển sinh Đại học,https://admissions.vinuni.edu.vn/vi/dai-hoc/cau-hoi-thuong-gap/tuyen-sinh/,2026-08-03,2026.1,public-page
+ctdt,data/k3_university/ctdt.md,Chương trình đào tạo,https://admissions.vinuni.edu.vn/vi/dai-hoc/cau-hoi-thuong-gap/chuong-trinh-dao-tao/,2026-08-03,2026.1,public-page
+thuvien,data/k3_university/thuvien.md,Quy định sử dụng Thư viện,https://policy.vinuni.edu.vn/all-policies/library-policies-for-users/,2026-08-03,2026.1,public-page
+dangkymonhoc,data/k3_university/dangkymonhoc.md,Thời khóa biểu & Đăng ký học phần,https://registrar.vinuni.edu.vn/vi/hoc-thuat-dich-vu/thoi-khoa-bieu-dang-ky-hoc-phan/,2026-08-03,2026.1,public-page
+hocphi_hocbong,data/k3_university/hocphi_hocbong.md,Học phí Học bổng và Hỗ trợ Tài chính,https://admissions.vinuni.edu.vn/vi/dai-hoc/cau-hoi-thuong-gap/hoc-phi-hoc-bong-va-ho-tro-tai-chinh/,2026-08-03,2026.1,public-page
+ktx,data/k3_university/ktx.md,Cuộc sống tại Ký túc xá,https://admissions.vinuni.edu.vn/vi/dai-hoc/cau-hoi-thuong-gap/,2026-08-03,2026.1,public-page
