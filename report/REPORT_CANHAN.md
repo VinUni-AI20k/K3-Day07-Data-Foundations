@@ -148,22 +148,28 @@ Chạy bằng `_mock_embed` (chưa cài `sentence-transformers` nên chưa thử
 
 ## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Chạy **5 câu hỏi đánh giá của nhóm** (bộ query chính thức trong `scripts/bench.py`) trên mã nguồn cá nhân, chiến lược `FixedSizeChunker(chunk_size=500, overlap=50)`, corpus `data/ueh_university/` (10 tài liệu, 118 chunk). Lệnh chạy thật:
 
-> ⏳ **Đang chờ 5 câu hỏi benchmark chính thức từ Benchmark owner của nhóm.** Corpus (`data/ueh_university/`, 10 tài liệu) và chiến lược cá nhân (`FixedSizeChunker`, đang tune `overlap`) đã sẵn sàng để chạy ngay khi có 5 câu hỏi + gold answer thống nhất. Sẽ điền bảng dưới đây bằng kết quả thật (top-1 chunk, score, agent answer) chạy với `EMBEDDING_PROVIDER=local` — không điền số liệu giả trước khi có query chính thức để tránh sai lệch với báo cáo nhóm.
+```
+EMBEDDING_PROVIDER=local python scripts/bench.py --chunker fixed_size --top-k 3
+```
+
+> Lưu ý: `demo_llm` trong `bench.py` chỉ là stub echo lại preview của prompt (không phải LLM thật sinh câu trả lời tự do) — cột "Agent" dưới đây phản ánh **nội dung có sẵn trong context được truyền cho LLM**, không phải văn phong một câu trả lời hoàn chỉnh.
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Sinh viên có được đăng ký mã học phần đang chờ lịch thi...? | "...Sinh viên không được phép đăng ký mã học phần đang chờ lịch thi hoặc chờ kết quả điểm thi..." (`ueh-course-registration-plan-hk-cuoi-2025`) | 0.7587 | Có — đúng doc & đúng câu ở top-1 | Context chứa đúng câu trả lời chuẩn nguyên văn |
+| 2 | Sinh viên không nộp học phí đúng hạn HK cuối 2025 sẽ bị xử lý thế nào? | Top-1 lại là `ueh-tuition-fee-2026-2027` (SAI doc, score 0.7691) — doc đúng `ueh-course-registration-plan-hk-cuoi-2025` chỉ xếp Top-2 (0.7432) và Top-3 (0.7234) | 0.7691 (top-1, sai doc) | Có, nhưng không ở top-1 — đã lọt top-3 ở rank 2 | Context top-3 vẫn có đúng đoạn (rank 2), nhưng đoạn xóa tên khỏi lớp cụ thể nằm ở phần khác của cùng doc chưa chắc lọt |
+| 3 | Các bước đăng ký cấp thẻ sinh viên nhựa tại UEH là gì? | Đúng doc `ueh-student-card-services` ở cả Top-1/2/3, nhưng nội dung "Bước 3: 100,000đ...Bước 5: A203" nằm cuối tài liệu — không thấy rõ trong 3 chunk đầu (`chunk_size=500` cắt tài liệu 1.558 ký tự thành ~4 chunk, top_k=3 có thể bỏ sót chunk cuối) | 0.7825 | Có, nhưng thiếu chi tiết — đúng doc, nghi ngờ thiếu chunk chứa bước cuối | Context có thể thiếu "Bước 5" nếu chunk 4 bị top_k=3 loại |
+| 4 | UEH Smart Library cung cấp quyền truy cập CSDL học thuật quốc tế nào? | "...UEH Smart Library còn cung cấp quyền truy cập ScienceDirect, SpringerLink..." (`ueh-library-reading-culture`) | 0.8743 | Có — đúng doc & đúng câu ở top-1 | Context chứa đúng danh sách CSDL |
+| 5 | Thời gian thanh toán nội trú phí KTX Quý III (7,8,9) là khi nào? (filter `document_version=2026-q3`) | "...Thông báo về việc thu nội trú phí Ký túc xá Quý III/2026..." (`ueh-dorm-fee-2026-q3`, đúng năm nhờ filter) | 0.7307 | Có — đúng doc, đúng năm nhờ metadata filter | Context chứa đúng mốc thời gian 01/7/2026–13/7/2026 |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5 (đúng `expected_doc_id` trong top-3: 5/5; đúng ở top-1: 4/5 — câu #2 là failure case, xem phân tích bên dưới).
+
+**Nhận xét (failure case thật, không phải giả định):** Câu #2 là ví dụ rõ nhất về giới hạn của `FixedSizeChunker` + dot-product ranking thuần: `ueh-tuition-fee-2026-2027` (một tài liệu nói về học phí nói chung) xếp hạng cao hơn tài liệu đúng vì cả hai đều chứa nhiều từ khóa "học phí". Cắt cứng theo 500 ký tự không giữ được liên kết ngữ nghĩa giữa điều kiện ("không nộp học phí đúng hạn") và hậu quả ("xóa tên khỏi danh sách lớp") nếu chúng nằm cách xa nhau trong văn bản gốc — đây là đúng loại lỗi mà `RecursiveChunker`/`HeadingChunker` (tách theo đoạn/heading tự nhiên) khắc phục tốt hơn, đã verify: `recursive` xếp đúng doc ở Top-1 (0.8030) cho chính câu hỏi này.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *Viết sau buổi so sánh trong nhóm.*
+> *Viết sau buổi so sánh trong nhóm — phần thuyết trình/demo giữa các nhóm chưa diễn ra tại thời điểm nộp báo cáo này.*
 
 ---
 
@@ -175,5 +181,5 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
 | Hoàn thiện code (Core Implementation — tests) | 30 / 30 |
 | Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | 0 / 10 (chờ 5 query chính thức của nhóm) |
-| **Tổng phần cá nhân** | **50 / 60** (tạm tính — sẽ đạt 60/60 sau khi điền Phần 5) |
+| Kết quả truy xuất của tôi (Competition Results) | 8 / 10 (5/5 top-3, 4/5 top-1; câu #2 mất điểm vì đúng doc không ở top-1) |
+| **Tổng phần cá nhân** | **58 / 60** |

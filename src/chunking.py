@@ -113,6 +113,87 @@ class RecursiveChunker:
         return chunks
 
 
+class HeadingChunker:
+    """
+    Split text at heading boundaries: markdown headings (#, ##, ...) and
+    Vietnamese legal-document structure (``Chương I``, ``Điều 1. ...``).
+
+    Each section runs from one heading to the next. Non-top-level sections
+    (e.g. ``Điều``) are prefixed with their nearest top-level heading
+    (markdown H1 or ``Chương``) so a chunk stays self-explanatory on its own.
+    Sections longer than max_chunk_size are further split on blank lines.
+    """
+
+    _HEADING_LINE = re.compile(
+        r"^(#{1,6}\s+\S.*|Chương\s+[IVXLCDM\d]+\s*$|Điều\s+\d+\..*)$",
+        re.MULTILINE,
+    )
+    _TOP_LEVEL = re.compile(r"^(#\s+\S.*|Chương\s+[IVXLCDM\d]+\s*)$")
+
+    def __init__(self, max_chunk_size: int = 1500, include_parent_heading: bool = True) -> None:
+        self.max_chunk_size = max_chunk_size
+        self.include_parent_heading = include_parent_heading
+
+    def chunk(self, text: str) -> list[str]:
+        if not text:
+            return []
+
+        matches = list(self._HEADING_LINE.finditer(text))
+        if not matches:
+            return self._split_oversized(text.strip())
+
+        sections: list[str] = []
+        if matches[0].start() > 0:
+            preamble = text[: matches[0].start()].strip()
+            if preamble:
+                sections.append(preamble)
+
+        parent_heading = ""
+        for index, match in enumerate(matches):
+            heading = match.group().strip()
+            start = match.end()
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+            body = text[start:end].strip()
+
+            if self._TOP_LEVEL.match(heading):
+                parent_heading = heading
+                content = f"{heading}\n{body}" if body else heading
+            else:
+                prefix = f"{parent_heading}\n{heading}" if self.include_parent_heading and parent_heading else heading
+                content = f"{prefix}\n{body}" if body else prefix
+
+            sections.append(content)
+
+        chunks: list[str] = []
+        for section in sections:
+            if len(section) <= self.max_chunk_size:
+                chunks.append(section)
+            else:
+                chunks.extend(self._split_oversized(section))
+        return chunks
+
+    def _split_oversized(self, text: str) -> list[str]:
+        if not text:
+            return []
+        parts = [p.strip() for p in text.split("\n\n") if p.strip()]
+        if not parts:
+            return [text]
+
+        chunks: list[str] = []
+        current = ""
+        for part in parts:
+            candidate = f"{current}\n\n{part}" if current else part
+            if len(candidate) <= self.max_chunk_size:
+                current = candidate
+            else:
+                if current:
+                    chunks.append(current)
+                current = part
+        if current:
+            chunks.append(current)
+        return chunks
+
+
 def _dot(a: list[float], b: list[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
 
