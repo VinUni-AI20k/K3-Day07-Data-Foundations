@@ -99,15 +99,17 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 ### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
 
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
+> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy. Vị trí "Chunk nào chứa thông tin" được xác định bằng chiến lược `FixedSizeChunker(chunk_size=500, overlap=50)` (Người 1) — các thành viên khác dùng chiến lược riêng có thể ra chunk id khác, nhưng nội dung nguồn tham chiếu là như nhau.
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Mỗi học kỳ, sinh viên được đăng ký tối thiểu và tối đa bao nhiêu tín chỉ? | Tối thiểu 08 tín chỉ, tối đa 16 tín chỉ mỗi học kỳ (mục 1.5.3). | `k3-course-registration::chunk_1` |
+| 2 | Nếu sinh viên còn nợ học phí của học kỳ trước thì điều gì xảy ra khi đăng ký học kỳ tiếp theo? | Sinh viên còn nợ học phí của các học kỳ trước sẽ **không được đăng ký học phần** của học kỳ tiếp theo. | `k3-tuition-payment::chunk_2` (bối cảnh liên quan nằm ở `chunk_1`) |
+| 3 | *(cần metadata_filter audience=student)* Sinh viên đạt học bổng khuyến khích học tập Loại A được nhận mức học bổng bằng bao nhiêu phần trăm số học phí đã nộp? | Loại A = 50% mức học bổng (Mức HB = Loại HB × số học phí sinh viên đã nộp trong năm học). | `k3-scholarship-policy::chunk_2` |
+| 4 | Chi phí ở ký túc xá phòng 8 sinh viên là bao nhiêu mỗi tháng? | 350.000 VNĐ/sinh viên/tháng. | `k3-dormitory-policy::chunk_0` |
+| 5 | Khu tự học ở tầng 6 của thư viện mở cửa vào những khung giờ nào? | Thứ 2 đến Chủ nhật, 6h30–22h. | `k3-library-services::chunk_2` |
+
+**Vì sao câu 3 cần `metadata_filter={"audience": "student"}`:** tài liệu thư viện (`k3-library-services`) gắn `audience=all` và cũng nhắc tới cụm "sinh viên" nhiều lần, có thể bị truy xuất chung với câu hỏi có từ khóa "sinh viên"/"khuyến khích" nếu tìm kiếm không lọc theo đối tượng. Lọc `audience=student` giúp loại các tài liệu không dành riêng cho sinh viên khỏi top-k trước khi tính điểm tương đồng.
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
