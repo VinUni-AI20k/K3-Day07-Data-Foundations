@@ -1,79 +1,156 @@
+"""Run a small, reproducible retrieval benchmark for the HUST corpus.
+
+Examples:
+    python3 bench.py --strategy heading --embedding mock
+    python3 bench.py --strategy heading --embedding local
+
+``mock`` is useful for checking the pipeline.  Use ``local`` when comparing
+retrieval quality; it loads the multilingual sentence-transformers model.
+"""
+
+from __future__ import annotations
+
+import argparse
 import sys
-sys.stdout.reconfigure(encoding='utf-8')
+from pathlib import Path
 
 from ingest import build_knowledge_base
-from src.agent import KnowledgeBaseAgent
-from src.embeddings import MockEmbedder
-from src.chunking import RecursiveChunker
+from src.chunking import HeadingSectionChunker, RecursiveChunker
+from src.embeddings import LocalEmbedder, MockEmbedder
+
 
 BENCHMARK_QUERIES = [
     {
         "id": 1,
-        "query": "Sinh viên bình thường và sinh viên bị cảnh báo học tập tại HUST được đăng ký tối đa bao nhiêu tín chỉ trong một học kỳ?",
-        "gold_answer": "Sinh viên bình thường được đăng ký 12-24 tín chỉ. Sinh viên bị cảnh báo học tập chỉ được đăng ký tối đa 14 tín chỉ (tối thiểu 10).",
-        "expected_doc": "hust-credit-training-regulation",
-        "filter": {"audience": "student"}
+        "query": (
+            "Theo thông báo kế hoạch học tập HUST, giới hạn tín chỉ của sinh viên "
+            "bình thường và sinh viên bị cảnh cáo học tập mức 2 hoặc 3 trong kỳ "
+            "2026-2027 là gì?"
+        ),
+        "gold_answer": (
+            "Mức đăng ký thông thường là 12-24 tín chỉ; sinh viên bị cảnh cáo "
+            "học tập mức 2 hoặc 3 được đăng ký tối đa 14 tín chỉ."
+        ),
+        "expected_doc": "hust-study-plan-2026",
+        "filter": {"audience": "student"},
     },
     {
         "id": 2,
-        "query": "Các bước thao tác đăng ký lớp môn học trên hệ thống CTT HUST như thế nào?",
-        "gold_answer": "Đăng nhập CTT -> Chọn mục Đăng ký lớp -> Nhập mã lớp kíp học -> Kiểm tra trùng thời khóa biểu -> Bấm Đăng ký và lưu phiếu.",
-        "expected_doc": "hust-course-registration-system-guide",
-        "filter": {"audience": "student"}
+        "query": "Quy trình đăng ký học phần dự định học trên CTT HUST gồm những bước nào?",
+        "gold_answer": (
+            "Đăng nhập CTT, chọn Đăng ký học tập rồi Đăng ký học phần, chọn học kỳ, "
+            "chọn mã học phần và gửi đăng ký."
+        ),
+        "expected_doc": "hust-study-plan-2026",
+        "filter": {"audience": "student"},
     },
     {
         "id": 3,
-        "query": "Hạn nộp học phí tín chỉ HUST và quy định xử lý khi chậm nộp học phí ra sao?",
-        "gold_answer": "Hạn nộp học phí thông báo theo từng kỳ. Chậm nộp học phí sẽ bị hủy danh sách đăng ký lớp và khóa quyền đăng ký kỳ tiếp theo.",
+        "query": "HUST tính học phí của sinh viên theo cơ sở nào?",
+        "gold_answer": (
+            "Học phí được tính theo số tín chỉ sinh viên đăng ký trong học kỳ và "
+            "thanh toán theo thời hạn thông báo."
+        ),
         "expected_doc": "hust-tuition-by-credits",
-        "filter": {"audience": "student"}
+        "filter": {"audience": "student"},
     },
     {
         "id": 4,
-        "query": "Thời gian đăng ký kế hoạch học tập kỳ 1 năm học 2026-2027 và kỳ hè 2025-2026 thực hiện vào lúc nào?",
-        "gold_answer": "Đăng ký kế hoạch học tập kỳ hè 2025-2026 và kỳ 1 2026-2027 thực hiện theo đợt từ tháng 3/2026 theo thông báo CTT 27235.",
-        "expected_doc": "hust-study-plan-2026",
-        "filter": {"audience": "student"}
+        "query": "Khi hệ thống báo lớp học đã hết chỗ, sinh viên HUST cần làm gì?",
+        "gold_answer": (
+            "Sinh viên cần điều chỉnh sang lớp khác còn chỗ trong thời gian hệ thống "
+            "cho phép đăng ký hoặc điều chỉnh."
+        ),
+        "expected_doc": "hust-class-registration-20261",
+        "filter": {"audience": "student"},
     },
     {
         "id": 5,
-        "query": "Sinh viên chương trình hợp tác quốc tế (SIE) có quy định gì riêng khi đăng ký học phần thay thế?",
-        "gold_answer": "Sinh viên SIE đăng ký học phần thay thế theo hướng dẫn riêng của Viện CNTT&TT (SoICT HUST) áp dụng cho các học phần không mở.",
+        "query": "Sinh viên SIE cần làm gì khi muốn đăng ký học phần thay thế?",
+        "gold_answer": (
+            "Liên hệ điều phối viên; học phần thay thế cần đúng tên, số tín chỉ hoặc "
+            "có phê duyệt tương đương theo hướng dẫn của chương trình."
+        ),
         "expected_doc": "hust-sie-course-substitution",
-        "filter": {"audience": "sie-student"}
-    }
+        "filter": {"audience": "sie-student"},
+    },
 ]
 
 
-def run_benchmark():
-    embedder = MockEmbedder()
-    chunker = RecursiveChunker(chunk_size=400)
-    store = build_knowledge_base("data/k3_university", embedding_fn=embedder, chunker=chunker)
-    
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Benchmark retrieval for the HUST corpus.")
+    parser.add_argument(
+        "--strategy",
+        choices=("recursive", "heading"),
+        default="heading",
+        help="Chunking strategy to evaluate (default: heading).",
+    )
+    parser.add_argument(
+        "--embedding",
+        choices=("mock", "local"),
+        default="mock",
+        help="Embedding backend. Use local for a meaningful retrieval comparison.",
+    )
+    parser.add_argument(
+        "--data-dir",
+        type=Path,
+        default=Path("data/k3_university"),
+        help="Directory containing the Markdown corpus.",
+    )
+    return parser.parse_args()
+
+
+def make_chunker(strategy: str):
+    if strategy == "heading":
+        return HeadingSectionChunker(chunk_size=400)
+    return RecursiveChunker(chunk_size=400)
+
+
+def make_embedder(backend: str):
+    if backend == "local":
+        return LocalEmbedder()
+    return MockEmbedder()
+
+
+def run_benchmark(strategy: str, embedding: str, data_dir: Path) -> None:
+    if not data_dir.is_dir():
+        raise FileNotFoundError(f"Corpus directory does not exist: {data_dir}")
+
+    embedder = make_embedder(embedding)
+    store = build_knowledge_base(
+        str(data_dir), embedding_fn=embedder, chunker=make_chunker(strategy)
+    )
+
     print("=" * 80)
     print("BENCHMARK RETRIEVAL RESULTS (HUST Academic Services Corpus)")
+    print(f"Chunking strategy: {strategy}")
+    print(f"Embedding backend: {embedding}")
     print("=" * 80)
 
     for item in BENCHMARK_QUERIES:
-        q_id = item["id"]
-        q_text = item["query"]
-        meta_filter = item.get("filter")
+        results = store.search_with_filter(
+            item["query"], top_k=3, metadata_filter=item["filter"]
+        )
+        doc_ids = [result["metadata"].get("doc_id") for result in results]
 
-        results = store.search_with_filter(q_text, top_k=3, metadata_filter=meta_filter)
-        
-        print(f"\nQuery {q_id}: {q_text}")
-        print(f"Filter applied: {meta_filter}")
-        print(f"Gold Answer: {item['gold_answer']}")
-        print("Top-3 Retrieved Chunks:")
-        for idx, r in enumerate(results, 1):
-            doc_id = r['metadata'].get('doc_id')
-            score = r['score']
-            snippet = r['content'][:100].replace('\n', ' ')
-            print(f"  [{idx}] doc_id={doc_id} | score={score:.4f} | snippet={snippet}...")
+        print(f"\nQuery {item['id']}: {item['query']}")
+        print(f"Filter applied: {item['filter']}")
+        print(f"Gold answer: {item['gold_answer']}")
+        print(f"Expected document: {item['expected_doc']}")
+        print(f"Expected document in top-3: {item['expected_doc'] in doc_ids}")
+        print("Top-3 retrieved chunks:")
+        for index, result in enumerate(results, 1):
+            doc_id = result["metadata"].get("doc_id")
+            score = result["score"]
+            snippet = result["content"][:100].replace("\n", " ")
+            print(f"  [{index}] doc_id={doc_id} | score={score:.4f} | snippet={snippet}...")
 
     print("\n" + "=" * 80)
     print(f"Total chunks in store: {store.get_collection_size()}")
 
 
 if __name__ == "__main__":
-    run_benchmark()
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+    arguments = parse_args()
+    run_benchmark(arguments.strategy, arguments.embedding, arguments.data_dir)
