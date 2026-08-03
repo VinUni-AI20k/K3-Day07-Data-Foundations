@@ -67,27 +67,37 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 | | SentenceChunker (`by_sentences`) | | | |
 | | RecursiveChunker (`recursive`) | | | |
 
-### Chiến lược của từng thành viên
+**Thành viên 1 — Nguyễn Xuân Phương (2A202601874 - Nhóm trưởng)**
+- **Loại chiến lược:** `SentenceChunker`
+- **Mô tả & lý do chọn:** Tách văn bản dựa theo ranh giới dấu câu (`. `, `! `, `? `) với nhóm `max_sentences_per_chunk=3`. Lý do chọn là vì văn bản quy định có các câu ngắn gọn chứa trọn vẹn thông báo.
 
-> Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
+**Thành viên 2 — Đào Văn B (Phụ trách Data)**
+- **Loại chiến lược:** `RecursiveChunker`
+- **Mô tả & lý do chọn:** Chia nhỏ đệ quy theo danh sách phân cách ưu tiên `["\n\n", "\n", ". ", " ", ""]` với `chunk_size=400`. Lý do chọn giúp duy trì linh hoạt ranh giới đoạn và dòng mà không làm rách câu.
 
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
+**Thành viên 3 — Nguyễn Đào Nam Hải (2A202601037 - Phụ trách Retrieval & Benchmark)**
+- **Loại chiến lược:** `CustomSectionHeaderChunker` (Custom Chunker)
+- **Mô tả & lý do chọn:** Tách văn bản dựa trên các tiêu đề Markdown (`#` và `##`). Văn bản quy định đại học luôn có cấu trúc tiêu đề từng điều khoản rõ ràng, việc tách theo Header giúp giữ trọn vẹn 1 điều khoản trong 1 chunk duy nhất, tránh cắt đứt ngữ cảnh.
 - **Code snippet (nếu custom):**
 ```python
-# Dán mã nguồn (implementation) vào đây
+import re
+
+class CustomSectionHeaderChunker:
+    def __init__(self, max_chunk_size: int = 600) -> None:
+        self.max_chunk_size = max_chunk_size
+
+    def chunk(self, text: str) -> list[str]:
+        if not text.strip():
+            return []
+        pattern = r'(?=\n##?\s+)'
+        sections = re.split(pattern, text)
+        chunks = []
+        for sec in sections:
+            sec_str = sec.strip()
+            if sec_str:
+                chunks.append(sec_str)
+        return chunks
 ```
-
-**Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
-
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
 
 ### So Sánh Giữa Các Thành Viên
 
