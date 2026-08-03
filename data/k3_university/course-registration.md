@@ -1,18 +1,19 @@
 ---
 doc_id: k3-course-registration
-title: Đăng ký học phần
+title: Quy trình đăng ký học phần UIT
 audience: student            # student | faculty | staff | all
 department: academic-affairs
+category: course-registration
 language: vi
-source_url: https://example.edu/hoc-vu/dang-ky-hoc-phan
-retrieved_at: 2026-08-02
-document_version: "2026.1"
+source_url: https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien
+retrieved_at: 2026-08-03
+document_version: "not-stated"
 ---
 
-> Khối metadata phía trên là **template mẫu** cho K3 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích khác như `department`). Thay bằng nguồn công khai thật của nhóm trước khi dùng làm benchmark.
+# Quy trình đăng ký học phần UIT
 
-# Đăng ký học phần (dữ liệu khởi động)
+Phòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.
 
-Sinh viên đăng ký học phần trong cổng học vụ theo lịch của từng học kỳ. Một học phần có thể yêu cầu học phần tiên quyết; sinh viên cần kiểm tra điều kiện trước khi xác nhận đăng ký.
+Ở bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực. Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời gian được công bố, nếu không các gợi ý chưa xác nhận sẽ bị xóa.
 
-Khi gặp lỗi trùng lịch, sinh viên điều chỉnh lớp học phần trước thời hạn điều chỉnh được công bố. Mọi yêu cầu ngoại lệ phải được gửi qua kênh hỗ trợ học vụ chính thức.
+Khi cần điều chỉnh đăng ký học phần, sinh viên thực hiện theo quy trình điều chỉnh do Phòng Đào tạo công bố. Các trường hợp cần biểu mẫu hoặc khiếu nại học vụ được xử lý qua các mục quy trình sinh viên tương ứng trên cổng thông tin.

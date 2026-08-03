@@ -4,6 +4,16 @@
 
 ---
 
+## Thành Viên Nhóm
+
+| Mã học viên | Tên học viên | Vai trò |
+|-------------|--------------|---------|
+| 2A202601297 | Trương Đình Khoa | Nhóm trưởng |
+| 2A202601689 | Diêm Công Thành | Thành viên |
+| 2A202601873 | Nguyễn Quang Huy | Thành viên |
+
+---
+
 ## Mục Tiêu
 
 Sau bài thực hành (lab) này, bạn cần có thể:
