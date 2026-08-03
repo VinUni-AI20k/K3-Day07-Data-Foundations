@@ -1,0 +1,52 @@
+[
+  {
+    "id": "Q1",
+    "question": "Sinh viên xác nhận đăng ký học phần ở hệ thống nào?",
+    "gold_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực.",
+    "expected_document_ids": ["k3-course-registration"],
+    "expected_evidence": ["dkhp.uit.edu.vn", "tài khoản chứng thực"],
+    "category": "course-registration",
+    "metadata_filter": null,
+    "pass_criteria": "Top-3 chứa chunk từ tài liệu đăng ký học phần có cả địa chỉ hệ thống và cách đăng nhập."
+  },
+  {
+    "id": "Q2",
+    "question": "Sinh viên được gia hạn học phí phải hoàn thành học phí trước ngày nào?",
+    "gold_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.",
+    "expected_document_ids": ["k3-tuition-extension"],
+    "expected_evidence": ["17/04/2026"],
+    "category": "tuition",
+    "metadata_filter": null,
+    "pass_criteria": "Top-3 chứa chunk nêu đúng hạn 17/04/2026."
+  },
+  {
+    "id": "Q3",
+    "question": "Học bổng khuyến khích học tập BCU cho sinh viên đứng đầu mỗi khóa/ngành là bao nhiêu?",
+    "gold_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành.",
+    "expected_document_ids": ["k3-bcu-scholarship-2026"],
+    "expected_evidence": ["3.500.000", "đứng đầu"],
+    "category": "scholarship",
+    "metadata_filter": null,
+    "pass_criteria": "Top-3 chứa chunk nêu cả đối tượng đứng đầu và mức 3.500.000 đồng."
+  },
+  {
+    "id": "Q4",
+    "question": "Tân sinh viên phải đăng ký ký túc xá trong bao nhiêu ngày sau khi hoàn tất thủ tục nhập học?",
+    "gold_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường.",
+    "expected_document_ids": ["k3-dormitory-registration"],
+    "expected_evidence": ["07 ngày", "hoàn tất thủ tục nhập học"],
+    "category": "dormitory",
+    "metadata_filter": {"audience": "student"},
+    "pass_criteria": "Tìm với audience=student; Top-3 chứa chunk nêu thời hạn 07 ngày và mốc bắt đầu."
+  },
+  {
+    "id": "Q5",
+    "question": "Sinh viên phải đóng bao nhiêu tiền bảo hiểm y tế năm 2026?",
+    "gold_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng.",
+    "expected_document_ids": ["k3-health-insurance-2026"],
+    "expected_evidence": ["sinh viên đóng 631.800 đồng"],
+    "category": "health-insurance",
+    "metadata_filter": null,
+    "pass_criteria": "Top-3 chứa chunk nêu trực tiếp phần sinh viên đóng 631.800 đồng."
+  }
+]

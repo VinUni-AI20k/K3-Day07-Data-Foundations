@@ -1,0 +1,1209 @@
+{
+  "environment": {
+    "python_version": "3.11.15",
+    "python_executable": "C:\\Users\\Huy\\K3-Day07-Data-Foundation-B1-3\\.venv\\Scripts\\python.exe",
+    "embedding_backend": "local",
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "actual_backend": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "vector_dimension": 384,
+    "fallback": false,
+    "top_k": 3,
+    "query_count": 5,
+    "corpus_document_count": 6
+  },
+  "strategies": [
+    {
+      "strategy_id": "S1_RECURSIVE_450",
+      "member": "Trương Đình Khoa",
+      "parameters": {
+        "chunk_size": 450,
+        "separators": [
+          "\\n\\n",
+          "\\n",
+          ". ",
+          " ",
+          ""
+        ]
+      },
+      "chunk_count": 17,
+      "metrics": {
+        "hit_at_1": 0.6,
+        "hit_at_3": 1.0,
+        "mrr": 0.7667,
+        "precision_at_3": 0.3333,
+        "coherence": 2.0,
+        "grounding": 1.6,
+        "metadata_filter_helped": 0
+      },
+      "traces": [
+        {
+          "query_id": "Q1",
+          "question": "Sinh viên xác nhận đăng ký học phần ở hệ thống nào?",
+          "gold_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực.",
+          "expected_document_ids": [
+            "k3-course-registration"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-course-registration::chunk_1",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.734731,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Ở bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực. Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời gian được công bố, nếu không các gợi ý chưa xác nhận sẽ bị xóa.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_2",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.67556,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Khi cần điều chỉnh đăng ký học phần, sinh viên thực hiện theo quy trình điều chỉnh do Phòng Đào tạo công bố. Các trường hợp cần biểu mẫu hoặc khiếu nại học vụ được xử lý qua các mục quy trình sinh viên tương ứng trên cổng thông tin."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.644772,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\n"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực."
+        },
+        {
+          "query_id": "Q2",
+          "question": "Sinh viên được gia hạn học phí phải hoàn thành học phí trước ngày nào?",
+          "gold_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.",
+          "expected_document_ids": [
+            "k3-tuition-extension"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-tuition-extension::chunk_2",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.745473,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Một số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để hỗ trợ chi phí học tập và sinh hoạt."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.701906,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-tuition-extension::chunk_0",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.67063,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Gia hạn học phí học kỳ 2 đợt 2 UIT\n\nPhòng Công tác Sinh viên hướng dẫn sinh viên có hoàn cảnh khó khăn và chưa đủ điều kiện đóng học phí học kỳ 2 đúng hạn làm đơn gia hạn học phí. Sinh viên đăng ký qua form trên hệ thống sinh viên tại mục ĐK gia hạn học phí.\n\n"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Học bổng khuyến khích học tập BCU cho sinh viên đứng đầu mỗi khóa/ngành là bao nhiêu?",
+          "gold_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành.",
+          "expected_document_ids": [
+            "k3-bcu-scholarship-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_0",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.768318,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Học bổng chương trình liên kết BCU 2026\n\nThông báo học bổng BCU 2026 áp dụng cho sinh viên trúng tuyển vào chương trình liên kết với Đại học Birmingham City. Học bổng khuyến khích học tập mỗi học kỳ được xét theo thứ hạng điểm trung bình học kỳ trong từng khóa và từng ngành đào tạo.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-tuition-extension::chunk_2",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.655386,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Một số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để hỗ trợ chi phí học tập và sinh hoạt."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.648734,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Sinh viên đứng đầu mỗi khóa/ngành có thể nhận mức 3.500.000 đồng cho học bổng khuyến khích học tập mỗi học kỳ. Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành.\n\n"
+            }
+          ],
+          "first_relevant_rank": 3,
+          "unfiltered_first_relevant_rank": 3,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.333333,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành."
+        },
+        {
+          "query_id": "Q4",
+          "question": "Tân sinh viên phải đăng ký ký túc xá trong bao nhiêu ngày sau khi hoàn tất thủ tục nhập học?",
+          "gold_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường.",
+          "expected_document_ids": [
+            "k3-dormitory-registration"
+          ],
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-dormitory-registration::chunk_1",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.769018,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Tân sinh viên thực hiện thủ tục đăng ký ở Ký túc xá trong thời hạn 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường. Nếu quá thời hạn này và còn chỗ, Ký túc xá có thể thông báo tiếp tục tiếp nhận.\n\nKhi đăng ký, sinh viên cần chuẩn bị hình ảnh minh chứng đã làm thủ tục nhập học tại Trường. Kênh liên hệ Ký túc xá gồm số điện thoại 1900.055.559 và email `ktx@vnuhcm.edu.vn` hoặc `info@ktxhcm.edu.vn`."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.71442,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\n"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.665207,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Sinh viên phải đóng bao nhiêu tiền bảo hiểm y tế năm 2026?",
+          "gold_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng.",
+          "expected_document_ids": [
+            "k3-health-insurance-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-health-insurance-2026::chunk_0",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.844446,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Bảo hiểm y tế sinh viên UIT năm 2026\n\nPhòng Công tác Sinh viên thông báo việc đóng tiền và đăng ký nơi khám chữa bệnh ban đầu cho bảo hiểm y tế năm 2026. Đối tượng là sinh viên hệ chính quy văn bằng 1 đang học tại trường, trừ các sinh viên đã tham gia bảo hiểm y tế theo nhóm đối tượng khác và một số trường hợp sinh viên nước ngoài theo quy định.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-health-insurance-2026::chunk_1",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.80411,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Mức đóng bảo hiểm y tế được tính theo công thức 4,5% mức lương cơ sở nhân với số tháng sử dụng thẻ và phần sinh viên phải đóng sau hỗ trợ. Theo thông báo, với mức lương cơ sở 2.340.000 đồng từ ngày 01/07/2025, tổng mức 12 tháng là 1.263.600 đồng, ngân sách nhà nước hỗ trợ 631.800 đồng và sinh viên đóng 631.800 đồng.\n\n"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-health-insurance-2026::chunk_2",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.552178,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên cần theo dõi hướng dẫn của Phòng Công tác Sinh viên để đóng tiền và đăng ký nơi khám chữa bệnh ban đầu đúng thời hạn. Thông tin này phù hợp cho các câu hỏi cần lọc theo metadata `category: health-insurance`."
+            }
+          ],
+          "first_relevant_rank": 2,
+          "unfiltered_first_relevant_rank": 2,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.5,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng."
+        }
+      ]
+    },
+    {
+      "strategy_id": "S2_FIXED_450_50",
+      "member": "Diêm Công Thành",
+      "parameters": {
+        "chunk_size": 450,
+        "chunk_overlap": 50
+      },
+      "chunk_count": 17,
+      "metrics": {
+        "hit_at_1": 0.6,
+        "hit_at_3": 1.0,
+        "mrr": 0.8,
+        "precision_at_3": 0.3333,
+        "coherence": 1.0,
+        "grounding": 1.6,
+        "metadata_filter_helped": 0
+      },
+      "traces": [
+        {
+          "query_id": "Q1",
+          "question": "Sinh viên xác nhận đăng ký học phần ở hệ thống nào?",
+          "gold_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực.",
+          "expected_document_ids": [
+            "k3-course-registration"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.679393,
+              "relevant": true,
+              "coherence": 1,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\nỞ bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực. Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời g"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_1",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.674508,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": " đào tạo mẫu; sinh viên phải xác nhận trong thời gian được công bố, nếu không các gợi ý chưa xác nhận sẽ bị xóa.\n\nKhi cần điều chỉnh đăng ký học phần, sinh viên thực hiện theo quy trình điều chỉnh do Phòng Đào tạo công bố. Các trường hợp cần biểu mẫu hoặc khiếu nại học vụ được xử lý qua các mục quy trình sinh viên tương ứng trên cổng thông tin."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-dormitory-registration::chunk_0",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.582889,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "# Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT\n\nSinh viên đăng ký ở Ký túc xá ĐHQG-HCM theo hình thức trực tuyến tại website `http://sv.ktxhcm.edu.vn`. Cổng đăng ký được mở theo lịch nhập học của các trường, vì vậy sinh viên cần kiểm tra thời gian áp dụng cho UIT.\n\nSau khi đăng ký thành công, hệ thống Ký túc xá gửi kết quả về email sinh viên trong vòng 36 giờ. Sinh viên cần theo dõi email đã đăng ký để biết kết quả xử lý và các bước tiếp theo.\n\nT"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực."
+        },
+        {
+          "query_id": "Q2",
+          "question": "Sinh viên được gia hạn học phí phải hoàn thành học phí trước ngày nào?",
+          "gold_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.",
+          "expected_document_ids": [
+            "k3-tuition-extension"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-tuition-extension::chunk_0",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.720031,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "# Gia hạn học phí học kỳ 2 đợt 2 UIT\n\nPhòng Công tác Sinh viên hướng dẫn sinh viên có hoàn cảnh khó khăn và chưa đủ điều kiện đóng học phí học kỳ 2 đúng hạn làm đơn gia hạn học phí. Sinh viên đăng ký qua form trên hệ thống sinh viên tại mục ĐK gia hạn học phí.\n\nThời gian đăng ký theo thông báo là trong ngày 23/03/2026. Nhà trường không giải quyết các trường hợp nộp đơn sau thời gian quy định, vì vậy sinh viên cần theo dõi mốc hạn và trạng thái xử"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-tuition-extension::chunk_1",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.702119,
+              "relevant": true,
+              "coherence": 1,
+              "evidence_text": "ậy sinh viên cần theo dõi mốc hạn và trạng thái xử lý đơn qua email sinh viên.\n\nMột số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để "
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.696499,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "nh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành.\n\nĐối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ "
+            }
+          ],
+          "first_relevant_rank": 2,
+          "unfiltered_first_relevant_rank": 2,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.5,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Học bổng khuyến khích học tập BCU cho sinh viên đứng đầu mỗi khóa/ngành là bao nhiêu?",
+          "gold_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành.",
+          "expected_document_ids": [
+            "k3-bcu-scholarship-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_0",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.816587,
+              "relevant": true,
+              "coherence": 1,
+              "evidence_text": "# Học bổng chương trình liên kết BCU 2026\n\nThông báo học bổng BCU 2026 áp dụng cho sinh viên trúng tuyển vào chương trình liên kết với Đại học Birmingham City. Học bổng khuyến khích học tập mỗi học kỳ được xét theo thứ hạng điểm trung bình học kỳ trong từng khóa và từng ngành đào tạo.\n\nSinh viên đứng đầu mỗi khóa/ngành có thể nhận mức 3.500.000 đồng cho học bổng khuyến khích học tập mỗi học kỳ. Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành c"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.645704,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "nh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành.\n\nĐối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ "
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.596258,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "ỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành."
+        },
+        {
+          "query_id": "Q4",
+          "question": "Tân sinh viên phải đăng ký ký túc xá trong bao nhiêu ngày sau khi hoàn tất thủ tục nhập học?",
+          "gold_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường.",
+          "expected_document_ids": [
+            "k3-dormitory-registration"
+          ],
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-dormitory-registration::chunk_1",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.778972,
+              "relevant": true,
+              "coherence": 1,
+              "evidence_text": "ký để biết kết quả xử lý và các bước tiếp theo.\n\nTân sinh viên thực hiện thủ tục đăng ký ở Ký túc xá trong thời hạn 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường. Nếu quá thời hạn này và còn chỗ, Ký túc xá có thể thông báo tiếp tục tiếp nhận.\n\nKhi đăng ký, sinh viên cần chuẩn bị hình ảnh minh chứng đã làm thủ tục nhập học tại Trường. Kênh liên hệ Ký túc xá gồm số điện thoại 1900.055.559 và email `ktx@vnuhcm.edu.vn` hoặc `info@ktxhcm.edu"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.679922,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\nỞ bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực. Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời g"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-dormitory-registration::chunk_0",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.665086,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "# Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT\n\nSinh viên đăng ký ở Ký túc xá ĐHQG-HCM theo hình thức trực tuyến tại website `http://sv.ktxhcm.edu.vn`. Cổng đăng ký được mở theo lịch nhập học của các trường, vì vậy sinh viên cần kiểm tra thời gian áp dụng cho UIT.\n\nSau khi đăng ký thành công, hệ thống Ký túc xá gửi kết quả về email sinh viên trong vòng 36 giờ. Sinh viên cần theo dõi email đã đăng ký để biết kết quả xử lý và các bước tiếp theo.\n\nT"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Sinh viên phải đóng bao nhiêu tiền bảo hiểm y tế năm 2026?",
+          "gold_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng.",
+          "expected_document_ids": [
+            "k3-health-insurance-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-health-insurance-2026::chunk_0",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.870065,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "# Bảo hiểm y tế sinh viên UIT năm 2026\n\nPhòng Công tác Sinh viên thông báo việc đóng tiền và đăng ký nơi khám chữa bệnh ban đầu cho bảo hiểm y tế năm 2026. Đối tượng là sinh viên hệ chính quy văn bằng 1 đang học tại trường, trừ các sinh viên đã tham gia bảo hiểm y tế theo nhóm đối tượng khác và một số trường hợp sinh viên nước ngoài theo quy định.\n\nMức đóng bảo hiểm y tế được tính theo công thức 4,5% mức lương cơ sở nhân với số tháng sử dụng thẻ "
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-health-insurance-2026::chunk_1",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.634148,
+              "relevant": true,
+              "coherence": 1,
+              "evidence_text": ",5% mức lương cơ sở nhân với số tháng sử dụng thẻ và phần sinh viên phải đóng sau hỗ trợ. Theo thông báo, với mức lương cơ sở 2.340.000 đồng từ ngày 01/07/2025, tổng mức 12 tháng là 1.263.600 đồng, ngân sách nhà nước hỗ trợ 631.800 đồng và sinh viên đóng 631.800 đồng.\n\nSinh viên cần theo dõi hướng dẫn của Phòng Công tác Sinh viên để đóng tiền và đăng ký nơi khám chữa bệnh ban đầu đúng thời hạn. Thông tin này phù hợp cho các câu hỏi cần lọc theo m"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-tuition-extension::chunk_1",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.463724,
+              "relevant": false,
+              "coherence": 1,
+              "evidence_text": "ậy sinh viên cần theo dõi mốc hạn và trạng thái xử lý đơn qua email sinh viên.\n\nMột số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để "
+            }
+          ],
+          "first_relevant_rank": 2,
+          "unfiltered_first_relevant_rank": 2,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.5,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng."
+        }
+      ]
+    },
+    {
+      "strategy_id": "S3_SENTENCE_3",
+      "member": "Nguyễn Quang Huy",
+      "parameters": {
+        "max_sentences_per_chunk": 3
+      },
+      "chunk_count": 15,
+      "metrics": {
+        "hit_at_1": 0.6,
+        "hit_at_3": 1.0,
+        "mrr": 0.7667,
+        "precision_at_3": 0.3333,
+        "coherence": 2.0,
+        "grounding": 1.6,
+        "metadata_filter_helped": 0
+      },
+      "traces": [
+        {
+          "query_id": "Q1",
+          "question": "Sinh viên xác nhận đăng ký học phần ở hệ thống nào?",
+          "gold_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực.",
+          "expected_document_ids": [
+            "k3-course-registration"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.677109,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT Phòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác. Ở bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_1",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.651187,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời gian được công bố, nếu không các gợi ý chưa xác nhận sẽ bị xóa. Khi cần điều chỉnh đăng ký học phần, sinh viên thực hiện theo quy trình điều chỉnh do Phòng Đào tạo công bố. Các trường hợp cần biểu mẫu hoặc khiếu nại học vụ được xử lý qua các mục quy trình sinh viên tương ứng trên cổng thông tin."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-dormitory-registration::chunk_1",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.584708,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên cần theo dõi email đã đăng ký để biết kết quả xử lý và các bước tiếp theo. Tân sinh viên thực hiện thủ tục đăng ký ở Ký túc xá trong thời hạn 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường. Nếu quá thời hạn này và còn chỗ, Ký túc xá có thể thông báo tiếp tục tiếp nhận."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực."
+        },
+        {
+          "query_id": "Q2",
+          "question": "Sinh viên được gia hạn học phí phải hoàn thành học phí trước ngày nào?",
+          "gold_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.",
+          "expected_document_ids": [
+            "k3-tuition-extension"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-tuition-extension::chunk_0",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.704704,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Gia hạn học phí học kỳ 2 đợt 2 UIT Phòng Công tác Sinh viên hướng dẫn sinh viên có hoàn cảnh khó khăn và chưa đủ điều kiện đóng học phí học kỳ 2 đúng hạn làm đơn gia hạn học phí. Sinh viên đăng ký qua form trên hệ thống sinh viên tại mục ĐK gia hạn học phí. Thời gian đăng ký theo thông báo là trong ngày 23/03/2026."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.693452,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành. Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-tuition-extension::chunk_1",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.668696,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Nhà trường không giải quyết các trường hợp nộp đơn sau thời gian quy định, vì vậy sinh viên cần theo dõi mốc hạn và trạng thái xử lý đơn qua email sinh viên. Một số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026."
+            }
+          ],
+          "first_relevant_rank": 3,
+          "unfiltered_first_relevant_rank": 3,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.333333,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Học bổng khuyến khích học tập BCU cho sinh viên đứng đầu mỗi khóa/ngành là bao nhiêu?",
+          "gold_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành.",
+          "expected_document_ids": [
+            "k3-bcu-scholarship-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_0",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.806809,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "# Học bổng chương trình liên kết BCU 2026 Thông báo học bổng BCU 2026 áp dụng cho sinh viên trúng tuyển vào chương trình liên kết với Đại học Birmingham City. Học bổng khuyến khích học tập mỗi học kỳ được xét theo thứ hạng điểm trung bình học kỳ trong từng khóa và từng ngành đào tạo. Sinh viên đứng đầu mỗi khóa/ngành có thể nhận mức 3.500.000 đồng cho học bổng khuyến khích học tập mỗi học kỳ."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.641469,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Học bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.625377,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành. Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành."
+        },
+        {
+          "query_id": "Q4",
+          "question": "Tân sinh viên phải đăng ký ký túc xá trong bao nhiêu ngày sau khi hoàn tất thủ tục nhập học?",
+          "gold_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường.",
+          "expected_document_ids": [
+            "k3-dormitory-registration"
+          ],
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-dormitory-registration::chunk_1",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.746993,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Sinh viên cần theo dõi email đã đăng ký để biết kết quả xử lý và các bước tiếp theo. Tân sinh viên thực hiện thủ tục đăng ký ở Ký túc xá trong thời hạn 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường. Nếu quá thời hạn này và còn chỗ, Ký túc xá có thể thông báo tiếp tục tiếp nhận."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-dormitory-registration::chunk_0",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.688379,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT Sinh viên đăng ký ở Ký túc xá ĐHQG-HCM theo hình thức trực tuyến tại website `http://sv.ktxhcm.edu.vn`. Cổng đăng ký được mở theo lịch nhập học của các trường, vì vậy sinh viên cần kiểm tra thời gian áp dụng cho UIT. Sau khi đăng ký thành công, hệ thống Ký túc xá gửi kết quả về email sinh viên trong vòng 36 giờ."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.680303,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT Phòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác. Ở bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Sinh viên phải đóng bao nhiêu tiền bảo hiểm y tế năm 2026?",
+          "gold_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng.",
+          "expected_document_ids": [
+            "k3-health-insurance-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-health-insurance-2026::chunk_0",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.87216,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Bảo hiểm y tế sinh viên UIT năm 2026 Phòng Công tác Sinh viên thông báo việc đóng tiền và đăng ký nơi khám chữa bệnh ban đầu cho bảo hiểm y tế năm 2026. Đối tượng là sinh viên hệ chính quy văn bằng 1 đang học tại trường, trừ các sinh viên đã tham gia bảo hiểm y tế theo nhóm đối tượng khác và một số trường hợp sinh viên nước ngoài theo quy định. Mức đóng bảo hiểm y tế được tính theo công thức 4,5% mức lương cơ sở nhân với số tháng sử dụng thẻ và phần sinh viên phải đóng sau hỗ trợ."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-health-insurance-2026::chunk_1",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.662585,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Theo thông báo, với mức lương cơ sở 2.340.000 đồng từ ngày 01/07/2025, tổng mức 12 tháng là 1.263.600 đồng, ngân sách nhà nước hỗ trợ 631.800 đồng và sinh viên đóng 631.800 đồng. Sinh viên cần theo dõi hướng dẫn của Phòng Công tác Sinh viên để đóng tiền và đăng ký nơi khám chữa bệnh ban đầu đúng thời hạn. Thông tin này phù hợp cho các câu hỏi cần lọc theo metadata `category: health-insurance`."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.476124,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành. Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026."
+            }
+          ],
+          "first_relevant_rank": 2,
+          "unfiltered_first_relevant_rank": 2,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.5,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng."
+        }
+      ]
+    },
+    {
+      "strategy_id": "S1B_HEADING_RECURSIVE_450",
+      "member": "Trương Đình Khoa (thử nghiệm bổ sung)",
+      "parameters": {
+        "heading_pattern": "^#{1,6}\\s",
+        "chunk_size": 450
+      },
+      "chunk_count": 17,
+      "metrics": {
+        "hit_at_1": 0.6,
+        "hit_at_3": 1.0,
+        "mrr": 0.7667,
+        "precision_at_3": 0.3333,
+        "coherence": 2.0,
+        "grounding": 1.6,
+        "metadata_filter_helped": 0
+      },
+      "traces": [
+        {
+          "query_id": "Q1",
+          "question": "Sinh viên xác nhận đăng ký học phần ở hệ thống nào?",
+          "gold_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực.",
+          "expected_document_ids": [
+            "k3-course-registration"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-course-registration::chunk_1",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.734731,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Ở bước xác nhận đăng ký học phần, sinh viên vào hệ thống `dkhp.uit.edu.vn` bằng tài khoản chứng thực. Hệ thống có thể gợi ý học phần dựa trên kế hoạch đào tạo mẫu; sinh viên phải xác nhận trong thời gian được công bố, nếu không các gợi ý chưa xác nhận sẽ bị xóa.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_2",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.67556,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Khi cần điều chỉnh đăng ký học phần, sinh viên thực hiện theo quy trình điều chỉnh do Phòng Đào tạo công bố. Các trường hợp cần biểu mẫu hoặc khiếu nại học vụ được xử lý qua các mục quy trình sinh viên tương ứng trên cổng thông tin."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.644772,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\n"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên xác nhận đăng ký học phần tại dkhp.uit.edu.vn bằng tài khoản chứng thực."
+        },
+        {
+          "query_id": "Q2",
+          "question": "Sinh viên được gia hạn học phí phải hoàn thành học phí trước ngày nào?",
+          "gold_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.",
+          "expected_document_ids": [
+            "k3-tuition-extension"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-tuition-extension::chunk_2",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.745473,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Một số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để hỗ trợ chi phí học tập và sinh hoạt."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.701906,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-tuition-extension::chunk_0",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.67063,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Gia hạn học phí học kỳ 2 đợt 2 UIT\n\nPhòng Công tác Sinh viên hướng dẫn sinh viên có hoàn cảnh khó khăn và chưa đủ điều kiện đóng học phí học kỳ 2 đúng hạn làm đơn gia hạn học phí. Sinh viên đăng ký qua form trên hệ thống sinh viên tại mục ĐK gia hạn học phí.\n\n"
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026."
+        },
+        {
+          "query_id": "Q3",
+          "question": "Học bổng khuyến khích học tập BCU cho sinh viên đứng đầu mỗi khóa/ngành là bao nhiêu?",
+          "gold_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành.",
+          "expected_document_ids": [
+            "k3-bcu-scholarship-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_0",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.768318,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Học bổng chương trình liên kết BCU 2026\n\nThông báo học bổng BCU 2026 áp dụng cho sinh viên trúng tuyển vào chương trình liên kết với Đại học Birmingham City. Học bổng khuyến khích học tập mỗi học kỳ được xét theo thứ hạng điểm trung bình học kỳ trong từng khóa và từng ngành đào tạo.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-tuition-extension::chunk_2",
+              "document_id": "k3-tuition-extension",
+              "title": "Gia hạn học phí học kỳ 2 đợt 2 UIT",
+              "category": "tuition",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi",
+              "score": 0.655386,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Một số đối tượng không được gia hạn theo thông báo này gồm sinh viên gia hạn chương trình đào tạo, sinh viên văn bằng 2, sinh viên hệ liên thông và sinh viên chương trình BCU. Sinh viên được gia hạn phải hoàn thành học phí trước ngày 17/04/2026.\n\nThông báo cũng nhắc sinh viên có thể xem hướng dẫn vay vốn STEM hoặc vay vốn Ngân hàng Chính sách xã hội tại địa phương để hỗ trợ chi phí học tập và sinh hoạt."
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_1",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.648734,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Sinh viên đứng đầu mỗi khóa/ngành có thể nhận mức 3.500.000 đồng cho học bổng khuyến khích học tập mỗi học kỳ. Sinh viên đứng thứ 2 hoặc thứ 3 của mỗi khóa/ngành có thể nhận mức 1.750.000 đồng; số suất cho nhóm này là 2 suất mỗi khóa/ngành.\n\n"
+            }
+          ],
+          "first_relevant_rank": 3,
+          "unfiltered_first_relevant_rank": 3,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.333333,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Mức học bổng là 3.500.000 đồng cho sinh viên đứng đầu mỗi khóa/ngành."
+        },
+        {
+          "query_id": "Q4",
+          "question": "Tân sinh viên phải đăng ký ký túc xá trong bao nhiêu ngày sau khi hoàn tất thủ tục nhập học?",
+          "gold_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường.",
+          "expected_document_ids": [
+            "k3-dormitory-registration"
+          ],
+          "metadata_filter": {
+            "audience": "student"
+          },
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-dormitory-registration::chunk_1",
+              "document_id": "k3-dormitory-registration",
+              "title": "Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT",
+              "category": "dormitory",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm",
+              "score": 0.769018,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Tân sinh viên thực hiện thủ tục đăng ký ở Ký túc xá trong thời hạn 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường. Nếu quá thời hạn này và còn chỗ, Ký túc xá có thể thông báo tiếp tục tiếp nhận.\n\nKhi đăng ký, sinh viên cần chuẩn bị hình ảnh minh chứng đã làm thủ tục nhập học tại Trường. Kênh liên hệ Ký túc xá gồm số điện thoại 1900.055.559 và email `ktx@vnuhcm.edu.vn` hoặc `info@ktxhcm.edu.vn`."
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-course-registration::chunk_0",
+              "document_id": "k3-course-registration",
+              "title": "Quy trình đăng ký học phần UIT",
+              "category": "course-registration",
+              "source_url": "https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien",
+              "score": 0.71442,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Quy trình đăng ký học phần UIT\n\nPhòng Đào tạo Đại học thông báo thời gian đăng ký học phần và thời khóa biểu dự kiến khoảng một tháng trước khi bắt đầu học kỳ. Sinh viên theo dõi thông báo trên website chính thức để biết khung thời gian thao tác.\n\n"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-bcu-scholarship-2026::chunk_2",
+              "document_id": "k3-bcu-scholarship-2026",
+              "title": "Học bổng chương trình liên kết BCU 2026",
+              "category": "scholarship",
+              "source_url": "https://oep.uit.edu.vn/vi/node/24821",
+              "score": 0.665207,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Đối với học bổng khuyến học, sinh viên có nguyện vọng xét học bổng cần đăng ký theo biểu mẫu của Trường và nộp minh chứng thành tích. Thời gian đăng ký được nêu trong thông báo kéo dài từ ngày ra thông báo đến hết ngày 15/10/2026.\n\nHọc bổng khuyến khích học tập mỗi học kỳ do Trường xét vào đầu học kỳ, bắt đầu từ học kỳ thứ 2 của khóa học, dựa trên kết quả học tập của học kỳ liền trước; sinh viên không cần làm đơn cho loại học bổng này."
+            }
+          ],
+          "first_relevant_rank": 1,
+          "unfiltered_first_relevant_rank": 1,
+          "hit_at_1": true,
+          "hit_at_3": true,
+          "reciprocal_rank": 1.0,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 2,
+          "grounded_answer": "Tân sinh viên đăng ký ký túc xá trong 07 ngày kể từ ngày hoàn tất thủ tục nhập học tại trường."
+        },
+        {
+          "query_id": "Q5",
+          "question": "Sinh viên phải đóng bao nhiêu tiền bảo hiểm y tế năm 2026?",
+          "gold_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng.",
+          "expected_document_ids": [
+            "k3-health-insurance-2026"
+          ],
+          "metadata_filter": null,
+          "results": [
+            {
+              "rank": 1,
+              "chunk_id": "k3-health-insurance-2026::chunk_0",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.844446,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "# Bảo hiểm y tế sinh viên UIT năm 2026\n\nPhòng Công tác Sinh viên thông báo việc đóng tiền và đăng ký nơi khám chữa bệnh ban đầu cho bảo hiểm y tế năm 2026. Đối tượng là sinh viên hệ chính quy văn bằng 1 đang học tại trường, trừ các sinh viên đã tham gia bảo hiểm y tế theo nhóm đối tượng khác và một số trường hợp sinh viên nước ngoài theo quy định.\n\n"
+            },
+            {
+              "rank": 2,
+              "chunk_id": "k3-health-insurance-2026::chunk_1",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.80411,
+              "relevant": true,
+              "coherence": 2,
+              "evidence_text": "Mức đóng bảo hiểm y tế được tính theo công thức 4,5% mức lương cơ sở nhân với số tháng sử dụng thẻ và phần sinh viên phải đóng sau hỗ trợ. Theo thông báo, với mức lương cơ sở 2.340.000 đồng từ ngày 01/07/2025, tổng mức 12 tháng là 1.263.600 đồng, ngân sách nhà nước hỗ trợ 631.800 đồng và sinh viên đóng 631.800 đồng.\n\n"
+            },
+            {
+              "rank": 3,
+              "chunk_id": "k3-health-insurance-2026::chunk_2",
+              "document_id": "k3-health-insurance-2026",
+              "title": "Bảo hiểm y tế sinh viên UIT năm 2026",
+              "category": "health-insurance",
+              "source_url": "https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026",
+              "score": 0.552178,
+              "relevant": false,
+              "coherence": 2,
+              "evidence_text": "Sinh viên cần theo dõi hướng dẫn của Phòng Công tác Sinh viên để đóng tiền và đăng ký nơi khám chữa bệnh ban đầu đúng thời hạn. Thông tin này phù hợp cho các câu hỏi cần lọc theo metadata `category: health-insurance`."
+            }
+          ],
+          "first_relevant_rank": 2,
+          "unfiltered_first_relevant_rank": 2,
+          "hit_at_1": false,
+          "hit_at_3": true,
+          "reciprocal_rank": 0.5,
+          "precision_at_3": 0.333333,
+          "grounding_quality": 1,
+          "grounded_answer": "Số tiền sinh viên phải đóng cho bảo hiểm y tế năm 2026 là 631.800 đồng."
+        }
+      ]
+    }
+  ]
+}

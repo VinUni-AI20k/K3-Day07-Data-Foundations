@@ -25,6 +25,7 @@ chạy được cả trước khi bạn hoàn thành Giai đoạn 2).
 """
 from __future__ import annotations
 
+import sys
 from pathlib import Path
 from typing import Callable
 
@@ -134,6 +135,8 @@ def build_knowledge_base(
 
 def _self_check() -> int:
     """Kiểm tra parser + gắn metadata mà KHÔNG cần EmbeddingStore (dùng FixedSizeChunker có sẵn)."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     sample = (
         "---\n"
         "doc_id: demo-policy\n"

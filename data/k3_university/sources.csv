@@ -1,3 +1,7 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+k3-course-registration,data/k3_university/course-registration.md,Quy trình đăng ký học phần UIT,https://student.uit.edu.vn/mot-so-quy-trinh-danh-cho-sinh-vien,2026-08-03,not-stated,public-page
+k3-library-services,data/k3_university/library-services.md,Tài khoản và dịch vụ thư viện UIT,https://lib.uit.edu.vn/tin-hoat-dong/thong-bao-tai-khoan-thu-vien-danh-cho-tan-sinh-vien-uit-khoa-2024,2026-08-03,2024-activity-news,public-page
+k3-tuition-extension,data/k3_university/tuition-extension.md,Gia hạn học phí học kỳ 2 đợt 2 UIT,https://ctsv.uit.edu.vn/bai-viet/thong-bao-gia-han-hoc-phi-hoc-ky-2-dot-2-lan-cuoi,2026-08-03,2026-03-23,public-page
+k3-bcu-scholarship-2026,data/k3_university/bcu-scholarship-2026.md,Học bổng chương trình liên kết BCU 2026,https://oep.uit.edu.vn/vi/node/24821,2026-08-03,2026-06-01,public-page
+k3-dormitory-registration,data/k3_university/dormitory-registration.md,Đăng ký Ký túc xá ĐHQG-HCM cho sinh viên UIT,https://ctsv.uit.edu.vn/bai-viet/nhap-hoc-dang-ky-ky-tuc-xa-dhqg-hcm,2026-08-03,2023-08-19,public-page
+k3-health-insurance-2026,data/k3_university/health-insurance-2026.md,Bảo hiểm y tế sinh viên UIT năm 2026,https://ctsv.uit.edu.vn/bai-viet/thong-bao-mua-bao-hiem-y-te-nam-2026,2026-08-03,2025-12-09,public-page

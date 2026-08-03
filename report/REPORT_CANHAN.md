@@ -1,128 +1,85 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+# Template Báo Cáo Cá Nhân — Lab 7
 
-**Họ tên:** [Tên sinh viên]
-**Nhóm:** [Tên nhóm]
-**Ngày:** [Ngày nộp]
+> Đây là template dùng chung. Không điền kết quả của thành viên khác. Mọi số liệu phải lấy từ `evaluation/benchmark_results.json` hoặc output terminal.
 
-> **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
+## 1. Thông tin sinh viên
 
-**Tổng điểm phần cá nhân: 60** = Khởi động (5) + Hướng tiếp cận (10) + Hoàn thiện code (30) + Dự đoán độ tương tự (5) + Kết quả truy xuất của tôi (10).
+- Họ tên: [CHỜ THÀNH VIÊN CUNG CẤP]
+- Mã học viên: [CHỜ THÀNH VIÊN CUNG CẤP]
+- Nhóm: B1-3
 
----
+## 2. Vai trò
 
-## 1. Khởi động (Warm-up) — Cá nhân (5 điểm)
+[CHỜ THÀNH VIÊN XÁC NHẬN]
 
-### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
+## 3. Phần code đã hoàn thành
 
-**Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-> *Viết 1-2 câu:*
+Mô tả phần cá nhân thực hiện; không đổi public API của `src`.
 
-**Ví dụ có độ tương tự CAO:**
-- Câu A:
-- Câu B:
-- Tại sao tương đồng:
+## 4. Python environment
 
-**Ví dụ có độ tương tự THẤP:**
-- Câu A:
-- Câu B:
-- Tại sao khác:
+- Python chuẩn nhóm: 3.11.15
+- Interpreter: `.venv\Scripts\python.exe`
+- Unit test chung: 42/42 pass (audit 2026-08-03)
 
-**Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-> *Viết 1-2 câu:*
+## 5. Dataset
 
-### Bài toán tính toán Chunking (Bài tập 1.2)
+Corpus chung gồm 6 tài liệu UIT; ghi rõ tài liệu cá nhân phụ trách.
 
-**Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
+## 6. Metadata schema
 
-**Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-> *Viết 1-2 câu:*
+Các trường chung: `doc_id`, `title`, `audience`, `department`, `category`, `language`, `source_url`, `retrieved_at`, `document_version`, `chunk_index`.
 
----
+## 7. Strategy cá nhân
 
-## 2. Hướng tiếp cận của tôi (My Approach) — Cá nhân (10 điểm)
+[CHƯA XÁC NHẬN THAM SỐ]
 
-Giải thích cách tiếp cận của bạn khi lập trình (implement) các phần chính trong gói `src`.
+## 8. Tham số
 
-### Các hàm chia nhỏ (Chunking Functions)
+- Chunk size: [CHƯA XÁC NHẬN]
+- Overlap/số câu/separators: [CHƯA XÁC NHẬN]
+- top_k: 3
 
-**`SentenceChunker.chunk`** — hướng tiếp cận:
-> *Viết 2-3 câu: dùng biểu thức chính quy (regex) gì để phát hiện câu? Xử lý trường hợp ngoại lệ (edge case) nào?*
+## 9. Local embedding backend
 
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
-> *Viết 2-3 câu: thuật toán hoạt động thế nào? Base case (trường hợp cơ sở) là gì?*
+- Model chung: `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2`
+- Dimension: 384
+- Fallback: false
 
-### Lớp EmbeddingStore
+## 10. Năm benchmark queries
 
-**`add_documents` + `search`** — hướng tiếp cận:
-> *Viết 2-3 câu: lưu trữ thế nào? Tính độ tương tự ra sao?*
+Tham chiếu `evaluation/benchmark_queries.json`; không tạo query riêng làm mất tính so sánh.
 
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
-> *Viết 2-3 câu: lọc (filter) trước hay sau? Xóa bằng cách nào?*
+## 11. Kết quả retrieval
 
-### Tác tử KnowledgeBaseAgent
+[CHƯA ĐIỀN KẾT QUẢ CÁ NHÂN]
 
-**`answer`** — hướng tiếp cận:
-> *Viết 2-3 câu: cấu trúc prompt? Cách đưa ngữ cảnh (inject context) vào thế nào?*
+## 12. Metrics
 
----
+| Hit@1 | Hit@3 | MRR | Precision@3 | Coherence | Grounding |
+|---:|---:|---:|---:|---:|---:|
+| [CHƯA ĐIỀN] | [CHƯA ĐIỀN] | [CHƯA ĐIỀN] | [CHƯA ĐIỀN] | [CHƯA ĐIỀN] | [CHƯA ĐIỀN] |
 
-## 3. Hoàn thiện code (Core Implementation) — Cá nhân (30 điểm)
+## 13. Failure cases
 
-Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
+[CHƯA PHÂN TÍCH]
 
-### Kết Quả Kiểm Thử (Test Results)
+## 14. So sánh dự đoán và thực tế
 
-```
-# Dán kết quả (output) của: pytest tests/ -v
-```
+[CHỜ THÀNH VIÊN CUNG CẤP]
 
-**Số lượng bài test vượt qua (pass):** __ / 42
+## 15. Hạn chế
 
----
+Nêu hạn chế corpus, chunking và metric của strategy cá nhân.
 
-## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
+## 16. Hướng cải thiện
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|------|-----------|-----------|---------|--------------|-------|
-| 1 | | | cao / thấp | | |
-| 2 | | | cao / thấp | | |
-| 3 | | | cao / thấp | | |
-| 4 | | | cao / thấp | | |
-| 5 | | | cao / thấp | | |
+[CHỜ THÀNH VIÊN CUNG CẤP]
 
-**Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
-> *Viết 2-3 câu:*
+## 17. Bằng chứng test
 
----
+Ghi command, Python version, tổng pass/fail và duration thực tế.
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+## 18. Bằng chứng benchmark
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
-
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
-
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
-
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *Viết 2-3 câu:*
-
----
-
-## Tự Đánh Giá (Phần Cá Nhân)
-
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Khởi động (Warm-up) | / 5 |
-| Hướng tiếp cận của tôi (My Approach) | / 10 |
-| Hoàn thiện code (Core Implementation — tests) | / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | / 10 |
-| **Tổng phần cá nhân** | **/ 60** |
+Trỏ tới strategy tương ứng trong `evaluation/benchmark_results.json` và bảng tóm tắt trong `evaluation/benchmark_summary.md`.

@@ -4,6 +4,16 @@
 
 ---
 
+## Thành Viên Nhóm
+
+| Mã học viên | Tên học viên | Vai trò |
+|-------------|--------------|---------|
+| 2A202601297 | Trương Đình Khoa | Nhóm trưởng |
+| 2A202601689 | Diêm Công Thành | Thành viên |
+| 2A202601873 | Nguyễn Quang Huy | Thành viên |
+
+---
+
 ## Mục Tiêu
 
 Sau bài thực hành (lab) này, bạn cần có thể:
@@ -35,7 +45,7 @@ Phần bắt buộc được kiểm thử trên **Python 3.11**. Dùng đúng tr
 
 ```bash
 pip install -r requirements.txt
-pytest tests/ -v          # Phần lớn bài kiểm thử sẽ THẤT BẠI (chưa được lập trình)
+pytest tests/ -v
 ```
 
 Mặc định, lab vẫn chạy với trình nhúng giả lập `_mock_embed` nên **không bắt buộc** cài đặt mô hình nhúng (embedder) thật.
@@ -246,3 +256,28 @@ Xem chi tiết tại `docs/SCORING.md`. Tóm tắt:
 ```bash
 pytest tests/ -v
 ```
+
+### Quy trình xác minh đầy đủ trên Windows PowerShell
+
+```powershell
+# Interpreter chuẩn của repository
+.\.venv\Scripts\python.exe --version
+
+# Regression tests và demo
+.\.venv\Scripts\python.exe -m pytest tests\ -v
+.\.venv\Scripts\python.exe main.py
+
+# Dataset và ingestion
+.\.venv\Scripts\python.exe scripts\validate_dataset.py
+.\.venv\Scripts\python.exe ingest.py
+
+# Local multilingual embedding (không dùng mock cho semantic benchmark)
+$env:UV_CACHE_DIR = Join-Path $env:TEMP 'k3-day07-uv-cache'
+uv pip install --python .\.venv\Scripts\python.exe -r requirements-local.txt
+$env:HF_HOME = Join-Path $env:TEMP 'k3-day07-hf-cache'
+.\.venv\Scripts\python.exe scripts\verify_environment.py
+.\.venv\Scripts\python.exe scripts\run_semantic_benchmark.py
+.\.venv\Scripts\python.exe scripts\summarize_benchmark.py
+```
+
+Benchmark dùng đúng 5 query trong `evaluation/benchmark_queries.json`. Trace đầy đủ gồm score, document/chunk ID, source URL, evidence và relevance được lưu tại `evaluation/benchmark_results.json`; bảng tóm tắt nằm ở `evaluation/benchmark_summary.md`.
