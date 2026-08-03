@@ -91,21 +91,23 @@ Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
 
 **Số lượng bài test vượt qua (pass):** 42 / 42
 
+**Lệnh tái lập kết quả similarity và retrieval:** `.venv\Scripts\python.exe bench.py`.
+
 ---
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
 | Cặp | Câu A                                     | Câu B                                         | Dự đoán | Điểm thực tế | Đúng? |
 | --- | ----------------------------------------- | --------------------------------------------- | ------- | ------------ | ----- |
-| 1   | Python là ngôn ngữ lập trình bậc cao.     | Python là một ngôn ngữ lập trình cấp cao.     | cao     | 0,96         | Có    |
-| 2   | Sinh viên có thể gia hạn sách ở thư viện. | Thư viện hỗ trợ mượn và gia hạn tài liệu.     | cao     | 0,89         | Có    |
-| 3   | Hạn cuối đăng ký học phần là khi nào?     | Khi nào sinh viên phải đóng học phí?          | thấp    | 0,36         | Có    |
-| 4   | Học bổng xét dựa trên thành tích học tập. | Điểm số tốt có thể là tiêu chí nhận học bổng. | cao     | 0,82         | Có    |
-| 5   | Ký túc xá có chỗ đỗ xe không?             | Quy trình đăng ký môn học gồm những bước nào? | thấp    | 0,18         | Có    |
+| 1   | Python là ngôn ngữ lập trình bậc cao.     | Python là một ngôn ngữ lập trình cấp cao.     | cao     | 0,0582       | Không |
+| 2   | Sinh viên có thể gia hạn sách ở thư viện. | Thư viện hỗ trợ mượn và gia hạn tài liệu.     | cao     | -0,1218      | Không |
+| 3   | Hạn cuối đăng ký học phần là khi nào?     | Khi nào sinh viên phải đóng học phí?          | thấp    | -0,2183      | Có    |
+| 4   | Học bổng xét dựa trên thành tích học tập. | Điểm số tốt có thể là tiêu chí nhận học bổng. | cao     | 0,0714       | Không |
+| 5   | Ký túc xá có chỗ đỗ xe không?             | Quy trình đăng ký môn học gồm những bước nào? | thấp    | 0,1090       | Có    |
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 
-> Kết quả bất ngờ nhất là cặp 3 vẫn có mức tương đồng thấp nhưng không bằng 0, vì cả hai câu cùng thuộc ngữ cảnh thủ tục học vụ và có cấu trúc hỏi về thời hạn. Điều này cho thấy embedding không chỉ đối sánh từ khóa mà còn biểu diễn một phần chủ đề và cách dùng ngôn ngữ. Vì vậy cần chọn ngưỡng điểm và kiểm tra ngữ cảnh, thay vì chỉ dựa vào một điểm similarity.
+> Kết quả bất ngờ nhất là các cặp có ý nghĩa gần nhau như cặp 1 và 2 vẫn có điểm rất thấp khi dùng `MockEmbedder`. Nguyên nhân là mock embedding được sinh xác định từ hash của toàn bộ chuỗi, nên không biểu diễn ngữ nghĩa; nó chỉ phù hợp để kiểm thử kỹ thuật pipeline. Vì vậy, kết quả ngữ nghĩa thực tế cần dùng LocalEmbedder hoặc embedding API, còn `bench.py` hiện là bằng chứng tái lập cho cấu hình mock.
 
 ---
 
@@ -113,19 +115,21 @@ Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| #   | Câu hỏi (Query)                                         | Top-1 Chunk truy xuất được (tóm tắt)                         | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)                                     |
-| --- | ------------------------------------------------------- | ------------------------------------------------------------ | ---------- | ------------------------------ | ------------------------------------------------------------------- |
-| 1   | Sinh viên gia hạn sách thư viện bằng cách nào?          | Hướng dẫn gia hạn tài liệu qua hệ thống thư viện.            | 0,84       | Có                             | Nêu các bước gia hạn trực tuyến và lưu ý thời hạn trả sách.         |
-| 2   | Khi nào sinh viên có thể đăng ký học phần?              | Quy định về thời gian và các bước đăng ký môn học.           | 0,79       | Có                             | Tóm tắt thời gian mở cổng và quy trình đăng ký.                     |
-| 3   | Có thể điều chỉnh hoặc hủy học phần đã đăng ký không?   | Chính sách thêm, hủy hoặc điều chỉnh học phần.               | 0,73       | Có                             | Giải thích việc điều chỉnh phải thực hiện trong thời gian quy định. |
-| 4   | Thư viện xử lý trường hợp trả sách quá hạn thế nào?     | Quy định mượn trả, quá hạn và trách nhiệm người mượn.        | 0,76       | Có                             | Nêu yêu cầu trả đúng hạn và hậu quả khi quá hạn.                    |
-| 5   | Điều kiện sử dụng dịch vụ thư viện của sinh viên là gì? | Thông tin về đối tượng sử dụng và quy định dịch vụ thư viện. | 0,68       | Có                             | Cho biết sinh viên hợp lệ được dùng dịch vụ theo quy định.          |
+| #   | Câu hỏi (Query)                                      | Top-1 Chunk truy xuất được (tóm tắt)                        | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)                                      |
+| --- | ---------------------------------------------------- | ----------------------------------------------------------- | ---------- | ------------------------------ | -------------------------------------------------------------------- |
+| 1   | Ai có thể sử dụng dịch vụ thư viện?                  | Chunk thư viện: sinh viên, giảng viên và nhân viên.         | 0,1722     | Có                             | Demo extractive trả về ngữ cảnh thư viện có ba nhóm người dùng.      |
+| 2   | Người dùng cần mang gì khi mượn tài liệu ở thư viện? | Chunk học vụ ở top-1; chunk thư viện có bằng chứng ở top-2. | 0,2349     | Không                          | Demo extractive chứa bằng chứng “thẻ định danh hợp lệ” trong top-3.  |
+| 3   | Sinh viên đăng ký học phần ở đâu?                    | Chunk thư viện ở top-1; chunk học vụ có bằng chứng ở top-3. | 0,2105     | Không                          | Demo extractive chứa thông tin “cổng học vụ” trong top-3.            |
+| 4   | Trước khi xác nhận đăng ký, cần kiểm tra gì?         | Chunk học vụ có học phần tiên quyết và điều kiện.           | -0,0815    | Có                             | Demo extractive trả về ngữ cảnh về điều kiện và học phần tiên quyết. |
+| 5   | Khi gặp lỗi trùng lịch, sinh viên cần làm gì?        | Chunk học vụ ở top-1; bằng chứng xử lý lỗi ở top-3.         | 0,1945     | Không                          | Demo extractive chứa hướng dẫn điều chỉnh lớp ở top-3.               |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 
+> `bench.py` dùng agent extractive giả lập để kiểm tra việc inject context mà không gọi API LLM. Vì đang dùng `MockEmbedder`, các tóm tắt trên chỉ xác nhận bằng chứng có trong top-3, không phải đánh giá chất lượng trả lời ngữ nghĩa của mô hình. Thiết bị hiện tại đã không đủ điều kiện để gọi API Embedding Model cũng như chạy các mô hình Embedding local từ Huggingface.
+
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 
-> Qua demo, tôi thấy việc viết câu hỏi có tiêu chí kiểm chứng rõ ràng giúp đánh giá retrieval công bằng hơn so với các câu hỏi quá rộng. Một kinh nghiệm hữu ích khác là gắn metadata nhất quán ngay từ lúc ingest, vì nó cho phép thu hẹp phạm vi tìm kiếm theo loại dịch vụ hoặc đối tượng người dùng. Tôi cũng học được rằng chunk ngắn, có ranh giới câu hợp lý thường dễ trích dẫn và giải thích hơn khi trình bày kết quả.
+> Qua benchmark, tôi nhận thấy cần phân biệt rõ kiểm thử kỹ thuật với đánh giá chất lượng ngữ nghĩa. Mock embedding giúp tái lập kết quả và kiểm tra pipeline, nhưng có thể xếp một chunk không liên quan ở top-1; vì thế cần đánh giá cả top-3 và dùng embedder ngữ nghĩa thật khi chấm chất lượng. Tôi cũng học được rằng gắn metadata nhất quán ngay từ lúc ingest giúp kiểm tra nguồn và thu hẹp kết quả theo loại dịch vụ.
 
 ---
 
