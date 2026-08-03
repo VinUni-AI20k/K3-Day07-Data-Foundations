@@ -1,5 +1,5 @@
-from .agent import KnowledgeBaseAgent
-from .chunking import (
+from .agent_2A20601037 import KnowledgeBaseAgent
+from .chunking_2A202601037 import (
     ChunkingStrategyComparator,
     FixedSizeChunker,
     RecursiveChunker,
@@ -16,7 +16,7 @@ from .embeddings import (
     _mock_embed,
 )
 from .models import Document
-from .store import EmbeddingStore
+from .store_2A202601037 import EmbeddingStore
 
 __all__ = [
     "Document",
