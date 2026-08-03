@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """
-Benchmark queries + runner — Lab 7 K3 (UEH corpus).
+bench.py — Lab 7 K3 (UEH corpus).
 
-Soạn 5 câu hỏi kèm gold answer (kiểm chứng từ data/ueh_university/) và chạy retrieval
-trên EmbeddingStore + KnowledgeBaseAgent.
+Chốt 5 benchmark query + gold answer; mỗi thành viên chỉ đổi dòng chọn chunker
+rồi chạy cùng corpus / cùng query / cùng embedder.
 
 Usage:
-    python scripts/run_benchmark.py
-    python scripts/run_benchmark.py --chunker recursive --top-k 3
-    python scripts/run_benchmark.py --query 3
-    EMBEDDING_PROVIDER=local python scripts/run_benchmark.py
+    python bench.py
+    python bench.py --chunker recursive --top-k 3
+    python bench.py --query 5
+    EMBEDDING_PROVIDER=local python bench.py
 
-Cùng bộ query này phải được copy vào report/REPORT_NHOM.md và mọi thành viên
-dùng chung khi so sánh chiến lược chunking.
+Copy bộ query này vào report/REPORT_NHOM.md. Không đổi query sau khi nhóm đã chạy.
 """
 
 from __future__ import annotations
@@ -24,7 +23,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -81,6 +80,7 @@ class BenchmarkQuery:
     query: str
     gold_answer: str
     expected_doc_id: str
+    kind: str
     metadata_filter: dict | None = None
     verify_keywords: tuple[str, ...] = ()
 
@@ -90,32 +90,44 @@ class BenchmarkQuery:
         return store.search(self.query, top_k=top_k)
 
 
-# --- 5 benchmark queries (K3 — dịch vụ / quy định đại học UEH) ---
+# --- 5 benchmark queries (chốt nhóm) ---
+# Đa dạng: ngoại lệ, điều kiện, quy trình, liệt kê, số liệu.
+# Query #5 cần filter audience=student: cùng chủ đề đào tạo thư viện nhưng bản faculty
+# trả lời tên buổi khác — không lọc dễ lẫn đối tượng.
 BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     BenchmarkQuery(
         id=1,
+        kind="ngoại lệ",
+        query="Sinh viên có được đăng ký mã học phần đang chờ lịch thi hoặc chờ kết quả điểm thi không?",
+        gold_answer="Không được phép đăng ký mã học phần đang chờ lịch thi hoặc chờ kết quả điểm thi.",
+        expected_doc_id="ueh-course-registration-plan-hk-cuoi-2025",
+        verify_keywords=("không được phép đăng ký", "chờ lịch thi"),
+    ),
+    BenchmarkQuery(
+        id=2,
+        kind="điều kiện",
         query="Sinh viên không nộp học phí đúng hạn trong kỳ đăng ký học kỳ cuối 2025 sẽ bị xử lý thế nào?",
         gold_answer="Bị xóa tên khỏi danh sách lớp đã đăng ký.",
         expected_doc_id="ueh-course-registration-plan-hk-cuoi-2025",
         verify_keywords=("xóa tên", "danh sách lớp"),
     ),
     BenchmarkQuery(
-        id=2,
-        query="Mức học bổng Khuyến khích học tập loại Giỏi bằng bao nhiêu phần trăm học bổng toàn phần?",
-        gold_answer="120% mức học bổng toàn phần.",
-        expected_doc_id="ueh-scholarship-policy-overview",
-        verify_keywords=("120%", "Giỏi"),
-    ),
-    BenchmarkQuery(
         id=3,
-        query="Phí cấp thẻ sinh viên nhựa tại UEH là bao nhiêu?",
-        gold_answer="100.000 đồng/1 thẻ.",
+        kind="quy trình",
+        query="Các bước đăng ký cấp thẻ sinh viên nhựa tại UEH là gì?",
+        gold_answer=(
+            "Bước 1: truy cập Cổng giao dịch điện tử UEH mục Đăng ký cấp thẻ sinh viên; "
+            "Bước 2: điền thông tin; Bước 3: thanh toán 100,000 đồng/1 thẻ; "
+            "Bước 4: Phòng CNTT in thẻ cuối ngày; "
+            "Bước 5: nhận email và lấy thẻ tại A203 – 59C Nguyễn Đình Chiểu "
+            "(chiều thứ 3 hoặc sáng thứ 5)."
+        ),
         expected_doc_id="ueh-student-card-services",
-        metadata_filter={"audience": "student"},
-        verify_keywords=("100,000", "100.000"),
+        verify_keywords=("Cổng giao dịch điện tử", "100,000", "A203"),
     ),
     BenchmarkQuery(
         id=4,
+        kind="liệt kê",
         query="UEH Smart Library cung cấp quyền truy cập những cơ sở dữ liệu học thuật quốc tế nào?",
         gold_answer="ScienceDirect, SpringerLink, Jora…",
         expected_doc_id="ueh-library-reading-culture",
@@ -123,15 +135,22 @@ BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     ),
     BenchmarkQuery(
         id=5,
-        query="Nội trú phí KTX UEH năm 2025 được thu theo khung thời gian nào?",
-        gold_answer="Thu theo Quý (3 tháng), qua phần mềm https://kytucxa.ueh.edu.vn; có 4 đợt Quý 1–4 trong năm 2025.",
-        expected_doc_id="ueh-dorm-fee-2025",
-        verify_keywords=("Quý", "kytucxa.ueh.edu.vn"),
+        kind="số liệu / filter audience",
+        # Không nêu đối tượng trong câu hỏi — không filter dễ lẫn bản faculty (tên buổi + 64 người).
+        query="Buổi đào tạo trực tiếp của Thư viện UEH mang tên gì và có bao nhiêu người tham dự buổi đó?",
+        gold_answer=(
+            'Tên buổi: “Làm chủ kỹ năng tìm kiếm thông tin học thuật”; '
+            "59 sinh viên tham gia Buổi 1."
+        ),
+        expected_doc_id="ueh-library-training-student",
+        metadata_filter={"audience": "student"},
+        verify_keywords=("Làm chủ kỹ năng tìm kiếm thông tin học thuật", "59"),
     ),
 )
 
 
 def _select_chunker(name: str):
+    # DÒNG chiến lược: mỗi thành viên đổi tham số / class chunker tại đây (qua --chunker hoặc sửa mặc định).
     chunkers = {
         "fixed_size": FixedSizeChunker(chunk_size=500, overlap=50),
         "sentences": SentenceChunker(max_sentences_per_chunk=3),
@@ -172,9 +191,9 @@ def run_benchmark(
     backend = getattr(embedder, "_backend_name", embedder.__class__.__name__)
     chunker = _select_chunker(chunker_name)
 
-    print("=== Lab 7 Benchmark Runner ===")
+    print("=== Lab 7 bench.py ===")
     print(f"Corpus     : {data_dir}")
-    print(f"Chunker    : {chunker_name}")
+    print(f"Chunker    : {chunker_name} ({chunker.__class__.__name__})")
     print(f"Embedder   : {backend}")
     print(f"Top-k      : {top_k}")
     if backend == "mock embeddings fallback":
@@ -183,6 +202,8 @@ def run_benchmark(
     else:
         print()
 
+    # 1) Chọn chunker (ở trên) — đây là chỗ duy nhất khác giữa thành viên.
+    # 2) Nạp corpus qua ingest (không viết lại pipeline).
     store = build_knowledge_base(data_dir, embedding_fn=embedder, chunker=chunker)
     agent = KnowledgeBaseAgent(store=store, llm_fn=llm_fn or demo_llm)
     print(f"Da nap {store.get_collection_size()} chunk vao store.\n")
@@ -198,9 +219,10 @@ def run_benchmark(
     hits_top1 = 0
     hits_topk = 0
 
+    # 3) Chạy 5 query: top-3 + agent answer
     for item in selected:
         print("=" * 72)
-        print(f"#{item.id} {item.query}")
+        print(f"#{item.id} [{item.kind}] {item.query}")
         if item.metadata_filter:
             print(f"    filter: {item.metadata_filter}")
         print(f"    gold  : {item.gold_answer}")
@@ -232,7 +254,23 @@ def run_benchmark(
         status.append("keywords OK" if kw_ok else "keywords MISS")
         print(f"    [{', '.join(status)}]")
 
-        answer = agent.answer(item.query, top_k=top_k)
+        # Dùng đúng kết quả đã (có thể) filter — tránh agent.search() bỏ qua metadata_filter.
+        if not results:
+            answer = "No relevant context found in the knowledge base."
+        else:
+            context_blocks = []
+            for index, result in enumerate(results[:top_k], start=1):
+                meta = result.get("metadata", {})
+                doc_id = meta.get("doc_id") or "unknown"
+                context_blocks.append(f"[{index}] (doc_id: {doc_id}) {result['content']}")
+            prompt = (
+                "Instruction: Answer using only the context below. "
+                "If the context is insufficient, say clearly that you do not know.\n\n"
+                f"Context:\n{chr(10).join(context_blocks)}\n\n"
+                f"Question: {item.query}\n\n"
+                "Answer:"
+            )
+            answer = agent.llm_fn(prompt)
         print(f"    agent : {answer[:220]}{'...' if len(answer) > 220 else ''}")
         print()
 
@@ -244,7 +282,14 @@ def run_benchmark(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Chay 5 benchmark query tren corpus UEH.")
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
+    parser = argparse.ArgumentParser(description="Chay 5 benchmark query tren corpus UEH (bench.py).")
     parser.add_argument(
         "--data-dir",
         default=os.getenv("LAB_DATA_DIR", DEFAULT_DATA_DIR),
@@ -254,7 +299,7 @@ def main() -> int:
         "--chunker",
         choices=("fixed_size", "sentences", "recursive"),
         default=os.getenv("LAB_CHUNKER", "recursive"),
-        help="Chien luoc chunking",
+        help="Chien luoc chunking — moi thanh vien chi doi o day",
     )
     parser.add_argument("--top-k", type=int, default=3, help="So chunk lay ve moi cau hoi")
     parser.add_argument(
@@ -276,7 +321,7 @@ def main() -> int:
         print("Benchmark queries (copy vao REPORT_NHOM.md):\n")
         for item in BENCHMARK_QUERIES:
             filt = f" filter={item.metadata_filter}" if item.metadata_filter else ""
-            print(f"{item.id}. {item.query}")
+            print(f"{item.id}. [{item.kind}] {item.query}")
             print(f"   gold   : {item.gold_answer}")
             print(f"   doc_id : {item.expected_doc_id}{filt}\n")
         return 0
