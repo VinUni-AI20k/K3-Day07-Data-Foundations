@@ -1,6 +1,7 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** Hoàng Mạnh Dũng
+**Họ tên:** Trần Việt Trường
+**Mã học viên:** 2A202601467
 **Nhóm:** Dịch vụ và quy định đăng ký học phần dành cho sinh viên HUST
 **Ngày:** 03/08/2026
 
@@ -46,6 +47,9 @@
 Giải thích cách tiếp cận của bạn khi lập trình (implement) các phần chính trong gói `src`.
 
 ### Các hàm chia nhỏ (Chunking Functions)
+
+**`HeadingSectionChunker.chunk`** — hướng tiếp cận:
+> Tôi tách tài liệu Markdown tại các heading `#` đến `######`, để giữ tiêu đề cùng nội dung quy định, thời hạn hoặc ngoại lệ nằm dưới mục đó. Nếu một section dài hơn `chunk_size`, tôi dùng `RecursiveChunker` chia phần thân; heading được giữ lại ở các chunk con khi còn đủ chỗ. Với văn bản không có heading, chiến lược tự động dùng cơ chế chia đệ quy.
 
 **`SentenceChunker.chunk`** — hướng tiếp cận:
 > Sử dụng `re.split(r'(?<=[.!?])\s+|\n+', text)` để tách các câu dựa trên dấu chấm, cảm, hỏi hoặc xuống dòng. Sau đó gom nhóm tối đa `max_sentences_per_chunk` câu vào một chunk string. Xử lý văn bản rỗng và loại bỏ khoảng trắng thừa ở mỗi ranh giới câu.

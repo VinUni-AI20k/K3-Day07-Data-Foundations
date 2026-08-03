@@ -135,6 +135,42 @@ class RecursiveChunker:
         return [c for c in chunks if c]
 
 
+class HeadingSectionChunker:
+    """Split Markdown documents by heading while keeping each section intact."""
+
+    def __init__(self, chunk_size: int = 400) -> None:
+        if chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        self.chunk_size = chunk_size
+        self._fallback = RecursiveChunker(chunk_size=chunk_size)
+
+    def chunk(self, text: str) -> list[str]:
+        if not text or not text.strip():
+            return []
+
+        sections = re.split(r"(?=^#{1,6}\s+)", text.strip(), flags=re.MULTILINE)
+        chunks: list[str] = []
+        for section in sections:
+            section = section.strip()
+            if not section:
+                continue
+            if len(section) <= self.chunk_size:
+                chunks.append(section)
+                continue
+
+            lines = section.splitlines()
+            heading = lines[0] if re.match(r"^#{1,6}\s+", lines[0]) else ""
+            body = "\n".join(lines[1:]).strip() if heading else section
+            pieces = self._fallback.chunk(body)
+            if heading:
+                chunks.extend(
+                    [heading + "\n" + piece if len(heading) + len(piece) + 1 <= self.chunk_size else piece for piece in pieces]
+                )
+            else:
+                chunks.extend(pieces)
+        return chunks
+
+
 def _dot(a: list[float], b: list[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
 
@@ -177,4 +213,3 @@ class ChunkingStrategyComparator:
             "by_sentences": _stats(sentence),
             "recursive": _stats(recursive),
         }
-
