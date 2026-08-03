@@ -22,15 +22,15 @@
 
 ### Danh sách tài liệu (Data Inventory)
 
-| # | Tên tài liệu                   | Nguồn (Source URL)                           | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán                                                   |
-|---|--------------------------------|----------------------------------------------|----------------------|----------|-------------------------------------------------------------------|
-| 1 | Quy định Tốt nghiệp            | registrar.vinuni.edu.vn/.../tot-nghiep       | 2026-08-03 / 2026.1  | 5,132    | `doc_id`, `source_url`, `version`, `department="Registrar"`       |
-| 2 | Tuyển sinh Đại học             | admissions.vinuni.edu.vn/.../tuyen-sinh      | 2026-08-03 / 2026.1  | 8,453    | `doc_id`, `source_url`, `version`, `department="Admissions"`      |
-| 3 | Chương trình đào tạo           | admissions.vinuni.edu.vn/.../chuong-trinh-dao-tao | 2026-08-03 / 2026.1 | 3,637    | `doc_id`, `source_url`, `version`, `department="Academics"`       |
-| 4 | Quy định sử dụng Thư viện      | policy.vinuni.edu.vn/.../library-policies    | 2026-08-03 / 2026.1  | 8,748    | `doc_id`, `source_url`, `version`, `department="Library"`         |
-| 5 | Thời khóa biểu & Đăng ký HP    | registrar.vinuni.edu.vn/.../thoi-khoa-bieu...| 2026-08-03 / 2026.1  | 5,681    | `doc_id`, `source_url`, `version`, `department="Registrar"`       |
-| 6 | Học phí & Hỗ trợ Tài chính     | admissions.vinuni.edu.vn/.../hoc-phi...      | 2026-08-03 / 2026.1  | 8,129    | `doc_id`, `source_url`, `version`, `department="Admissions"`      |
-| 7 | Cuộc sống tại Ký túc xá        | admissions.vinuni.edu.vn/.../cau-hoi...      | 2026-08-03 / 2026.1  | 4,956    | `doc_id`, `source_url`, `version`, `department="Admissions"`      |
+| # | Tên tài liệu                   | Nguồn (Source URL)                               | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán                                                   |
+| - | --------------------------------- | ------------------------------------------------- | ------------------------ | ----------- | -------------------------------------------------------------------- |
+| 1 | Quy định Tốt nghiệp           | registrar.vinuni.edu.vn/.../tot-nghiep            | 2026-08-03 / 2026.1      | 5,132       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 2 | Tuyển sinh Đại học            | admissions.vinuni.edu.vn/.../tuyen-sinh           | 2026-08-03 / 2026.1      | 8,453       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 3 | Chương trình đào tạo        | admissions.vinuni.edu.vn/.../chuong-trinh-dao-tao | 2026-08-03 / 2026.1      | 3,637       | `doc_id`, `source_url`, `version`, `department="Academics"`  |
+| 4 | Quy định sử dụng Thư viện   | policy.vinuni.edu.vn/.../library-policies         | 2026-08-03 / 2026.1      | 8,748       | `doc_id`, `source_url`, `version`, `department="Library"`    |
+| 5 | Thời khóa biểu & Đăng ký HP | registrar.vinuni.edu.vn/.../thoi-khoa-bieu...     | 2026-08-03 / 2026.1      | 5,681       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 6 | Học phí & Hỗ trợ Tài chính  | admissions.vinuni.edu.vn/.../hoc-phi...           | 2026-08-03 / 2026.1      | 8,129       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 7 | Cuộc sống tại Ký túc xá     | admissions.vinuni.edu.vn/.../cau-hoi...           | 2026-08-03 / 2026.1      | 4,956       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
 
@@ -55,11 +55,13 @@
 
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
-| Tài liệu | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-| ---------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------- |
-|            | FixedSizeChunker (`fixed_size`)  |                   |                       |                                 |
-|            | SentenceChunker (`by_sentences`) |                   |                       |                                 |
-|            | RecursiveChunker (`recursive`)   |                   |                       |                                 |
+| Tài liệu          | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
+| ------------------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------- |
+|                     | FixedSizeChunker (`fixed_size`)  |                   |                       |                                 |
+|                     | SentenceChunker (`by_sentences`) |                   |                       |                                 |
+| course-registration | RecursiveChunker (`recursive`)   | 3                 | 306.3                 | có                             |
+| ctdt                | `RecursiveChunker (recursive)`   | 16                | 171.6                 | có                             |
+| dangkymonhoc        | `RecursiveChunker (recursive)`   | 29                | 152.7                 | có                             |
 
 ### Chiến lược của từng thành viên
 
@@ -81,11 +83,18 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 - **Mô tả & lý do chọn:**
 - **Code snippet (nếu custom):**
 
-**Thành viên 3 — [Tên]**
+**Thành viên 3 — Trần Thị Ngọc Lan**
 
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
+- **Loại chiến lược: Recursive**
+- **Mô tả & lý do chọn: Chiến lược này ưu tiên tách tài liệu tại các ranh giới tự nhiên như đoạn văn, tiêu đề Markdown và các dòng ngắt trước khi chuyển sang các dấu phân cách nhỏ hơn. Điều này giúp giữ được ngữ cảnh của từng phần nội dung, tránh cắt ngang giữa các ý tưởng liên quan và tạo ra các chunk mạch lạc hơn cho quá trình retrieval. Vì tài liệu trong K3_university có cấu trúc rõ ràng theo mục, tiêu đề và nội dung, nên RecursiveChunker phù hợp để bảo toàn ý nghĩa của từng phần.**
 - **Code snippet (nếu custom):**
+
+```python
+from Ngoc_Lan_01385.chunking import RecursiveChunker
+
+chunker = RecursiveChunker(chunk_size=500)
+chunks = chunker.chunk(text)
+```
 
 ### So Sánh Giữa Các Thành Viên
 
@@ -107,13 +116,13 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 > **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
-|---|---|---|---|
-| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái **“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại **“Your Class Schedule”**. | `dangkymonhoc.md` (Cách sử dụng SIS) |
-| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao? | Sinh viên năm nhất **bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?) |
-| 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần? | Sinh viên đại học được mượn tối đa **3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. *(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)* | `thuvien.md` (2.2. Circulation Privileges) |
-| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm? | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành **2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân. | `hocphi_hocbong.md` (Học phí) |
-| 5 | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào? | Sinh viên nộp đơn khoảng **tháng 4**, được xét tốt nghiệp và ra quyết định vào **tháng 8**, sau đó nhận bằng và bảng điểm vào **tháng 9**. | `totnghiep.md` (Quy trình xét tốt nghiệp) |
+| # | Câu hỏi (Query)                                                                                                                                                                                                         | Câu trả lời chuẩn (Gold Answer)                                                                                                                                                                                                                  | Chunk nào chứa thông tin?                        |
+| - | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại **“Your Class Schedule”**.                                         | `dangkymonhoc.md` (Cách sử dụng SIS)           |
+| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                           | Sinh viên năm nhất**bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?) |
+| 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                                   | Sinh viên đại học được mượn tối đa**3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. *(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)*                                                 | `thuvien.md` (2.2. Circulation Privileges)        |
+| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                                                 | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành**2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân.                  | `hocphi_hocbong.md` (Học phí)                   |
+| 5 | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào?                                                                    | Sinh viên nộp đơn khoảng**tháng 4**, được xét tốt nghiệp và ra quyết định vào **tháng 8**, sau đó nhận bằng và bảng điểm vào **tháng 9**.                                                              | `totnghiep.md` (Quy trình xét tốt nghiệp)     |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
