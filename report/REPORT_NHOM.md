@@ -17,28 +17,42 @@
 **Chủ đề (cố định theo lớp K3):** Dịch vụ / quy định đại học (đăng ký môn, học phí, học bổng, thư viện, ký túc xá…).
 
 **Phạm vi cụ thể nhóm tập trung:**
-> *1 câu — ví dụ: thư viện + đăng ký môn học.*
+> Các dịch vụ và quy định hỗ trợ sinh viên VinUniversity trong học tập, sức khỏe, nghề nghiệp, tài chính và đời sống ký túc xá.
 
 ### Danh sách tài liệu (Data Inventory)
 
 | # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
 |---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Dịch vụ mượn tài liệu và thiết bị tại Thư viện VinUniversity | https://library.vinuni.edu.vn/services/borrow-and-request/undergraduate-and-staff/ | 2026-08-03 / `not-stated` | 1.358 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 2 | Dịch vụ hỗ trợ học tập của Thư viện VinUniversity | https://library.vinuni.edu.vn/services/learning-services/ | 2026-08-03 / `not-stated` | 964 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 3 | Dịch vụ sức khỏe thể chất và tinh thần tại VinUniversity | https://vinuni.edu.vn/vinuni-wellbeing-services/ | 2026-08-03 / `not-stated` | 1.100 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 4 | Dịch vụ phát triển nghề nghiệp tại VinUniversity | https://vinuni.edu.vn/aid/career-services/ | 2026-08-03 / `not-stated` | 1.045 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 5 | Quy trình yêu cầu hỗ trợ tài chính cho sinh viên VinUniversity | https://policy.vinuni.edu.vn/all-policies/guidelines-for-student-financial-support-request/ | 2026-08-03 / `GDL-FAO-001-V2.0` (2025-04-22) | 1.671 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 6 | Tiêu chí duy trì học bổng đầu vào và hỗ trợ tài chính tại VinUniversity | https://policy.vinuni.edu.vn/all-policies/criteria-to-maintain-the-entry-scholarship-and-financial-aid-support/ | 2026-08-03 / `GDL-SAM-004-V2.1` (2025-09-04) | 1.274 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 7 | Phòng ở và tiện ích ký túc xá VinUniversity | https://vinuni.edu.vn/student_life/residential-life/dormitory-room/ | 2026-08-03 / `not-stated` | 1.034 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+| 8 | Quyền tiếp cận dịch vụ hỗ trợ theo Bộ quy tắc sinh viên VinUniversity | https://policy.vinuni.edu.vn/all-policies/student-affairs-regulations-code-of-conduct/ | 2026-08-03 / `VU_CTSV02.EN V5.0` (2025-12-24) | 1.610 | `audience`, `department`, `category`, `language`, `source_language`, `content_form` |
+
+*Số ký tự được tính trên phần nội dung sau YAML front matter, tức phần thực tế được `ingest.py` đưa vào chunker.*
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [x] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [x] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
 |----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+| `doc_id` | string | `vinuni-financial-aid-request` | Định danh ổn định cho tài liệu và liên kết mọi chunk về đúng nguồn. |
+| `title` | string | `Quy trình yêu cầu hỗ trợ tài chính cho sinh viên VinUniversity` | Tăng tín hiệu ngữ nghĩa và giúp hiển thị tên nguồn trong kết quả. |
+| `source_url` | URL string | `https://policy.vinuni.edu.vn/...` | Cho phép truy vết và kiểm chứng câu trả lời tại nguồn chính thức. |
+| `retrieved_at` | ISO date string (`YYYY-MM-DD`) | `2026-08-03` | Hỗ trợ đánh giá độ mới của dữ liệu đã thu thập và tương thích với metadata store. |
+| `document_version` | string | `GDL-FAO-001-V2.0 (2025-04-22)` | Phân biệt phiên bản chính sách; dùng `not-stated` khi trang không công bố phiên bản. |
+| `audience` | enum-like string | `undergraduate-student` | Lọc nội dung theo nhóm người học phù hợp. |
+| `department` | enum-like string | `financial-aid-office` | Thu hẹp tìm kiếm về đúng đơn vị cung cấp dịch vụ hoặc ban hành quy định. |
+| `category` | enum-like string | `financial-aid` | Lọc theo loại nhu cầu như thư viện, sức khỏe, nghề nghiệp, tài chính hoặc ký túc xá. |
+| `language` | string | `vi` | Chọn nội dung phù hợp với ngôn ngữ câu hỏi. |
+| `source_language` | string | `en` | Cho biết ngôn ngữ của nguồn gốc để kiểm tra bản tóm lược tiếng Việt. |
+| `content_form` | string | `translated-summary` | Phân biệt nội dung tóm lược có dịch với bản chép nguyên văn. |
 
 ---
 
