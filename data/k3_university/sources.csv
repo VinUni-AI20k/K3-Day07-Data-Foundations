@@ -1,3 +1,6 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+k3-course-registration,data/k3_university/course-registration.md,Đăng ký khối lượng học tập và rút bớt học phần,https://sotaysv.phenikaa-uni.edu.vn/home/1.-hoat-dong-dao-tao-tai-truong-dai-hoc-phenikaa/1.5-dang-ky-khoi-luong-hoc-tap-va-rut-bot-hoc-phan-da-dang-ky,2026-08-03,not-stated,public-page
+k3-library-services,data/k3_university/library-services.md,Dịch vụ Trung tâm Thông tin - Thư viện,https://sotaysv.phenikaa-uni.edu.vn/home/4.-trung-tam-thong-tin-thu-vien,2026-08-03,not-stated,public-page
+k3-tuition-payment,data/k3_university/tuition-payment.md,Các quy định về thanh toán học phí,https://sotaysv.phenikaa-uni.edu.vn/home/5.-cac-quy-dinh-ve-thanh-toan-hoc-phi,2026-08-03,not-stated,public-page
+k3-dormitory-policy,data/k3_university/dormitory-policy.md,Ký túc xá sinh viên,https://sotaysv.phenikaa-uni.edu.vn/home/7.-ky-tuc-xa-sinh-vien,2026-08-03,not-stated,public-page
+k3-scholarship-policy,data/k3_university/scholarship-policy.md,Học bổng khuyến khích học tập rèn luyện khen thưởng kỷ luật sinh viên,https://sotaysv.phenikaa-uni.edu.vn/home/2.-hoat-dong-cong-tac-sinh-vien/2.3-hoc-bong-khuyen-khich-hoc-tap-ren-luyen-khen-thuong-ky-luat-sinh-vien,2026-08-03,not-stated,public-page
