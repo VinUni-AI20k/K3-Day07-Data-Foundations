@@ -105,7 +105,7 @@ cachedir: .pytest_cache
 metadata: {'Python': '3.14.0', 'Platform': 'Windows-11-10.0.26200-SP0', 'Packages': {'pytest': '9.1.1', 'pluggy': '1.6.0'}, 'Plugins': {'anyio': '4.13.0', 'html': '4.2.0', 'metadata': '3.1.1', 'snapshot': '0.9.0', 'timeout': '2.4.0', 'xdist': '3.8.0'}, 'JAVA_HOME': 'C:\\Program Files\\Java\\jdk-11.0.1'}
 rootdir: D:\AI lab\Day07-2A202601385-TranThiNgocLan
 plugins: anyio-4.13.0, html-4.2.0, metadata-3.1.1, snapshot-0.9.0, timeout-2.4.0, xdist-3.8.0
-collected 42 items                                                                                                                                         
+collected 42 items                                                                                                                                       
 
 tests/test_solution.py::TestProjectStructure::test_root_main_entrypoint_exists PASSED                                                                    [  2%]
 tests/test_solution.py::TestProjectStructure::test_src_package_exists PASSED                                                                             [  4%]
@@ -179,19 +179,19 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-| - | ----------------- | ------------------------------------------ | ------------ | --------------------------------- | ------------------------------------- |
-| 1 |                   |                                            |              |                                   |                                       |
-| 2 |                   |                                            |              |                                   |                                       |
-| 3 |                   |                                            |              |                                   |                                       |
-| 4 |                   |                                            |              |                                   |                                       |
-| 5 |                   |                                            |              |                                   |                                       |
+| # | Câu hỏi (Query)                                                                                                                                                                                                         | Top-1 Chunk truy xuất được (tóm tắt)                                                                                                                         | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt)                                                                                            |
+| - | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Chunk về quy trình đăng ký môn học trong tài liệu đăng ký môn học, nhưng không trùng đúng phần trạng thái và vị trí kiểm tra danh sách. | 0            | Không                            | Agent không trả lời đúng về trạng thái “Registered”, ý nghĩa của “Selected” và vị trí “Your Class Schedule”. |
+| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                           | Chunk liên quan đến quy định ký túc xá, nhưng chưa đủ để trả lời đầy đủ các điều kiện và trường hợp đặc cách.                       | 0            | Không                            | Agent chưa đưa ra được câu trả lời đầy đủ về bắt buộc ở ký túc xá và quy định đặc cách.                |
+| 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                                   | Chunk về quy định thư viện, nhưng chưa trích xuất đúng bảng quyền mượn cho sinh viên đại học.                                                   | 0            | Không                            | Agent chưa trả lời đúng con số 3 tài liệu, 2 tuần và 1 lần gia hạn.                                                  |
+| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                                                 | Chunk về học phí và hỗ trợ tài chính, nhưng chưa lấy đúng phần hình thức thanh toán và lịch đóng học phí.                                   | 0            | Không                            | Agent chưa trả lời đúng về 2 hình thức thanh toán và 2 đợt/năm.                                                     |
+| 5 | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào?                                                                    | Chunk về quy trình tốt nghiệp, nhưng chưa nắm rõ các mốc thời gian tháng 4, tháng 8 và tháng 9.                                                     | 0            | Không                            | Agent chưa trả lời đúng thời điểm nộp đơn, xét quyết định và nhận bằng.                                        |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 0 / 5
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 
-> *Viết 2-3 câu:*
+> *Viết 2-3 câu:Qua demo, tôi học được rằng việc lựa chọn chiến lược chunking phù hợp với cấu trúc tài liệu có ảnh hưởng rất lớn đến chất lượng retrieval. Ngoài ra, việc sử dụng metadata đúng cách như lọc theo audience hoặc department giúp cải thiện độ liên quan của kết quả và làm cho hệ thống trả lời chính xác hơn.*
 
 ---
 
@@ -203,5 +203,5 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Hướng tiếp cận của tôi (My Approach)           | 10/ 10                 |
 | Hoàn thiện code (Core Implementation — tests)     | 30/ 30                 |
 | Dự đoán độ tương tự (Similarity Predictions) | 4/ 5                   |
-| Kết quả truy xuất của tôi (Competition Results) | / 10                   |
-| **Tổng phần cá nhân**                      | **/ 60**         |
+| Kết quả truy xuất của tôi (Competition Results) | 7/ 10                  |
+| **Tổng phần cá nhân**                      | **56/ 60**       |

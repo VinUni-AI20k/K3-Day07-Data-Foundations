@@ -55,12 +55,12 @@
 
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
-| Tài liệu                         | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                                                                                |
-| ---------------------------------- | ---------------------------------- | ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`)  | 194               | 196.4                 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời. |
-| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`)      | 53                | 717.2                 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài.                      |
-|                                    | SentenceChunker (`by_sentences`) |                   |                       |                                                                                                                |
-|                                    | RecursiveChunker (`recursive`)   |                   |                       |                                                                                                                |
+| Tài liệu                         | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                                                                                                                                                      |
+| ---------------------------------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`)  | 194               | 196.4                 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời.                                                                       |
+| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`)      | 53                | 717.2                 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài.                                                                                            |
+|                                    | SentenceChunker (`by_sentences`) |                   |                       |                                                                                                                                                                                      |
+| Toàn bộ corpus K3 (9 tài liệu) | RecursiveChunker (`recursive`)   | 239               | 157.41                | Có — giữ được ngữ cảnh tốt hơn, ưu tiên tách theo đoạn văn, heading và dòng ngắt, nhưng số lượng chunk có thể nhiều hơn so với các chiến lược khác. |
 
 ### Chiến lược của từng thành viên
 
