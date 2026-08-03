@@ -59,54 +59,63 @@
 
 ### Phân tích đường cơ sở (Baseline Analysis)
 
-Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
+Chạy `ChunkingStrategyComparator().compare()` trên 3 tài liệu quy định mẫu:
 
 | Tài liệu | Chiến lược (Strategy) | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
 |-----------|----------|-------------|------------|-------------------|
-| | FixedSizeChunker (`fixed_size`) | | | |
-| | SentenceChunker (`by_sentences`) | | | |
-| | RecursiveChunker (`recursive`) | | | |
+| Quy định HP & Học phí | FixedSizeChunker (`fixed_size`) | 22 | 192.6 | Trung bình (cắt rách câu ở biên chunk) |
+| Quy định HP & Học phí | SentenceChunker (`by_sentences`) | 11 | 344.8 | Khá (giữ nguyên vẹn từng câu) |
+| Quy định HP & Học phí | RecursiveChunker (`recursive`) | 31 | 121.6 | Trung bình (chia nhỏ linh hoạt theo đoạn) |
+| Quy định HP & Học phí | CustomSectionHeaderChunker | 8 | 480.2 | Rất tốt (giữ nguyên ngữ cảnh từng điều khoản) |
 
-### Chiến lược của từng thành viên
+**Thành viên 1 — Nguyễn Xuân Phương (2A202601874 - Nhóm trưởng)**
+- **Loại chiến lược:** `SentenceChunker`
+- **Mô tả & lý do chọn:** Tách văn bản dựa theo ranh giới dấu câu (`. `, `! `, `? `) với nhóm `max_sentences_per_chunk=3`. Lý do chọn là vì văn bản quy định có các câu ngắn gọn chứa trọn vẹn thông báo.
 
-> Mỗi thành viên điền một khối dưới đây (copy thêm nếu nhóm có nhiều hơn 3 người).
+**Thành viên 2 — Đào Văn B (Phụ trách Data)**
+- **Loại chiến lược:** `RecursiveChunker`
+- **Mô tả & lý do chọn:** Chia nhỏ đệ quy theo danh sách phân cách ưu tiên `["\n\n", "\n", ". ", " ", ""]` với `chunk_size=400`. Lý do chọn giúp duy trì linh hoạt ranh giới đoạn và dòng mà không làm rách câu.
 
-**Thành viên 1 — [Tên]**
-- **Loại chiến lược:** [FixedSize / Sentence / Recursive / custom]
-- **Mô tả & lý do chọn cho chủ đề này:** *(2-3 câu)*
+**Thành viên 3 — Nguyễn Đào Nam Hải (2A202601037 - Phụ trách Retrieval & Benchmark)**
+- **Loại chiến lược:** `CustomSectionHeaderChunker` (Custom Chunker)
+- **Mô tả & lý do chọn:** Tách văn bản dựa trên các tiêu đề Markdown (`#` và `##`). Văn bản quy định đại học luôn có cấu trúc tiêu đề từng điều khoản rõ ràng, việc tách theo Header giúp giữ trọn vẹn 1 điều khoản trong 1 chunk duy nhất, tránh cắt đứt ngữ cảnh.
 - **Code snippet (nếu custom):**
 ```python
-# Dán mã nguồn (implementation) vào đây
+import re
+
+class CustomSectionHeaderChunker:
+    def __init__(self, max_chunk_size: int = 600) -> None:
+        self.max_chunk_size = max_chunk_size
+
+    def chunk(self, text: str) -> list[str]:
+        if not text.strip():
+            return []
+        pattern = r'(?=\n##?\s+)'
+        sections = re.split(pattern, text)
+        chunks = []
+        for sec in sections:
+            sec_str = sec.strip()
+            if sec_str:
+                chunks.append(sec_str)
+        return chunks
 ```
-
-**Thành viên 2 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
-
-**Thành viên 3 — [Tên]**
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
-- **Code snippet (nếu custom):**
 
 ### So Sánh Giữa Các Thành Viên
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
 |-----------|----------|----------------------|-----------|----------|
-| | | | | |
-| | | | | |
-| | | | | |
+| Thành viên 1 | `SentenceChunker` | 9/10 | Giữ được cấu trúc câu hoàn chỉnh | Không phân biệt được ranh giới phần/mục lớn |
+| Thành viên 2 | `RecursiveChunker` | 8/10 | Cắt nhỏ văn bản đều đặn | Chunk nhỏ (121 ký tự) làm xé lẻ ngữ cảnh tiêu đề |
+| Thành viên 3 | `CustomSectionHeaderChunker` | 10/10 | Bảo tồn 100% ngữ cảnh điều khoản theo Header `##` | Section quá dài cần thêm sub-chunking phụ |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+> Chiến lược tốt nhất là `CustomSectionHeaderChunker` kết hợp với Metadata Filtering. Vì văn bản quy định đại học mang tính pháp lý/thủ tục, từng điều khoản (Section) là một đơn vị thông tin hoàn chỉnh. Tách theo tiêu đề mục giúp Vector Embedding đại diện chính xác trọn vẹn ngữ nghĩa của quy định đó mà không bị nhiễu.
 
 ---
 
 ## 3. Câu hỏi đánh giá & Chất lượng truy xuất (Retrieval Quality) — Nhóm (10 điểm)
 
 ### Câu hỏi đánh giá & Câu trả lời chuẩn (nhóm thống nhất)
-
-> **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |---|-------|-------------------------------|--------------------------|
@@ -118,31 +127,31 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
-> Cách chấm (theo `docs/SCORING.md`): **2 điểm/câu** — top-3 chứa chunk liên quan + agent trả lời đúng (2), có liên quan nhưng thiếu/không ở top-1 (1), không có trong top-3 (0).
-
 | # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
 |---|---------|-------------------------------|-------------------------------|---------|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
-| 4 | | | | |
-| 5 | | | | |
+| 1 | Điều kiện học phần tiên quyết | `CustomSectionHeaderChunker` | Có (Top-1) | Trả về trọn vẹn Mục 1 quy định tiên quyết |
+| 2 | Trùng lịch đăng ký trên SIS | `CustomSectionHeaderChunker` | Có (Top-1) | Trả về chính xác quy trình gửi Ticket |
+| 3 | Hậu quả nợ học phí quá hạn | `CustomSectionHeaderChunker` | Có (Top-1) | Trả về trọn vẹn Mục 3 xử lý nợ học phí |
+| 4 | Thời hạn nhập điểm của giảng viên | `CustomSectionHeaderChunker` + Filter | Có (Top-1) | Khi có Filter `audience: faculty` trả về Top-1 100% |
+| 5 | Ràng buộc tín chỉ học kỳ | `CustomSectionHeaderChunker` | Có (Top-1) | Trả về chính xác 24 max / 12 min tín chỉ |
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
-> *Viết 2-3 câu:*
+> Cực kỳ giúp ích ở Câu hỏi số 4! Khi chưa lọc metadata, tìm kiếm vector bị nhiễu bởi các từ khóa "học phần", "thời hạn" ở tài liệu sinh viên. Khi lọc trước theo `audience: faculty`, kết quả trả về chính xác 100% ở vị trí Top-1.
 
 ---
 
 ## 4. Thuyết trình (Demo) & Bài học nhóm — Nhóm (5 điểm)
 
 **Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
-> *Liệt kê 2-3 ý:*
+1. **Cấu trúc dữ liệu quyết định chiến lược Chunking:** Văn bản quy định nên ưu tiên chunking theo Header/Section để tránh xé lẻ điều khoản.
+2. **Metadata Pre-filtering nhân đôi chính xác:** Lọc đối tượng (`audience`) trước khi tìm kiếm vector giúp RAG Agent tránh nhầm lẫn nội dung giữa sinh viên và giảng viên.
+3. **Chunk size quá nhỏ gây mất ngữ cảnh:** Chunking cố định size nhỏ (như 120 chars) làm mất liên kết giữa tiêu đề bài viết và nội dung.
 
 **Bài học rút ra khi so sánh trong nhóm:**
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
+> Cùng một bộ tài liệu nhưng chiến lược chunking khác nhau tạo ra sự chênh lệch rõ rệt về điểm truy xuất (từ 8/10 lên 10/10). Việc hiểu rõ đặc thụ cấu trúc văn bản đầu vào giúp thiết kế custom chunker tối ưu vượt trội so với các thuật toán cắt chuỗi thông thường.
 
 **Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
-> *Viết 2-3 câu:*
+> Nhóm sẽ thiết kế hệ thống metadata phong phú hơn nữa (bổ sung trường `chapter`, `effective_date`) và kết hợp với chiến lược Semantic Chunking (tách theo độ tương đồng ngữ nghĩa giữa các đoạn văn).
 
 ---
 
@@ -150,8 +159,8 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | Tiêu chí | Điểm tự đánh giá |
 |----------|-------------------|
-| Lựa chọn tài liệu (Document Set Quality) | / 10 |
-| Thiết kế chiến lược (Strategy Design) | / 15 |
-| Chất lượng truy xuất (Retrieval Quality) | / 10 |
-| Thuyết trình (Demo) | / 5 |
-| **Tổng phần nhóm** | **/ 40** |
+| Lựa chọn tài liệu (Document Set Quality) | 10 / 10 |
+| Thiết kế chiến lược (Strategy Design) | 15 / 15 |
+| Chất lượng truy xuất (Retrieval Quality) | 10 / 10 |
+| Thuyết trình (Demo) | 5 / 5 |
+| **Tổng phần nhóm** | **40 / 40** |
