@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Callable
 
-from .chunking import _dot
+from .chunking_2A202601037 import _dot
 from .embeddings import _mock_embed
 from .models import Document
 
@@ -37,7 +37,7 @@ class EmbeddingStore:
             self._collection = None
 
     def _make_record(self, doc: Document) -> dict[str, Any]:
-        from .chunking import compute_similarity
+        from .chunking_2A202601037 import compute_similarity
         return {
             "id": doc.id,
             "content": doc.content,
@@ -46,7 +46,7 @@ class EmbeddingStore:
         }
 
     def _search_records(self, query: str, records: list[dict[str, Any]], top_k: int) -> list[dict[str, Any]]:
-        from .chunking import compute_similarity
+        from .chunking_2A202601037 import compute_similarity
         query_emb = self._embedding_fn(query)
         results = []
         for r in records:
