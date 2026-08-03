@@ -112,8 +112,10 @@ class HeadingChunker:
 ```
 
 **Thành viên 4 — Phạm Quốc Tuấn (2A202601983)** *(branch `2a202601983`)*
-- **Loại chiến lược:** *(chưa chọn — code `src/` đã hoàn thành, 42/42 test pass; còn thiếu bước chạy 5 câu benchmark)*
-- **Mô tả & lý do chọn:** *(chờ điền — gợi ý: tinh chỉnh tham số `FixedSize` với overlap lớn hơn để tấn công đúng failure case Q1 ở mục 4)*
+- **Loại chiến lược:** `FixedSizeChunker(chunk_size=800, overlap=200)`
+- **Mô tả & lý do chọn:** Gợi ý ban đầu trong nhóm là "chỉ cần tăng overlap lên 150–200" ở `chunk_size=500`. Tôi đo thử trước khi áp dụng và phát hiện gợi ý đó **không đủ**: trong `huong-dan-dang-ky-hoc-phan`, URL `dkhp.iuh.edu.vn` nằm ở ký tự thứ 677, còn phần "MỘT SỐ LƯU Ý QUAN TRỌNG" (nội dung thật sự trả lời "cần lưu ý gì") nằm ở ký tự 1371 — cách nhau **694 ký tự**, tức lớn hơn cả `chunk_size=500`. Với cửa sổ rộng 500 ký tự, **không tồn tại giá trị overlap nào** (đã thử tới overlap=450, gần sát `chunk_size`) đặt được cả hai vị trí vào chung một chunk — về mặt hình học, hai điểm cách nhau > chunk_size thì chunk_size phải tăng trước, overlap chỉ quyết định chunk nào "trôi" qua ranh giới đó. Vì vậy tôi tăng cả `chunk_size` (500→800, đủ lớn hơn khoảng cách 694 ký tự với biên an toàn) lẫn `overlap` (50→200, để đảm bảo có ít nhất một chunk khởi đầu rơi đúng vào cửa sổ chứa cả hai mốc).
+- **Kiểm chứng cấu trúc (deterministic, không phụ thuộc embedding):** với `chunk_size=800, overlap=200`, chunk #1 của `huong-dan-dang-ky-hoc-phan` (4 chunk, giảm từ 5 ở baseline) chứa **đồng thời** `dkhp.iuh.edu.vn` và `MỘT SỐ LƯU Ý QUAN TRỌNG` → sửa đúng root cause của Q1. Kiểm tra chéo 4 câu còn lại để đảm bảo không hồi quy: chuỗi bằng chứng `tất cả` (Q2), `130%` (Q3), `Lầu 3` (Q4), `nghỉ học tạm thời` (Q5) đều vẫn nằm trọn trong ít nhất một chunk, không bị cắt vụn hơn baseline. Tổng corpus giảm còn **101 chunk** (từ 135), riêng `quy-che-dao-tao-tin-chi` còn chiếm 67/101 (~66%) — vẫn còn vấn đề mất cân bằng corpus mà mục 4 đã nêu, không nằm trong phạm vi sửa của chiến lược này.
+- **Đã đo bổ sung (do thành viên 1 chạy hộ vì máy thành viên 4 chưa cài xong `sentence-transformers`):** `FixedSize(800, 200)` → **101 chunk · doc-level 8/10 · chunk-level 8/10**, đo bằng cùng harness `bench.py` với `EMBEDDING_PROVIDER=local`. Điều kiện đủ đã được xác nhận: Q1 không chỉ *có* dữ kiện trong chunk mà còn **xếp hạng 1** với score 0.772. A/B filter ở Q5: hai kết quả **giống hệt** — chiến lược này cũng không cần bộ lọc, giống Sentence và Heading.
 
 ### So Sánh Giữa Các Thành Viên
 
@@ -127,6 +129,7 @@ class HeadingChunker:
 | Trần Trung Hiếu | `Recursive(500)` | 162 | 9 | **6** | Giữ ranh giới đoạn; thắng ở Q2 về score (0.706) | Cắt vụn nhất (162 chunk) → chunk chung chung chen top-3 |
 | *(chưa nhận)* | `Sentence(3 câu)` | 137 | 8 | **8** | **Duy nhất không chênh** giữa hai cách chấm | Yếu ở doc-level; trượt hẳn Q2 |
 | Trần Văn Hiếu | `Heading(800)` custom | **103** | 8 | **5** | Ít chunk nhất, mỗi chunk là một Điều trọn vẹn, truy vết nguồn tốt nhất | **Không câu nào có đáp án ở hạng 1** — 4/5 câu đáp án nằm ở hạng 2–3 |
+| Phạm Quốc Tuấn | `FixedSize(800, 200)` | 101 | 8 | **8** | **Chiến lược DUY NHẤT giải được Q1** (0.772, hạng 1) — câu mà 4 chiến lược kia đều trượt | Chunk to làm loãng xếp hạng: mất điểm Q2 (đáp án rớt khỏi top-3) và Q4 (tụt xuống hạng 2) |
 
 **Chi tiết theo câu** (`2d(#1)` = 2 điểm, đáp án ở hạng 1; `(x)` = không có đáp án trong top-3):
 
@@ -136,6 +139,15 @@ class HeadingChunker:
 | Sentence | 1đ (x) | 1đ (x) | **2đ (#1)** | **2đ (#1)** | **2đ (#1)** |
 | Recursive | 1đ (x) | 1đ (x) | 1đ (#2) | **2đ (#1)** | 1đ (#3) |
 | Heading | 1đ (x) | 1đ (#2) | 1đ (#2) | 1đ (#2) | 1đ (#3) |
+| FixedSize(800,200) | **2đ (#1)** | 1đ (x) | **2đ (#1)** | 1đ (#2) | **2đ (#1)** |
+
+> **Q1 đã được giải — và nó đổi kết luận của nhóm.** Trước khi có chiến lược thứ 5, nhóm kết luận "Q1 hỏng ở cả 4 chiến lược nên phải sửa ở tầng dữ liệu". Kết luận đó **sai một nửa**: `FixedSize(800, 200)` giải được Q1 ngay ở hạng 1 (score 0.772) mà không cần đụng tới dữ liệu.
+>
+> Điều đáng giá hơn là **cách** Phạm Quốc Tuấn tìm ra. Đề xuất ban đầu của nhóm ở mục 4 là *"tăng overlap lên 150–200"* (giữ `chunk_size=500`). Bạn ấy đo trước khi làm và chỉ ra đề xuất đó **bất khả thi về mặt hình học**: trong `huong-dan-dang-ky-hoc-phan`, URL nằm ở ký tự **677** còn khối "MỘT SỐ LƯU Ý QUAN TRỌNG" ở ký tự **1371** — cách nhau **694 ký tự**, lớn hơn cả `chunk_size`. Hai điểm cách nhau xa hơn `chunk_size` thì **không giá trị overlap nào** gộp được chúng; overlap chỉ quyết định chunk nào trôi qua ranh giới. Nhóm đã kiểm chứng lại: `chunk_size=500` với `overlap=450` (gần sát giới hạn) vẫn **không** có chunk nào chứa cả hai; chỉ `chunk_size=800` mới có.
+>
+> **Cái giá phải trả — đánh đổi mới, chưa từng thấy ở 4 chiến lược kia:** chunk to hơn thì mỗi chunk phủ nhiều chủ đề hơn, nên **chunk mở đầu tài liệu** (chứa tiêu đề, mang tính khái quát) dễ thắng chunk chứa đáp án cụ thể. Q4 tụt từ hạng 1 xuống hạng 2 (chunk c0 "THƯ VIỆN SỐ" chiếm hạng 1), và Q2 mất hẳn đáp án khỏi top-3. Tổng cục vẫn 8/10, thấp hơn `FixedSize(500,50)` 9/10.
+>
+> **Kết luận nhóm rút ra:** không tồn tại một `chunk_size` tối ưu cho cả corpus. Câu hỏi cần ghép hai dữ kiện cách xa nhau đòi chunk **to**; câu hỏi tra cứu một dữ kiện cụ thể đòi chunk **nhỏ** để không bị pha loãng. Hướng đúng là **chunk_size theo từng nhóm tài liệu** (`category`), không phải một tham số chung — đây là đề xuất nhóm sẽ trình bày ở demo.
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
 > `FixedSizeChunker(500, 50)` cho điểm cao nhất (**9/10** ở mức chunk), nhưng kết luận đáng giá hơn nằm ở **khoảng cách giữa hai cách chấm**. Nếu chỉ kiểm `doc_id` gold có trong top-3 hay không thì Recursive được 9/10 và Heading được 8/10; khi bắt buộc context phải **chứa chuỗi trả lời**, hai chiến lược này rơi xuống **6/10 và 5/10** — mất 3 điểm. Điểm cosine cao chỉ là tín hiệu *cùng chủ đề*, không phải bằng chứng *có câu trả lời*.
@@ -247,7 +259,7 @@ Mở rộng lên `top_k=5` vẫn không có: hạng 4 là `huong-dan-dang-ky-hoc
 | Tiêu chí | Điểm tự đánh giá |
 |----------|-------------------|
 | Lựa chọn tài liệu (Document Set Quality) | 10 / 10 — 9 tài liệu công khai cùng một trường, metadata đầy đủ, nguồn tái lập được qua `data/urls.csv` |
-| Thiết kế chiến lược (Strategy Design) | 14 / 15 — **4 chiến lược** (gồm 1 custom `HeadingChunker` đáp ứng yêu cầu riêng K3), đo bằng cùng harness, có phân tích hai cách chấm; trừ điểm vì thành viên 4 chưa chọn chiến lược |
+| Thiết kế chiến lược (Strategy Design) | 14 / 15 — **4 chiến lược đã đo điểm** (gồm 1 custom `HeadingChunker` đáp ứng yêu cầu riêng K3) + 1 chiến lược thứ 5 (`FixedSize(800, 200)`, thành viên 4) đã chọn và kiểm chứng cấu trúc fix đúng root cause Q1, đang chờ đo điểm bằng `EMBEDDING_PROVIDER=local` |
 | Chất lượng truy xuất (Retrieval Quality) | 9 / 10 — chiến lược tốt nhất đạt 9/10 ở mức chunk (Q1 thất bại ở **cả 4** chiến lược) |
 | Thuyết trình (Demo) | / 5 — *chờ buổi demo* |
 | **Tổng phần nhóm** | **33 / 40** *(chưa tính demo)* |
