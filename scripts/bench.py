@@ -29,7 +29,7 @@ if str(ROOT) not in sys.path:
 
 from ingest import build_knowledge_base
 from src.agent import KnowledgeBaseAgent
-from src.chunking import FixedSizeChunker, RecursiveChunker, SentenceChunker
+from src.chunking import FixedSizeChunker, HeadingChunker, RecursiveChunker, SentenceChunker
 from src.embeddings import (
     EMBEDDING_PROVIDER_ENV,
     LOCAL_EMBEDDING_MODEL,
@@ -151,6 +151,7 @@ def _select_chunker(name: str):
         "fixed_size": FixedSizeChunker(chunk_size=500, overlap=50),
         "sentences": SentenceChunker(max_sentences_per_chunk=3),
         "recursive": RecursiveChunker(chunk_size=500),
+        "heading": HeadingChunker(max_chunk_size=1500, include_parents=True),
     }
     if name not in chunkers:
         raise SystemExit(f"Chunker không hợp lệ: {name}. Chọn: {', '.join(chunkers)}")
@@ -293,7 +294,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--chunker",
-        choices=("fixed_size", "sentences", "recursive"),
+        choices=("fixed_size", "sentences", "recursive", "heading"),
         default=os.getenv("LAB_CHUNKER", "recursive"),
         help="Chien luoc chunking — moi thanh vien chi doi o day",
     )
