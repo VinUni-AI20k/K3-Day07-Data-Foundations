@@ -1,0 +1,226 @@
+---
+doc_id: "van-hoa-hoc-duong"
+title: "Quy chế Văn hóa học đường của Trường Đại học Xây dựng Hà Nội"
+source_url: "https://sinhvien.huce.edu.vn/sinh-vien/tin-tuc/quy-che-van-hoa-hoc-duong-cua-truong-dai-hoc-xay-dung-ha-noi.html"
+retrieved_at: "2026-08-03"
+document_version: "2024-09-17"
+audience: "all"
+department: "ctct-sv"
+category: "quy-che"
+language: "vi"
+---
+
+# Quy chế Văn hóa học đường của Trường Đại học Xây dựng Hà Nội
+
+Quy chế Văn hóa học đường của Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Quy chế Văn hóa học đường của Trường Đại học Xây dựng Hà Nội
+
+17/09/2024 - Lượt xem: 2103
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liên quan
+
+
+
+
+
+
+
+
+
+
+Tháng 03
+
+
+21
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Đồ án tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 03
+
+
+12
+
+
+
+
+
+
+
+Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra chương trình đào tạo bậc đại học
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+26
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Thực tập tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+13
+
+
+
+
+
+
+
+Quyết định ban hành Quy định về phân loại trình độ đầu vào, chương trình học và chuẩn ngoại ngữ yêu cầu đối với sinh viên đại học hệ chính quy K70
+
+
+
+
+
+
+
+
+
+
+
+Tháng 10
+
+
+23
+
+
+
+
+
+
+
+Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mọi thắc mắc về hệ thống cần được giải đáp vui lòng liên hệ hotline (024)38630001 hoặc Email :ttcntt@huce.edu.vn

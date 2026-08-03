@@ -1,0 +1,234 @@
+---
+doc_id: "danh-gia-ket-qua-hoc-tap"
+title: "Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra"
+source_url: "https://sinhvien.huce.edu.vn/sinh-vien/tin-tuc/quy-dinh-to-chuc-danh-gia-va-cong-nhan-ket-qua-hoc-tap-theo-chuan-dau-ra-chuong-trinh-dao-tao-bac-dai-hoc.html"
+retrieved_at: "2026-08-03"
+document_version: "2026-03-12"
+audience: "student"
+department: "dao-tao"
+category: "quy-che"
+language: "vi"
+---
+
+# Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra
+
+Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra chương trình đào tạo bậc đại học
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra chương trình đào tạo bậc đại học
+
+12/03/2026 - Lượt xem: 1750
+
+
+
+
+
+NỘI DUNG CỤ THỂ XEM TẠI ĐÂY
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liên quan
+
+
+
+
+
+
+
+
+
+
+Tháng 03
+
+
+21
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Đồ án tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+26
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Thực tập tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+13
+
+
+
+
+
+
+
+Quyết định ban hành Quy định về phân loại trình độ đầu vào, chương trình học và chuẩn ngoại ngữ yêu cầu đối với sinh viên đại học hệ chính quy K70
+
+
+
+
+
+
+
+
+
+
+
+Tháng 10
+
+
+23
+
+
+
+
+
+
+
+Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh
+
+
+
+
+
+
+
+
+
+
+
+Tháng 06
+
+
+20
+
+
+
+
+
+
+
+Quyết định ban hành Quy định về CT học và chuẩn tiếng Anh, tiếng Pháp yêu cầu đối với sinh viên đại học hệ chính quy các lớp E F PFIEV K69
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mọi thắc mắc về hệ thống cần được giải đáp vui lòng liên hệ hotline (024)38630001 hoặc Email :ttcntt@huce.edu.vn
