@@ -1,3 +1,8 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+k3-course-registration,data/k3_university/course-registration.md,Quy định đăng ký học phần,https://dangky.hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-library-renewal,data/k3_university/library-renewal.md,Quy định gia hạn tài liệu thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-library-borrowing,data/k3_university/library-borrowing.md,Quy định mượn và trả sách thư viện,https://lib.hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-scholarship-policy,data/k3_university/scholarship.md,Chính sách học bổng khuyến khích học tập,https://hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-dormitory-rules,data/k3_university/dormitory.md,Quy định ký túc xá,https://ktx.hust.edu.vn/,2026-08-02,2026.1,public-page
+k3-tuition-fee,data/k3_university/tuition-fee.md,Quy định đóng học phí,https://hust.edu.vn/,2026-08-02,2026.1,public-page

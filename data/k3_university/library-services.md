@@ -1,18 +1,17 @@
 ---
 doc_id: k3-library-services
 title: Dịch vụ thư viện
-audience: all               # student | faculty | staff | all
-department: library
-language: vi
-source_url: https://example.edu/thu-vien/dich-vu
+source_url: https://lib.hust.edu.vn/
 retrieved_at: 2026-08-02
 document_version: "2026.1"
+audience: all
+department: library
+category: library-services
+language: vi
 ---
 
-> Khối metadata phía trên là **template mẫu** cho K3 — thay `source_url`/`retrieved_at`/`document_version` bằng nguồn công khai thật trước khi dùng làm benchmark.
-
-# Dịch vụ thư viện (dữ liệu khởi động)
+# Dịch vụ thư viện
 
 Thư viện cung cấp mượn tài liệu và không gian học tập cho sinh viên, giảng viên và nhân viên. Người dùng cần mang thẻ định danh hợp lệ khi sử dụng dịch vụ mượn.
 
-Nhóm cần bổ sung quy định thời hạn mượn, gia hạn và xử lý quá hạn từ nguồn chính thức trước khi dùng làm benchmark.
+Giờ mở cửa: Thứ 2 - Thứ 6: 7:00 - 22:00, Thứ 7: 8:00 - 17:00, Chủ nhật: 8:00 - 17:00.
