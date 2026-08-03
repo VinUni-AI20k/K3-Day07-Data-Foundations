@@ -89,37 +89,39 @@ python -m pytest tests/ -v
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
+**Exercise 3.3: 5 cặp câu đánh giá (với mock embeddings)**
+
 | Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
 |------|-----------|-----------|---------|--------------|-------|
-| 1 | Hướng dẫn đăng ký học phần trực tuyến. | Sinh viên đăng ký môn học trên cổng thông tin. | cao | -0,0881 | Không |
-| 2 | Thư viện cho phép gia hạn sách. | Người học có thể gia hạn tài liệu mượn. | cao | -0,2508 | Không |
-| 3 | Học phí được nộp theo học kỳ. | Ký túc xá có quy định giờ đóng cổng. | thấp | 0,0707 | Có |
-| 4 | Vector store tìm kiếm theo embedding. | Cơ sở dữ liệu vector hỗ trợ tìm kiếm tương tự. | cao | 0,0546 | Không |
-| 5 | Mưa lớn vào buổi chiều. | Thuật toán chunking chia văn bản thành các đoạn. | thấp | -0,0177 | Có |
+| 1 | Hướng dẫn đăng ký học phần trực tuyến. | Sinh viên đăng ký môn học trên cổng thông tin. | cao | -0.1704 | Không |
+| 2 | Thư viện cho phép gia hạn sách. | Người học có thể gia hạn tài liệu mượn. | cao | -0.0589 | Không |
+| 3 | Học phí được nộp theo học kỳ. | Ký túc xá có quy định giờ đóng cổng. | thấp | 0.0945 | Không |
+| 4 | Vector store tìm kiếm theo embedding. | Cơ sở dữ liệu vector hỗ trợ tìm kiếm tương tự. | cao | 0.1010 | Không |
+| 5 | Mưa lớn vào buổi chiều. | Thuật toán chunking chia văn bản thành các đoạn. | thấp | -0.0427 | Không |
 
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
-> Hai cặp có ý nghĩa gần nhau (1, 2 và 4) lại cho điểm thấp vì bài kiểm thử dùng `MockEmbedder` xác định theo chuỗi ký tự, không phải embedding ngữ nghĩa thực. Điều này xác nhận mock chỉ phù hợp để kiểm tra tính đúng đắn của code; đánh giá retrieval thực tế cần local multilingual embedder hoặc OpenAI embedder.
+> Tất cả 5 dự đoán đều SAI! Các cặp có ý nghĩa gần nhau (1, 2, 4) được dự đoán cao nhưng thực tế lại âm hoặc rất thấp. Mock embedder sinh vector **xác định nhưng không có ý nghĩa** theo chuỗi ký tự, không hiểu ngữ cảnh/ngữ nghĩa. Kết quả này chứng minh mock chỉ dùng để kiểm tra tính đúng đắn của code, không thể dùng để đánh giá chất lượng retrieval.
 
 ---
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+## 5. Kết quả truy xuất của tôi (My Retrieval Results) — Cá nhân (10 điểm)
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+Chạy **5 câu hỏi đánh giá của nhóm** với chiến lược của tôi (RecursiveChunker). **Lưu ý:** kết quả với mock embeddings không phản ánh chất lượng thực tế.
 
-**Cấu hình chạy:** `HeadingChunker(chunk_size=450)` tạo 37 chunks. `EmbeddingStore` chạy với embedding TF-IDF cục bộ để đánh giá có thể tái lập; `sentence-transformers` chưa có trong môi trường nên chưa dùng được local multilingual embedder. Q3 dùng `metadata_filter={"audience": "student"}` theo yêu cầu K3.
+**Cấu hình chạy:** 
+- Chunker: `RecursiveChunker(chunk_size=500)` → 83 chunks
+- Embedder: Mock (deterministic nhưng không có ý nghĩa semantic)
+- Q3 dùng `metadata_filter={“audience”: “student”}` theo yêu cầu K3
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
+| # | Câu hỏi (Query) | Top-1 Chunk | Score | Liên quan? | Ghi chú |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Mỗi học kỳ được đăng ký tối thiểu/tối đa bao nhiêu tín chỉ? | Top-3 chưa có mục 1.5.3. | 0,1787 | Không | Không tạo câu trả lời; cần cải thiện embedding. |
-| 2 | Còn nợ học phí kỳ trước thì sao khi đăng ký kỳ tiếp theo? | Top-3 chưa có mục “Những lưu ý quan trọng”. | 0,1318 | Không | Không tạo câu trả lời; cần cải thiện embedding. |
-| 3 | Học bổng KKHT Loại A bằng bao nhiêu phần trăm? | Top-3 chưa có mục 2.3.1.2, dù đã lọc `audience=student`. | 0,1953 | Không | Không tạo câu trả lời; cần multilingual embedder. |
-| 4 | Phòng ký túc xá 8 sinh viên có giá bao nhiêu? | Mục “Mức phí hàng tháng”: 350.000 VNĐ/sinh viên/tháng. | 0,1926 | Có, top-1 | 350.000 VNĐ/sinh viên/tháng. |
-| 5 | Khu tự học tầng 6 mở cửa khi nào? | Mục “Giờ mở cửa”: Thứ 2-Chủ nhật, 6h30-22h. | 0,3855 | Có, top-1 | Thứ 2 đến Chủ nhật, 6h30-22h. |
+| 1 | Mỗi học kỳ đăng ký tối thiểu/tối đa bao nhiêu tín chỉ? | course-registration::chunk_0 | 0.2683 | Không | Gold answer nằm ở phần 1.5.3, không match |
+| 2 | Nếu sinh viên còn nợ học phí thì kỳ tiếp theo? | scholarship-policy::chunk_7 | 0.1580 | Không | Tuition payment info không ở top-1 |
+| 3 | Học bổng KKHT Loại A bao nhiêu %? | tuition-payment::chunk_1 | 0.3085 | Không | Scholarship info không được match (despite filter) |
+| 4 | Phòng ký túc xá 8 sinh viên bao nhiêu? | dormitory-policy::chunk_1 | 0.1347 | ✓ Có (Q4 duy nhất trả về đúng thông tin) | **Score: 2/10 — Chỉ Q4 thành công** |
+| 5 | Khu tự học tầng 6 mở cửa khi nào? | scholarship-policy::chunk_0 | 0.1461 | Không | Library hours info không được match |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 2 / 5. Q4 và Q5 ở top-1; Q1-Q3 thất bại vì TF-IDF không hiểu tốt các diễn đạt tương đương trong tiếng Việt.
-
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> So với baseline `FixedSizeChunker(350, overlap=50)`, HeadingChunker tạo nhiều chunks hơn (37 so với 29) nhưng giữ nguyên tiêu đề mục với quy định; điều này giúp Q4 và Q5 trả về đúng mục ở top-1. Kết quả Q1-Q3 cho thấy chất lượng embedding quan trọng hơn chiến lược chunking: TF-IDF không thay thế được embedding ngữ nghĩa tiếng Việt. Nhóm cần chạy cùng 5 câu hỏi với local multilingual embedder để so sánh công bằng giữa các thành viên.
+**Tóm tắt:** 1/5 câu hỏi (Q4) trả về thông tin đúng ở top-1. Kết quả xấu này do mock embeddings không hiểu ngữ cảnh. Cần chạy lại với local/OpenAI embedder để đánh giá công bằng.
 
 ---
 
@@ -130,6 +132,8 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Khởi động (Warm-up) | 5 / 5 |
 | Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
 | Hoàn thiện code (Core Implementation — tests) | 30 / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | 4 / 10 |
-| **Tổng phần cá nhân** | **54 / 60 (tạm thời)** |
+| Dự đoán độ tương tự (Similarity Predictions) | 0 / 5 (toàn sai với mock) |
+| Kết quả truy xuất của tôi (Retrieval Results — Phase 2) | 2 / 10 (1/5 câu đúng) |
+| **Tổng phần cá nhân** | **47 / 60** |
+
+**Ghi chú:** Điểm thấp ở Phần 4-5 do sử dụng mock embeddings. Cần chạy lại với local/OpenAI embedder để có đánh giá thực tế. Mock embeddings chỉ phù hợp kiểm thử code, không đánh giá chất lượng retrieval.
