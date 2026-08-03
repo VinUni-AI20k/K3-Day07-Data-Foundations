@@ -228,6 +228,73 @@ Tôi chấm `HeadingChunker` được 4/10, thấp hơn hẳn con số bạn ấ
 
 ---
 
+### Phụ lục — Bằng chứng top-3 đầy đủ cho cả 5 câu hỏi
+
+> Chiến lược của tôi: `FixedSizeChunker(500, 50)`, `EMBEDDING_PROVIDER=local`, `top_k=3`. Tái lập bằng `python3 bench.py --strategy fixed`.
+> Cột **Coherence** kiểm tra riêng: ngoài đáp án chính, context top-3 có giữ được **điều kiện và ngoại lệ** đi kèm không — vì một câu trả lời đúng nhưng thiếu điều kiện áp dụng vẫn là câu trả lời hỏng khi người dùng làm theo.
+
+**Q1 — "Sinh viên đăng ký học phần ở website nào và cần lưu ý gì trước khi đăng ký?"**
+
+| Hạng | Score | Tài liệu / chunk | Liên quan? | Chứa đáp án (`dkhp.iuh.edu.vn`)? |
+|---|---|---|---|---|
+| 1 | 0.815 | `huong-dan-dang-ky-hoc-phan` c2 — "Lưu ý: Sinh viên đăng nhập trang đăng ký học phần bằng tài khoản…" | Có, đúng chủ đề | ❌ |
+| 2 | 0.714 | `quy-che-dao-tao-tin-chi` c20 — "…theo dõi thông báo của Trường để nắm thông tin về các học phần sẽ mở…" | Một phần | ❌ |
+| 3 | 0.695 | `quy-che-dao-tao-tin-chi` c23 — "…học kỳ thứ nhất theo thời khóa biểu cho trước…" | Một phần | ❌ |
+
+*Agent:* nêu được cách đăng nhập nhưng **không có URL**. *Lý do:* xem phân tích failure case bên trên. **Coherence: thiếu** — cả "chương trình khung" (một lưu ý quan trọng) lẫn URL đều không vào được top-3. **1 điểm.**
+
+**Q2 — "Sinh viên nộp học phí trực tuyến bằng những cách nào?"**
+
+| Hạng | Score | Tài liệu / chunk | Liên quan? | Chứa đáp án (`tất cả ngân hàng`)? |
+|---|---|---|---|---|
+| 1 | 0.670 | `huong-dan-nop-hoc-phi-truc-tuyen` c1 — "…cung cấp MÃ SỐ SINH VIÊN… Gạch nợ trực tiếp qua ứng dụng…" | Có | ✅ |
+| 2 | 0.652 | `huong-dan-nop-hoc-phi-truc-tuyen` c0 — tiêu đề + mở đầu hướng dẫn | Có | ❌ |
+| 3 | 0.638 | `chinh-sach-mien-giam-hoc-phi` c2 — chính sách miễn giảm | **Không** — sai tài liệu | ❌ |
+
+*Agent:* nêu đủ cả 2 cách nộp. **Coherence: đủ** — context giữ được cả `Agribank` (cách 1) lẫn "tất cả ngân hàng" (cách 2). *Lưu ý grounding:* hạng 3 lạc sang tài liệu miễn giảm học phí — nếu agent trích link từ đó thì dẫn nguồn sai. **2 điểm.**
+
+**Q3 — "Mức học bổng khuyến khích học tập tối đa là bao nhiêu?"**
+
+| Hạng | Score | Tài liệu / chunk | Liên quan? | Chứa đáp án (`130%`)? |
+|---|---|---|---|---|
+| 1 | 0.797 | `che-do-hoc-bong-sinh-vien` c3 — "…Mức học bổng sinh viên nhận được lên tới **130% học phí**…" | Có | ✅ |
+| 2 | 0.720 | `che-do-hoc-bong-sinh-vien` c5 — điều kiện tín chỉ tích lũy | Có, bổ trợ | ❌ |
+| 3 | 0.693 | `che-do-hoc-bong-sinh-vien` c6 — học bổng tài trợ doanh nghiệp | Cùng chủ đề | ❌ |
+
+*Agent:* trả lời đúng 130%. **Coherence: đủ** — context giữ được cả con số lẫn đối tượng áp dụng ("hệ chính quy"), nên câu trả lời không bị hiểu nhầm là áp dụng cho mọi hệ đào tạo. Cả 3 hạng đều cùng một tài liệu → precision cao. **2 điểm.**
+
+**Q4 — "Kho sách ngoại văn của thư viện nằm ở tầng nào?"**
+
+| Hạng | Score | Tài liệu / chunk | Liên quan? | Chứa đáp án (`Lầu 3`)? |
+|---|---|---|---|---|
+| 1 | 0.706 | `huong-dan-su-dung-thu-vien` c2 — "TÀI LIỆU GIẤY… Tầng trệt… Lầu 2… **Lầu 3: Kho sách ngoại văn**" | Có | ✅ |
+| 2 | 0.634 | `huong-dan-su-dung-thu-vien` c0 — "THƯ VIỆN SỐ… hơn 20.000 tài liệu điện tử" | Không — nhầm sang thư viện số | ❌ |
+| 3 | 0.472 | `huong-dan-su-dung-thu-vien` c3 — "Lầu 4: Kho luận văn…" + tra cứu OPAC | Có, bổ trợ | ❌ |
+
+*Agent:* trả lời đúng Lầu 3. **Coherence: đủ và tốt nhất trong 5 câu** — cả `Lầu 3` và `Lầu 4` cùng có trong context nên agent phân biệt được kho ngoại văn với kho luận văn, không trả lời nhầm. Đây là câu duy nhất mà **cả 4 chiến lược của nhóm đều làm được**, vì khối "kho sách theo tầng" ngắn và nằm gọn trong một chunk ở mọi cách cắt. **2 điểm.**
+
+**Q5 — "Sinh viên bị ốm phải điều trị dài ngày thì việc học được giải quyết thế nào?"** — `metadata_filter={"audience": "student"}`
+
+| Hạng | Score | Tài liệu / chunk | Liên quan? | Chứa đáp án (`nghỉ học tạm thời`)? |
+|---|---|---|---|---|
+| 1 | 0.573 | `quy-dinh-nghi-hoc-tam-thoi` c1 — "…chứng nhận của cơ sở khám bệnh… theo quy định của **Bộ Y tế**…" | Có | ✅ |
+| 2 | 0.523 | `quy-che-dao-tao-tin-chi` c2 — định nghĩa thời gian kế hoạch học tập | Không | ❌ |
+| 3 | 0.518 | `quy-che-dao-tao-tin-chi` c16 — quy đổi tiết học/tín chỉ | **Không** — nhiễu rõ rệt | ❌ |
+
+*Agent:* trả lời đúng phần cốt lõi (nộp đơn nghỉ học tạm thời + bảo lưu, kèm chứng nhận y tế). **2 điểm** — nhưng xem cảnh báo ngay dưới.
+
+> ⚠️ **Coherence: THIẾU — phát hiện đáng chú ý nhất của phụ lục này.** Context top-3 có đáp án chính và có `Bộ Y tế`, nhưng **không** chứa hai giới hạn quan trọng nhất của quy định: *mỗi lần nghỉ **không quá 6 tháng*** và *không quá **2 lần** cho một chương trình học*. Hai cụm này nằm ở phần sau của cùng tài liệu, không lọt top-3.
+>
+> Hệ quả thực tế: agent trả lời "được nghỉ học tạm thời" là **đúng nhưng không đủ an toàn** — sinh viên đọc xong vẫn không biết mình bị giới hạn thời gian. Và một câu hỏi tiếp theo rất tự nhiên — *"nghỉ tối đa bao lâu?"* — sẽ thất bại hoàn toàn dù tài liệu **có** chứa câu trả lời.
+>
+> Đây đúng là dấu hiệu `docs/EVALUATION.md` yêu cầu theo dõi ở mục *Chunk Coherence*: **chunk giữ được quy định nhưng đánh rơi điều kiện và ngoại lệ của chính quy định đó**. Điểm số 0.573 hoàn toàn không phản ánh khiếm khuyết này — thêm một bằng chứng cho kết luận "score cao là tín hiệu xếp hạng, không phải bằng chứng nội dung đúng".
+>
+> **Đề xuất sửa:** với văn bản quy định, chunk nên bao trọn một điều khoản **kèm toàn bộ khoản mục con** của nó (hướng `HeadingChunker` của Trần Văn Hiếu đi đúng đường này), hoặc dùng `chunk_size` lớn hơn cho riêng nhóm tài liệu `category=leave-of-absence` / `academic-regulation`.
+
+**Tổng hợp coherence 5 câu:** 3/5 đủ điều kiện & ngoại lệ (Q2, Q3, Q4) · 2/5 thiếu (Q1 mất URL + "chương trình khung", Q5 mất giới hạn 6 tháng / 2 lần).
+
+---
+
 ## Tự Đánh Giá (Phần Cá Nhân)
 
 | Tiêu chí | Điểm tự đánh giá |
