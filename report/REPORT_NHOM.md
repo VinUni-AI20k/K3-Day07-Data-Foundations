@@ -1,7 +1,16 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
-**Nhóm:** Nhóm K3-RAG
-**Thành viên:** Phạm Đức Thiện, Nguyễn Văn A, Trần Thị B
+**Nhóm:** b07
+**Thành viên:** 
+
+| Thành viên         | Mã học viên |
+| -------------------- | -------------- |
+| Trần Công Chiến   | 2A202601053    |
+| Nguyễn Ngọc Thuận | 2A202601949    |
+| Phạm Đức Thiện   | 2A202601981    |
+| Phạm Khắc Duy     | 2A202601757    |
+
+
 **Ngày:** 03/08/2026
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
