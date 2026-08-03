@@ -18,29 +18,32 @@
 
 **Phạm vi cụ thể nhóm tập trung:**
 
-> *1 câu — ví dụ: thư viện + đăng ký môn học.*
+> Nhóm tập trung vào các quy định và dịch vụ sinh viên cốt lõi: Thư viện, Đăng ký học phần, Ký túc xá, Học phí - Học bổng, và Tốt nghiệp.
 
 ### Danh sách tài liệu (Data Inventory)
 
-| # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
-| - | --------------- | ------------------- | ------------------------ | ----------- | ------------------ |
-| 1 |                 |                     |                          |             |                    |
-| 2 |                 |                     |                          |             |                    |
-| 3 |                 |                     |                          |             |                    |
-| 4 |                 |                     |                          |             |                    |
-| 5 |                 |                     |                          |             |                    |
+| # | Tên tài liệu                   | Nguồn (Source URL)                               | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán                                                   |
+| - | --------------------------------- | ------------------------------------------------- | ------------------------ | ----------- | -------------------------------------------------------------------- |
+| 1 | Quy định Tốt nghiệp           | registrar.vinuni.edu.vn/.../tot-nghiep            | 2026-08-03 / 2026.1      | 5,132       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 2 | Tuyển sinh Đại học            | admissions.vinuni.edu.vn/.../tuyen-sinh           | 2026-08-03 / 2026.1      | 8,453       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 3 | Chương trình đào tạo        | admissions.vinuni.edu.vn/.../chuong-trinh-dao-tao | 2026-08-03 / 2026.1      | 3,637       | `doc_id`, `source_url`, `version`, `department="Academics"`  |
+| 4 | Quy định sử dụng Thư viện   | policy.vinuni.edu.vn/.../library-policies         | 2026-08-03 / 2026.1      | 8,748       | `doc_id`, `source_url`, `version`, `department="Library"`    |
+| 5 | Thời khóa biểu & Đăng ký HP | registrar.vinuni.edu.vn/.../thoi-khoa-bieu...     | 2026-08-03 / 2026.1      | 5,681       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 6 | Học phí & Hỗ trợ Tài chính  | admissions.vinuni.edu.vn/.../hoc-phi...           | 2026-08-03 / 2026.1      | 8,129       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 7 | Cuộc sống tại Ký túc xá     | admissions.vinuni.edu.vn/.../cau-hoi...           | 2026-08-03 / 2026.1      | 4,956       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
 
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [X] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [X] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
-| Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
-| ----------------- | ----- | ----------------- | ---------------------------------------------- |
-|                   |       |                   |                                                |
-|                   |       |                   |                                                |
+| Trường metadata    | Kiểu  | Ví dụ giá trị          | Tại sao hữu ích cho truy xuất (retrieval)?                                                |
+| -------------------- | ------ | -------------------------- | --------------------------------------------------------------------------------------------- |
+| `doc_id`           | String | `thuvien`, `ktx`       | Định danh duy nhất để tránh trùng lặp, hữu ích khi cần xóa/cập nhật tài liệu. |
+| `department`       | String | `Library`, `Registrar` | Dùng để filter theo phòng ban, giúp mô hình tập trung vào context chính xác nhất. |
+| `document_version` | String | `2026.1`                 | Lọc ra văn bản quy định mới nhất, tránh trả lời thông tin cũ đã hết hạn.      |
 
 ---
 
@@ -92,6 +95,13 @@ header_chunks = HeaderChunker().chunk(text)
 - **Mô tả & lý do chọn:**
 - **Code snippet (nếu custom):**
 
+```python
+from Ngoc_Lan_01385.chunking import RecursiveChunker
+
+chunker = RecursiveChunker(chunk_size=500)
+chunks = chunker.chunk(text)
+```
+
 ### So Sánh Giữa Các Thành Viên
 
 | Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
@@ -112,13 +122,13 @@ header_chunks = HeaderChunker().chunk(text)
 
 > **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
-| # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
-| - | ----------------- | ----------------------------------- | ---------------------------- |
-| 1 |                   |                                     |                              |
-| 2 |                   |                                     |                              |
-| 3 |                   |                                     |                              |
-| 4 |                   |                                     |                              |
-| 5 |                   |                                     |                              |
+| # | Câu hỏi (Query)                                                                                                                                                                                                         | Câu trả lời chuẩn (Gold Answer)                                                                                                                                                                                                                  | Chunk nào chứa thông tin?                        |
+| - | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại **“Your Class Schedule”**.                                         | `dangkymonhoc.md` (Cách sử dụng SIS)           |
+| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                           | Sinh viên năm nhất**bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?) |
+| 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                                   | Sinh viên đại học được mượn tối đa**3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. *(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)*                                                 | `thuvien.md` (2.2. Circulation Privileges)        |
+| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                                                 | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành**2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân.                  | `hocphi_hocbong.md` (Học phí)                   |
+| 5 | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào?                                                                    | Sinh viên nộp đơn khoảng**tháng 4**, được xét tốt nghiệp và ra quyết định vào **tháng 8**, sau đó nhận bằng và bảng điểm vào **tháng 9**.                                                              | `totnghiep.md` (Quy trình xét tốt nghiệp)     |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 

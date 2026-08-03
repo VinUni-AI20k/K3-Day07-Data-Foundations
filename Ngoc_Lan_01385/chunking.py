@@ -70,23 +70,43 @@ class RecursiveChunker:
 
     Default separator priority:
         ["\n\n", "\n", ". ", " ", ""]
+
+    When the input looks like Markdown, headings are preserved with the
+    content that follows them so the resulting chunks remain meaningful.
     """
 
     DEFAULT_SEPARATORS = ["\n\n", "\n", ". ", " ", ""]
 
-    def __init__(self, separators: list[str] | None = None, chunk_size: int = 500) -> None:
+    def __init__(
+        self,
+        separators: list[str] | None = None,
+        chunk_size: int = 500,
+        preserve_markdown_headings: bool = True,
+    ) -> None:
         self.separators = self.DEFAULT_SEPARATORS if separators is None else list(separators)
         self.chunk_size = chunk_size
+        self.preserve_markdown_headings = preserve_markdown_headings
 
     def chunk(self, text: str) -> list[str]:
         if not text:
             return []
-        if len(text) <= self.chunk_size:
-            return [text]
+        cleaned_text = text.strip()
+        if not cleaned_text:
+            return []
+        if len(cleaned_text) <= self.chunk_size:
+            return [cleaned_text]
 
-        return self._split(text, self.separators)
+        return self._split(cleaned_text, self.separators)
 
     def _split(self, current_text: str, remaining_separators: list[str]) -> list[str]:
+        if not current_text:
+            return []
+
+        if self.preserve_markdown_headings:
+            markdown_sections = self._split_markdown_sections(current_text)
+            if len(markdown_sections) > 1:
+                return self._merge_sections(markdown_sections, remaining_separators)
+
         if not remaining_separators:
             return [current_text]
 
@@ -104,7 +124,58 @@ class RecursiveChunker:
                 sub_chunks = self._split(part, remaining_separators[1:])
                 chunks.extend(sub_chunks)
 
-        return chunks
+        return [chunk for chunk in chunks if chunk]
+
+    def _split_markdown_sections(self, text: str) -> list[str]:
+        lines = text.splitlines()
+        sections: list[str] = []
+        current_lines: list[str] = []
+
+        for line in lines:
+            heading_match = re.match(r"^(#{1,6})\s+.+$", line)
+            if heading_match and current_lines:
+                section = "\n".join(current_lines).strip()
+                if section:
+                    sections.append(section)
+                current_lines = [line]
+            else:
+                if heading_match:
+                    current_lines = [line]
+                else:
+                    current_lines.append(line)
+
+        if current_lines:
+            section = "\n".join(current_lines).strip()
+            if section:
+                sections.append(section)
+
+        return [section for section in sections if section]
+
+    def _merge_sections(self, sections: list[str], remaining_separators: list[str]) -> list[str]:
+        chunks: list[str] = []
+        pending: list[str] = []
+        pending_length = 0
+
+        for section in sections:
+            section_length = len(section)
+            if section_length > self.chunk_size:
+                if pending:
+                    chunks.append("\n\n".join(pending).strip())
+                    pending = []
+                    pending_length = 0
+                chunks.extend(self._split(section, remaining_separators))
+            elif pending_length + section_length <= self.chunk_size:
+                pending.append(section)
+                pending_length += section_length
+            else:
+                chunks.append("\n\n".join(pending).strip())
+                pending = [section]
+                pending_length = section_length
+
+        if pending:
+            chunks.append("\n\n".join(pending).strip())
+
+        return [chunk for chunk in chunks if chunk]
 
 def _dot(a: list[float], b: list[float]) -> float:
     return sum(x * y for x, y in zip(a, b))
