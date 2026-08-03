@@ -212,7 +212,19 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 > Khác biệt rõ nhất ở Q5: `RecursiveChunker` cắt theo `\n\n` trước, nên `quy-che-dao-tao-tin-chi` (39.962 ký tự — chiếm phần lớn corpus) sinh nhiều chunk "chung chung" dễ chen lên hạng cao, đẩy tài liệu ngắn `quy-dinh-nghi-hoc-tam-thoi` xuống. Fixed-size cắt đều nên tài liệu ngắn không bị lép vế. Ngược lại ở Q2 thì Recursive nhỉnh hơn vì giữ được ranh giới đoạn của phần liệt kê ngân hàng.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *[Điền sau buổi demo — cần nghe chiến lược của các thành viên khác trước khi viết.]*
+
+> *(Viết từ việc đọc code và báo cáo của các bạn cùng nhóm trên repo — buổi demo chưa diễn ra, tôi sẽ bổ sung phần thảo luận với nhóm khác sau.)*
+
+**1. Từ `HeadingChunker` của Trần Văn Hiếu — chunk phải tự mang đủ ngữ cảnh định danh nó.**
+Bạn ấy cắt theo `Điều N.` của quy chế, và bản đầu tiên **quên gắn lại dòng heading vào các mảnh con** khi một `Điều` dài phải chẻ tiếp. Hậu quả: mảnh chứa nội dung "Điều 17. Nghỉ học tạm thời" không còn cụm "Điều 17" ở đầu, similarity với câu hỏi tụt hẳn và **rơi ra ngoài top-5** — câu 5 thất bại hoàn toàn. Sau khi gắn lại heading, đúng chunk đó lên hạng 3. Điều làm tôi nhớ nhất: **nội dung câu chữ bên trong chunk không đổi một ký tự nào**, chỉ thêm lại một dòng tiêu đề, mà thứ hạng nhảy từ ngoài-top-5 lên top-3.
+
+Điều này sửa một giả định của tôi. Khi phân tích failure case Q1 của mình, tôi kết luận "overlap quan trọng hơn thuật toán cắt" và nghĩ overlap là công cụ chính để chống mất ngữ cảnh ở ranh giới. Nhưng gắn lại heading là một dạng ngữ cảnh **rẻ hơn nhiều**: overlap phải lặp lại hàng chục ký tự cho mọi chunk, còn heading chỉ thêm một dòng mà cho chunk biết chính xác nó thuộc điều khoản nào — đồng thời giúp truy vết nguồn tốt hơn hẳn. Nếu làm lại, tôi sẽ thử "fixed-size + gắn heading của section vào đầu mỗi chunk" thay vì chỉ tăng overlap.
+
+**2. Nghịch lý mạch lạc ≠ dễ xếp hạng.**
+Khi đo cả 4 chiến lược bằng cùng harness, `HeadingChunker` cho chunk **mạch lạc nhất** (mỗi chunk một điều khoản trọn vẹn, dễ trích dẫn nhất trong cả nhóm) nhưng lại **xếp hạng kém nhất** (5/10). Lý do rất cụ thể: các `Điều` trong cùng một quy chế nói về cùng chủ đề nên điểm cosine gần như bằng nhau — Q1 là 0.706 / 0.706 / 0.701, Q5 là 0.493 / 0.490 / 0.489. Chênh dưới 0.005 thì thứ tự top-3 gần như ngẫu nhiên. Tôi từng mặc định "chunk mạch lạc hơn thì retrieval tốt hơn"; hóa ra đó là hai mục tiêu khác nhau, và một chiến lược có thể tối ưu cái này mà hại cái kia.
+
+**3. Đối chiếu chéo với bạn cùng nhóm giúp tôi phát hiện chính tiêu chí chấm của mình bị sai.**
+Tôi chấm `HeadingChunker` được 4/10, thấp hơn hẳn con số bạn ấy tự báo. Kiểm lại thì bạn ấy đúng: chuỗi bằng chứng tôi chọn cho câu 5 là `"Bộ Y tế"` — đó chỉ là cơ quan cấp giấy chứng nhận, một chi tiết ngoại vi, trong khi chunk "Điều 17. Nghỉ học tạm thời" **trả lời đúng câu hỏi** mà không chứa cụm đó. Đổi sang chuỗi cốt lõi `"nghỉ học tạm thời"` thì thành 5/10. Bài học: cách chấm bằng chuỗi bằng chứng tuy chặt hơn chấm bằng `doc_id`, nhưng **rất nhạy với việc chọn chuỗi** — chọn sai thì phạt oan một chiến lược tốt. Nếu chỉ một người tự chấm bài của mình thì lỗi này không bao giờ lộ ra.
 
 ---
 
