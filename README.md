@@ -4,6 +4,16 @@
 
 ---
 
+## Thành Viên Nhóm
+
+| Họ và tên | Mã sinh viên |
+|---|---|
+| Nguyễn Huy Nghĩa | 2A202601943 |
+| Phạm Thế Dũng | 2A202601985 |
+| Phạm Văn Lưu | 2A202601857 |
+
+---
+
 ## Mục Tiêu
 
 Sau bài thực hành (lab) này, bạn cần có thể:
