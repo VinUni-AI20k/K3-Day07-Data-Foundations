@@ -22,28 +22,28 @@
 
 ### Danh sách tài liệu (Data Inventory)
 
-| # | Tên tài liệu                   | Nguồn (Source URL)                               | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán                                                   |
-| - | --------------------------------- | ------------------------------------------------- | ------------------------ | ----------- | -------------------------------------------------------------------- |
-| 1 | Quy định Tốt nghiệp           | registrar.vinuni.edu.vn/.../tot-nghiep            | 2026-08-03 / 2026.1      | 5,132       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
-| 2 | Tuyển sinh Đại học            | admissions.vinuni.edu.vn/.../tuyen-sinh           | 2026-08-03 / 2026.1      | 8,453       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
-| 3 | Chương trình đào tạo        | admissions.vinuni.edu.vn/.../chuong-trinh-dao-tao | 2026-08-03 / 2026.1      | 3,637       | `doc_id`, `source_url`, `version`, `department="Academics"`  |
-| 4 | Quy định sử dụng Thư viện   | policy.vinuni.edu.vn/.../library-policies         | 2026-08-03 / 2026.1      | 8,748       | `doc_id`, `source_url`, `version`, `department="Library"`    |
-| 5 | Thời khóa biểu & Đăng ký HP | registrar.vinuni.edu.vn/.../thoi-khoa-bieu...     | 2026-08-03 / 2026.1      | 5,681       | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
-| 6 | Học phí & Hỗ trợ Tài chính  | admissions.vinuni.edu.vn/.../hoc-phi...           | 2026-08-03 / 2026.1      | 8,129       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
-| 7 | Cuộc sống tại Ký túc xá     | admissions.vinuni.edu.vn/.../cau-hoi...           | 2026-08-03 / 2026.1      | 4,956       | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| #   | Tên tài liệu                | Nguồn (Source URL)                                | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán                                              |
+| --- | --------------------------- | ------------------------------------------------- | -------------------- | -------- | ------------------------------------------------------------ |
+| 1   | Quy định Tốt nghiệp         | registrar.vinuni.edu.vn/.../tot-nghiep            | 2026-08-03 / 2026.1  | 5,132    | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 2   | Tuyển sinh Đại học          | admissions.vinuni.edu.vn/.../tuyen-sinh           | 2026-08-03 / 2026.1  | 8,453    | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 3   | Chương trình đào tạo        | admissions.vinuni.edu.vn/.../chuong-trinh-dao-tao | 2026-08-03 / 2026.1  | 3,637    | `doc_id`, `source_url`, `version`, `department="Academics"`  |
+| 4   | Quy định sử dụng Thư viện   | policy.vinuni.edu.vn/.../library-policies         | 2026-08-03 / 2026.1  | 8,748    | `doc_id`, `source_url`, `version`, `department="Library"`    |
+| 5   | Thời khóa biểu & Đăng ký HP | registrar.vinuni.edu.vn/.../thoi-khoa-bieu...     | 2026-08-03 / 2026.1  | 5,681    | `doc_id`, `source_url`, `version`, `department="Registrar"`  |
+| 6   | Học phí & Hỗ trợ Tài chính  | admissions.vinuni.edu.vn/.../hoc-phi...           | 2026-08-03 / 2026.1  | 8,129    | `doc_id`, `source_url`, `version`, `department="Admissions"` |
+| 7   | Cuộc sống tại Ký túc xá     | admissions.vinuni.edu.vn/.../cau-hoi...           | 2026-08-03 / 2026.1  | 4,956    | `doc_id`, `source_url`, `version`, `department="Admissions"` |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
 
-- [X] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [X] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [x] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [x] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
-| Trường metadata    | Kiểu  | Ví dụ giá trị          | Tại sao hữu ích cho truy xuất (retrieval)?                                                |
-| -------------------- | ------ | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `doc_id`           | String | `thuvien`, `ktx`       | Định danh duy nhất để tránh trùng lặp, hữu ích khi cần xóa/cập nhật tài liệu. |
+| Trường metadata    | Kiểu   | Ví dụ giá trị          | Tại sao hữu ích cho truy xuất (retrieval)?                                        |
+| ------------------ | ------ | ---------------------- | --------------------------------------------------------------------------------- |
+| `doc_id`           | String | `thuvien`, `ktx`       | Định danh duy nhất để tránh trùng lặp, hữu ích khi cần xóa/cập nhật tài liệu.     |
 | `department`       | String | `Library`, `Registrar` | Dùng để filter theo phòng ban, giúp mô hình tập trung vào context chính xác nhất. |
-| `document_version` | String | `2026.1`                 | Lọc ra văn bản quy định mới nhất, tránh trả lời thông tin cũ đã hết hạn.      |
+| `document_version` | String | `2026.1`               | Lọc ra văn bản quy định mới nhất, tránh trả lời thông tin cũ đã hết hạn.          |
 
 ---
 
@@ -55,12 +55,12 @@
 
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
-| Tài liệu                         | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                                                                                                                                                      |
-| ---------------------------------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`)  | 194               | 196.4                 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời.                                                                       |
-| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`)      | 53                | 717.2                 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài.                                                                                            |
-|                                    | SentenceChunker (`by_sentences`) |                   |                       |                                                                                                                                                                                      |
-| Toàn bộ corpus K3 (9 tài liệu) | RecursiveChunker (`recursive`)   | 239               | 157.41                | Có — giữ được ngữ cảnh tốt hơn, ưu tiên tách theo đoạn văn, heading và dòng ngắt, nhưng số lượng chunk có thể nhiều hơn so với các chiến lược khác. |
+| Tài liệu                        | Chiến lược (Strategy)            | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                                                                                                                            |
+| ------------------------------- | -------------------------------- | -------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Toàn bộ corpus K3 (9 tài liệu)  | FixedSizeChunker (`fixed_size`)  | 194            | 196.4             | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời.                                                            |
+| Toàn bộ corpus K3 (9 tài liệu)  | ChunkByHeader (`by_header`)      | 53             | 717.2             | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài.                                                                       |
+| Corpus `data_nhom` (7 tài liệu) | SentenceChunker (`by_sentences`) | 99             | 348,18            | Tốt; giữ ranh giới câu và nhóm câu hỏi-trả lời, nhưng một số mục Markdown dài làm chunk vượt kích thước mong muốn.                                  |
+| Toàn bộ corpus K3 (9 tài liệu)  | RecursiveChunker (`recursive`)   | 239            | 157.41            | Có — giữ được ngữ cảnh tốt hơn, ưu tiên tách theo đoạn văn, heading và dòng ngắt, nhưng số lượng chunk có thể nhiều hơn so với các chiến lược khác. |
 
 ### Chiến lược của từng thành viên
 
@@ -92,7 +92,7 @@ header_chunks = HeaderChunker().chunk(text)
 **Thành viên 3 — Trần Thị Ngọc Lan**
 
 - **Loại chiến lược: Recursive**
-- **Mô tả & lý do chọn: Chiến lược này ưu tiên tách tài liệu tại các ranh giới tự nhiên như đoạn văn, tiêu đề Markdown và các dòng ngắt trước khi chuyển sang các dấu phân cách nhỏ hơn. Điều này giúp giữ được ngữ cảnh của từng phần nội dung, tránh cắt ngang giữa các ý tưởng liên quan và tạo ra các chunk mạch lạc hơn cho quá trình retrieval. Vì tài liệu trong K3_university có cấu trúc rõ ràng theo mục, tiêu đề và nội dung, nên RecursiveChunker phù hợp để bảo toàn ý nghĩa của từng phần.****
+- **Mô tả & lý do chọn: Chiến lược này ưu tiên tách tài liệu tại các ranh giới tự nhiên như đoạn văn, tiêu đề Markdown và các dòng ngắt trước khi chuyển sang các dấu phân cách nhỏ hơn. Điều này giúp giữ được ngữ cảnh của từng phần nội dung, tránh cắt ngang giữa các ý tưởng liên quan và tạo ra các chunk mạch lạc hơn cho quá trình retrieval. Vì tài liệu trong K3_university có cấu trúc rõ ràng theo mục, tiêu đề và nội dung, nên RecursiveChunker phù hợp để bảo toàn ý nghĩa của từng phần.\*\***
 - **Code snippet (nếu custom):**
 
 ```python
@@ -102,17 +102,40 @@ chunker = RecursiveChunker(chunk_size=500)
 chunks = chunker.chunk(text)
 ```
 
+**Thành viên 4 — Nguyễn Ngọc Nam**
+
+- **Loại chiến lược:** Sentence Chunking với `SentenceChunker(max_sentences_per_chunk=3)`.
+- **Mô tả & lý do chọn:** Tách văn bản theo ranh giới câu bằng regex và gom tối đa 3 câu vào một chunk. Chiến lược phù hợp với tài liệu FAQ, hướng dẫn và quy định vì giữ được câu hỏi-trả lời tương đối trọn vẹn, dễ đọc và dễ kiểm tra thủ công.
+- **Embedding và retrieval:** Dùng Gemini Embedding 2 (`gemini-embedding-2`, vector 768 chiều), nạp 7 tài liệu thành 99 chunks, tìm Top-3 bằng `EmbeddingStore` và đưa context vào `KnowledgeBaseAgent`.
+- **Kết quả trên 5 benchmark query:** 5/5 câu có chunk liên quan trong Top-3; 5/5 câu có chunk đúng chủ đề ở Top-1. Điểm Top-1 lần lượt là 0,777044; 0,789366; 0,735846; 0,831314; 0,836787.
+- **Hạn chế:** Dữ liệu hiện tại chưa có YAML front matter `audience`, nên chưa thể kiểm tra đầy đủ câu hỏi lọc metadata. `demo_llm` chỉ kiểm tra việc truyền context, chưa phải LLM sinh câu trả lời thật.
+- **Code snippet:**
+
+```python
+from src import GeminiEmbedder, SentenceChunker
+from ingest import build_knowledge_base
+
+chunker = SentenceChunker(max_sentences_per_chunk=3)
+embedder = GeminiEmbedder()
+store = build_knowledge_base(
+    "data_nhom",
+    embedding_fn=embedder,
+    chunker=chunker,
+    collection_name="person4_sentence_group_final",
+)
+```
+
 ### So Sánh Giữa Các Thành Viên
 
-| Thành viên | Chiến lược (Strategy) | Điểm truy xuất (/10) | Điểm mạnh | Điểm yếu |
-| ------------ | ------------------------ | ----------------------- | ------------ | ----------- |
-|              |                          |                         |              |             |
-|              |                          |                         |              |             |
-|              |                          |                         |              |             |
+| Thành viên | Chiến lược (Strategy)         | Điểm truy xuất (/10) | Điểm mạnh                             | Điểm yếu                                                                  |
+| ---------- | ----------------------------- | -------------------- | ------------------------------------- | ------------------------------------------------------------------------- |
+| Người 4    | Sentence + Gemini Embedding 2 | 5/5 Top-3; 5/5 Top-1 | Chunk mạch lạc, retrieval đúng chủ đề | Một số chunk dài; chưa có metadata `audience`; agent đang dùng `demo_llm` |
+|            |                               |                      |                                       |                                                                           |
+|            |                               |                      |                                       |                                                                           |
 
 **Chiến lược nào tốt nhất cho chủ đề này? Tại sao?**
 
-> *Viết 2-3 câu — đây là phần được đánh giá cao nhất (khả năng suy nghĩ & giải thích):*
+> Kết quả riêng của Người 4 cho thấy Sentence Chunking kết hợp Gemini Embedding 2 đạt chunk liên quan trong Top-3 ở cả 5 câu hỏi và đứng đúng chủ đề ở Top-1. Tuy nhiên, nhóm cần đối chiếu với Fixed Size, Header và Recursive trên cùng corpus trước khi kết luận chiến lược tốt nhất.
 
 ---
 
@@ -122,29 +145,31 @@ chunks = chunker.chunk(text)
 
 > **Đúng 5 câu hỏi**, đa dạng, có thể kiểm chứng; **ít nhất 1 câu** cần lọc metadata mới trả lời tốt. Đây là bộ câu hỏi chung cho mọi thành viên chạy.
 
-| # | Câu hỏi (Query)                                                                                                                                                                                                         | Câu trả lời chuẩn (Gold Answer)                                                                                                                                                                                                                  | Chunk nào chứa thông tin?                        |
-| - | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại**“Your Class Schedule”**.                                                | `dangkymonhoc.md` (Cách sử dụng SIS)           |
-| 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                           | Sinh viên năm nhất**bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?) |
-| 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                                   | Sinh viên đại học được mượn tối đa**3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. *(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)*                                                 | `thuvien.md` (2.2. Circulation Privileges)        |
-| 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                                                 | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành**2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân.                  | `hocphi_hocbong.md` (Học phí)                   |
-| 5 | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào?                                                                    | Sinh viên nộp đơn khoảng**tháng 4**, được xét tốt nghiệp và ra quyết định vào **tháng 8**, sau đó nhận bằng và bảng điểm vào **tháng 9**.                                                              | `totnghiep.md` (Quy trình xét tốt nghiệp)     |
+| #   | Câu hỏi (Query)                                                                                                                                                                   | Câu trả lời chuẩn (Gold Answer)                                                                                                                                                                 | Chunk nào chứa thông tin?                  |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| 1   | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại**“Your Class Schedule”**.                               | `dangkymonhoc.md` (Cách sử dụng SIS)       |
+| 2   | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                    | Sinh viên năm nhất**bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?)  |
+| 3   | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                           | Sinh viên đại học được mượn tối đa**3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. _(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)_                                         | `thuvien.md` (2.2. Circulation Privileges) |
+| 4   | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                            | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành**2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân.        | `hocphi_hocbong.md` (Học phí)              |
+| 5   | Theo quy trình xét tốt nghiệp, sinh viên thường nộp đơn, được xét ra quyết định và nhận bằng chính thức vào những tháng nào?                                                      | Sinh viên nộp đơn khoảng**tháng 4**, được xét tốt nghiệp và ra quyết định vào **tháng 8**, sau đó nhận bằng và bảng điểm vào **tháng 9**.                                                       | `totnghiep.md` (Quy trình xét tốt nghiệp)  |
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
 > Cách chấm (theo `docs/SCORING.md`): **2 điểm/câu** — top-3 chứa chunk liên quan + agent trả lời đúng (2), có liên quan nhưng thiếu/không ở top-1 (1), không có trong top-3 (0).
 
-| # | Câu hỏi | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3? | Ghi chú |
-| - | --------- | -------------------------------------- | --------------------------------- | -------- |
-| 1 |           |                                        |                                   |          |
-| 2 |           |                                        |                                   |          |
-| 3 |           |                                        |                                   |          |
-| 4 |           |                                        |                                   |          |
-| 5 |           |                                        |                                   |          |
+| #   | Câu hỏi           | Chiến lược tốt nhất cho câu này | Có chunk liên quan trong top-3?                                                                                         | Ghi chú |
+| --- | ----------------- | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------- |
+| 1   | Sentence + Gemini | Có                              | Top-1 `dangkymonhoc::chunk_9`, score 0,777044; Top-3 chứa trạng thái `Registered`, `Selected` và `Your Class Schedule`. |
+| 2   | Sentence + Gemini | Có                              | Top-1 `ktx::chunk_1`, score 0,789366; Top-3 giữ nội dung bắt buộc năm nhất và ngoại lệ sức khỏe/tôn giáo.               |
+| 3   | Sentence + Gemini | Có                              | Top-1 `thuvien::chunk_13`, score 0,735846; chứa bảng quyền mượn tài liệu của sinh viên đại học.                         |
+| 4   | Sentence + Gemini | Có                              | Top-1 `hocphi_hocbong::chunk_2`, score 0,831314; chứa hình thức thanh toán và 2 đợt đóng học phí/năm.                   |
+| 5   | Sentence + Gemini | Có                              | Top-1 `totnghiep::chunk_4`, score 0,836787; chứa tháng xét tốt nghiệp và phát hành bằng chính thức.                     |
+
+> **Lưu ý về Agent:** `KnowledgeBaseAgent.answer()` đã được chạy cho cả 5 câu và nhận đúng context retrieval, nhưng `demo_llm` hiện chỉ trả preview của prompt. Vì vậy các kết quả trên xác nhận chất lượng retrieval; chưa nên quy đổi thành điểm Agent Answer hoàn chỉnh cho đến khi nhóm dùng LLM sinh câu trả lời thật.
 
 **Lọc bằng metadata có giúp ích không? Ở câu hỏi nào?**
 
-> *Viết 2-3 câu:*
+> Trong lần chạy Sentence Chunking của Người 4, chưa áp dụng được `metadata_filter={"audience": "student"}` vì 7 file trong `data_nhom` chưa có YAML front matter và trường `audience`. Vì vậy kết quả trên câu 3 là retrieval không lọc; nhóm cần bổ sung metadata rồi chạy lại để đánh giá công bằng tác động của filter.
 
 ---
 
@@ -152,24 +177,26 @@ chunks = chunker.chunk(text)
 
 **Những phân tích (insights) hay nhất nhóm sẽ trình bày:**
 
-> *Liệt kê 2-3 ý:*
+- Sentence Chunking với tối đa 3 câu/chunk tạo 99 chunk trên 7 tài liệu, giữ ranh giới câu và phù hợp với FAQ/hướng dẫn.
+- Kết hợp Gemini Embedding 2, 5/5 câu hỏi của benchmark có chunk liên quan trong Top-3 và Top-1 đều đúng chủ đề.
+- Trường `audience` chưa có trong front matter hiện tại nên chưa thể kiểm chứng lợi ích của metadata filter.
 
 **Bài học rút ra khi so sánh trong nhóm:**
 
-> *Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?*
+> _Viết 2-3 câu — cùng tài liệu nhưng chiến lược khác nhau dẫn tới khác biệt gì?_
 
 **Nếu làm lại, nhóm sẽ thay đổi gì trong chiến lược dữ liệu (data strategy)?**
 
-> *Viết 2-3 câu:*
+> _Viết 2-3 câu:_
 
 ---
 
 ## Tự Đánh Giá (Phần Nhóm)
 
-| Tiêu chí                                   | Điểm tự đánh giá |
-| -------------------------------------------- | ---------------------- |
-| Lựa chọn tài liệu (Document Set Quality) | / 10                   |
-| Thiết kế chiến lược (Strategy Design)   | / 15                   |
-| Chất lượng truy xuất (Retrieval Quality) | / 10                   |
-| Thuyết trình (Demo)                        | / 5                    |
-| **Tổng phần nhóm**                  | **/ 40**         |
+| Tiêu chí                                 | Điểm tự đánh giá |
+| ---------------------------------------- | ---------------- |
+| Lựa chọn tài liệu (Document Set Quality) | / 10             |
+| Thiết kế chiến lược (Strategy Design)    | / 15             |
+| Chất lượng truy xuất (Retrieval Quality) | / 10             |
+| Thuyết trình (Demo)                      | / 5              |
+| **Tổng phần nhóm**                       | **/ 40**         |
