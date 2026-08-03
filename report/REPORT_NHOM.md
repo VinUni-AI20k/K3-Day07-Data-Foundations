@@ -119,11 +119,15 @@ Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
 | # | Câu hỏi (Query) | Câu trả lời chuẩn (Gold Answer) | Chunk nào chứa thông tin? |
 |---|-------|-------------------------------|--------------------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Sinh viên đăng ký học phần ở website nào và cần lưu ý gì trước khi đăng ký? | Đăng ký tại `https://dkhp.iuh.edu.vn/`, đăng nhập bằng tài khoản Cổng thông tin sinh viên. Trước khi đăng ký phải xem chương trình khung, đăng ký đúng mã lớp học phần / tên môn / số tín chỉ, và kiểm tra các điều kiện ràng buộc của môn học. | `huong-dan-dang-ky-hoc-phan` |
+| 2 | Sinh viên nộp học phí trực tuyến bằng những cách nào? | Hai cách: (a) qua Agribank / NamAbank / Vietcombank — nộp tại quầy (cung cấp mã số sinh viên) hoặc gạch nợ trực tiếp trên app ngân hàng; (b) nộp online áp dụng cho **mọi** ngân hàng qua `https://sv.iuh.edu.vn/sinh-vien-dang-nhap.html`. | `huong-dan-nop-hoc-phi-truc-tuyen` |
+| 3 | Mức học bổng khuyến khích học tập tối đa là bao nhiêu? | Lên tới **130% học phí**, xét cho sinh viên đại học hệ chính quy đang trong thời gian học tập chính khóa (theo Quyết định 2728/QĐ-ĐHCN ngày 23/11/2023). | `che-do-hoc-bong-sinh-vien` (chunk 3) |
+| 4 | Kho sách ngoại văn của thư viện nằm ở tầng nào? | **Lầu 3**. (Lầu 4 là kho luận văn, đồ án tốt nghiệp, tạp chí chuyên ngành.) | `huong-dan-su-dung-thu-vien` |
+| 5 | *(cần lọc metadata)* Sinh viên bị ốm phải điều trị dài ngày thì việc học được giải quyết thế nào? — chạy với `metadata_filter={"audience": "student"}` | Được nộp đơn xin **nghỉ học tạm thời** và bảo lưu kết quả học tập, gửi Phòng Đào tạo trình Ban Giám hiệu phê duyệt, kèm chứng nhận của cơ sở khám chữa bệnh có thẩm quyền theo quy định của Bộ Y tế. | `quy-dinh-nghi-hoc-tam-thoi` |
+
+**Vì sao câu 5 cần lọc metadata (đã đo, không phải suy đoán):** không lọc thì hạng 2 là `tu-van-tam-ly-cham-soc-suc-khoe` (score 0.531, `audience=all`) — tài liệu này nói về trạm y tế và bảo hiểm y tế, **trùng nhiều từ khóa** ("ốm", "sức khỏe", "điều trị") nhưng không trả lời được câu hỏi về *việc học*. Lọc `audience=student` loại đúng nhiễu này và thay bằng `quy-che-dao-tao-tin-chi` (0.523) là văn bản học vụ thực sự liên quan.
+
+> ⚠️ **Bài học ngược, đáng ghi cho mục 4:** bộ lọc **không phải lúc nào cũng tốt**. Với câu "Sinh viên cần mang theo giấy tờ gì khi vào trường?", đáp án đúng nằm ở `noi-quy-hoc-duong` (`audience=all`, score 0.675 — "không đeo thẻ sinh viên…"), và lọc `audience=student` **xóa mất chính đáp án đó**. Đây là đánh đổi precision/recall mà `docs/EVALUATION.md` mục 3 yêu cầu phân tích: lọc chỉ giúp khi tài liệu `all` là nhiễu, và gây hại khi tài liệu `all` chính là nguồn trả lời.
 
 ### Tổng hợp chất lượng truy xuất của nhóm
 
