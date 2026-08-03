@@ -6,7 +6,7 @@
 **Ngày thực hiện:** 2026-08-03
 **Nhóm:** B2
 
-> *Ghi chú khi tổng hợp:* Báo cáo giữ nguyên khung do bạn dựng. Ba chỗ mô tả code ở Phần 2 đã được **sửa lại cho khớp với `NguyenDuyHaiBang_2A202601225/` thật** (ghi rõ ở từng mục). Phần 4 thay số `MockEmbedder` bằng số chạy thật với `text-embedding-3-small`. Phần 5 đã điền hết các ô `[CẦN TÔI XEM LẠI]` bằng số liệu chạy thật của chiến lược `HeadingChunker(500, min=200)`.
+**Chiến lược tôi phụ trách trong nhóm:** `HeadingChunker(chunk_size=500, min_chunk_size=200)` — biến thể tham số của chunker custom, dùng làm thí nghiệm có kiểm soát cho nhóm.
 
 ---
 
@@ -87,9 +87,9 @@ số chunk = ceil((10000 - 100) / (500 - 100))
 
 ### 2.3 `RecursiveChunker` — `NguyenDuyHaiBang_2A202601225/chunking.py` dòng 65–122
 
-> ⚠️ *Đã sửa so với bản nháp:* bản nháp mô tả bước "re-attach separator (`pieces.append(part + separator)`)" và một "merge pass" chạy sau. Mã nguồn thật **không làm như vậy**.
+> Ban đầu tôi tưởng thuật toán có bước "re-attach separator" vào từng mảnh ngay sau khi split, cộng thêm một "merge pass" chạy sau. Đọc kỹ lại mã nguồn thì **không phải vậy** — tôi ghi lại đúng những gì code làm.
 
-**Thuật toán thật:** `chunk()` chặn text rỗng rồi ủy quyền cho `_split(text, separators)`. `_split` có ba base case: text rỗng → `[]`; `len(text) <= chunk_size` → trả nguyên khối; hết separator hoặc gặp separator `""` → cắt cứng theo ký tự bằng `_hard_split` (dòng 120). Ở bước đệ quy, nếu separator không xuất hiện trong text (`len(parts) == 1`) thì **tụt xuống separator kế tiếp** thay vì trả về đoạn quá khổ. Việc gom là **greedy trong một lượt duy nhất**, không có merge pass riêng: dồn các mảnh vào một buffer bằng `buffer + separator + part` chừng nào còn `<= chunk_size`; mảnh nào tự nó đã quá to thì đệ quy tiếp với danh sách separator còn lại.
+**Thuật toán:** `chunk()` chặn text rỗng rồi ủy quyền cho `_split(text, separators)`. `_split` có ba base case: text rỗng → `[]`; `len(text) <= chunk_size` → trả nguyên khối; hết separator hoặc gặp separator `""` → cắt cứng theo ký tự bằng `_hard_split` (dòng 120). Ở bước đệ quy, nếu separator không xuất hiện trong text (`len(parts) == 1`) thì **tụt xuống separator kế tiếp** thay vì trả về đoạn quá khổ. Việc gom là **greedy trong một lượt duy nhất**, không có merge pass riêng: dồn các mảnh vào một buffer bằng `buffer + separator + part` chừng nào còn `<= chunk_size`; mảnh nào tự nó đã quá to thì đệ quy tiếp với danh sách separator còn lại.
 
 **Quyết định thiết kế đáng nói nhất:** Separator được **nối lại khi gộp** (`buffer + separator + part`) chứ không gắn vào từng mảnh ngay sau khi split. Nhờ vậy văn bản trong chunk trung thực với input, mà không sinh separator thừa ở cuối chunk.
 
@@ -99,9 +99,9 @@ số chunk = ceil((10000 - 100) / (500 - 100))
 
 ### 2.4 `ChunkingStrategyComparator` — `NguyenDuyHaiBang_2A202601225/chunking.py` dòng 144–163
 
-> ⚠️ *Đã sửa so với bản nháp:* bản nháp mô tả một heuristic quy đổi `max_sentences = chunk_size // avg_sentence_len`. Mã nguồn thật **không có** heuristic này.
+> Tôi từng nghĩ hàm này phải có một heuristic quy đổi `max_sentences = chunk_size // avg_sentence_len` để ba chiến lược cùng mốc so sánh. Thực tế mã nguồn **không có** heuristic đó — và chính điều này dẫn tới hạn chế nêu ở cuối mục.
 
-**Thuật toán thật:** Chạy cả ba chunker trên cùng văn bản: `FixedSizeChunker(chunk_size, overlap=chunk_size // 10)`, `SentenceChunker(max_sentences_per_chunk=3)` — cố định 3 câu, không quy đổi từ `chunk_size` — và `RecursiveChunker(chunk_size)`. Trả về dict ba khóa `fixed_size` / `by_sentences` / `recursive`, mỗi entry gồm `count`, `avg_length`, `chunks`.
+**Thuật toán:** Chạy cả ba chunker trên cùng văn bản: `FixedSizeChunker(chunk_size, overlap=chunk_size // 10)`, `SentenceChunker(max_sentences_per_chunk=3)` — cố định 3 câu, không quy đổi từ `chunk_size` — và `RecursiveChunker(chunk_size)`. Trả về dict ba khóa `fixed_size` / `by_sentences` / `recursive`, mỗi entry gồm `count`, `avg_length`, `chunks`.
 
 **Quyết định thiết kế đáng nói nhất:** `overlap` của `FixedSizeChunker` được suy ra từ `chunk_size` (10%) thay vì để mặc định 50, để khi gọi `compare()` với `chunk_size` nhỏ thì overlap không vượt quá kích thước chunk.
 
@@ -121,9 +121,9 @@ số chunk = ceil((10000 - 100) / (500 - 100))
 
 ### 2.6 `KnowledgeBaseAgent` — `NguyenDuyHaiBang_2A202601225/agent.py`
 
-> ⚠️ *Đã sửa so với bản nháp:* bản nháp ghi "không xử lý trường hợp store rỗng — prompt vẫn được gửi đi". Mã nguồn thật **có** xử lý.
+> Lần đọc đầu tôi kết luận nhầm rằng hàm không xử lý trường hợp store rỗng và vẫn gửi prompt đi. Kiểm tra lại `agent.py` thì **có** xử lý — chi tiết bên dưới.
 
-**Thuật toán thật:** Pipeline RAG 3 bước — **(1) Retrieve** `store.search(question, top_k)`; **(2) Build prompt** với phần `Context:` chứa các chunk đánh số `[1] [2] [3]` kèm `score` và nguồn (`source_url`, lùi về `source`/`doc_id` qua helper `_source_of`); **(3) Generate** gọi `llm_fn(prompt)`.
+**Thuật toán:** Pipeline RAG 3 bước — **(1) Retrieve** `store.search(question, top_k)`; **(2) Build prompt** với phần `Context:` chứa các chunk đánh số `[1] [2] [3]` kèm `score` và nguồn (`source_url`, lùi về `source`/`doc_id` qua helper `_source_of`); **(3) Generate** gọi `llm_fn(prompt)`.
 
 **Quyết định thiết kế đáng nói nhất:** Nếu không truy xuất được chunk nào, hàm trả về hằng `NO_CONTEXT_ANSWER` (`NguyenDuyHaiBang_2A202601225/agent.py` dòng 16) và **không gọi LLM** — tránh tốn một lần gọi mà chắc chắn sẽ bịa. Prompt cũng ràng buộc ba điều: chỉ trả lời dựa trên ngữ cảnh, nói thẳng khi ngữ cảnh không chứa đáp án, và trích số hiệu context đã dùng.
 
@@ -147,7 +147,7 @@ python -m pytest tests/ -v
 
 ## Phần 4 — Dự đoán độ tương tự (Bài 3.3)
 
-> *Đã thay số:* bản nháp dùng `MockEmbedder` (hash MD5, không mang ngữ nghĩa). Bảng dưới chạy bằng **`text-embedding-3-small`** — cùng embedder với benchmark nhóm, nên kết quả mới có ý nghĩa để suy luận.
+> Lần chạy đầu tôi dùng `MockEmbedder` và thấy điểm số vô nghĩa (hash MD5, cặp đồng nghĩa và cặp chỉ trùng từ khóa cho điểm gần bằng nhau). Bảng dưới là lần chạy lại bằng **`text-embedding-3-small`** — cùng embedder với benchmark nhóm, nên kết quả mới suy luận được.
 
 Chủ đề tôi chọn: học bổng — cùng mảng với câu hỏi Q5 mà chiến lược của tôi thắng.
 

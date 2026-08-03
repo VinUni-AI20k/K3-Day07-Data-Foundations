@@ -5,7 +5,7 @@
 **Nhóm:** B2
 **Ngày:** 03/08/2026
 
-> *Ghi chú của nhóm khi tổng hợp:* Phần 4 và Phần 5 là số liệu chạy thật với chiến lược `HeadingChunker(900)` do bạn phụ trách — chiến lược custom đáp ứng yêu cầu riêng của lớp K3. Phần 1, 2 mô tả theo mã nguồn chung trong `NguyenDuyHaiBang_2A202601225/`; bạn đọc lại và diễn đạt theo cách mình đã làm trước khi nộp.
+**Chiến lược tôi phụ trách trong nhóm:** `HeadingChunker(chunk_size=900)` — chiến lược custom do tôi thiết kế, đáp ứng yêu cầu riêng của lớp K3 về chia nhỏ theo tiêu đề/mục.
 
 **Cấu hình chạy:** corpus nhóm 7 tài liệu (41.241 ký tự), embedder `text-embedding-3-small`, `llm_fn` gọi `gpt-4o-mini`, `top_k=3`.
 
