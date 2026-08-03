@@ -1,3 +1,8 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k3-course-registration,data/k3_university/course-registration.md,Đăng ký học phần,https://example.edu/hoc-vu/dang-ky-hoc-phan,2026-08-02,2026.1,example-template-replace-me
-k3-library-services,data/k3_university/library-services.md,Dịch vụ thư viện,https://example.edu/thu-vien/dich-vu,2026-08-02,2026.1,example-template-replace-me
+hcmut-course-registration-rules,data/k3_university/course-registration-rules.md,Quy định và điều kiện đăng ký môn học,https://mybk.hcmut.edu.vn/bksi/public/vi/article/82,2026-08-03,not-stated,public-page
+hcmut-course-registration-process,data/k3_university/course-registration-process.md,Quy trình các đợt đăng ký môn học,https://mybk.hcmut.edu.vn/bksi/public/vi/article/111,2026-08-03,not-stated,public-page
+hcmut-registration-cancellation-codes,data/k3_university/registration-cancellation-codes.md,Mã hủy đăng ký môn học và nguyên nhân,https://mybk.hcmut.edu.vn/bksi/public/vi/blog/ma-huu-dang-ky-mon-hoc,2026-08-03,2023-08-03,public-page
+hcmut-course-withdrawal,data/k3_university/course-withdrawal.md,Điều kiện và quy trình rút môn học,https://mybk.hcmut.edu.vn/bksi/public/vi/blog/rut-mon-hoc,2026-08-03,not-stated,public-page
+hcmut-tuition-payment,data/k3_university/tuition-payment.md,Thanh toán và thời hạn học phí,https://mybk.hcmut.edu.vn/bksi/public/vi/blog/hoc-phi,2026-08-03,not-stated,public-page
+hcmut-course-exemption,data/k3_university/course-exemption.md,Quy trình và lưu ý khi xin miễn môn học,https://mybk.hcmut.edu.vn/bksi/public/vi/blog/mien-mon-hoc,2026-08-03,not-stated,public-page
+hcmut-timetable-teaching-assignment,data/k3_university/timetable-teaching-assignment.md,Quy trình sắp xếp thời khóa biểu và phân công giảng dạy,https://hcmut.edu.vn/document/1751629315673_BK_QT_ED_009_02_Quy%20trinh%20Sap%20xep%20TKB%20Phan%20cong%20Giang%20day_01.7.20255.signed.pdf,2026-08-03,BK-QT-ED-009-02 effective 2025-07-01,public-pdf
