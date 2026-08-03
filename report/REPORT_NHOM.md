@@ -8,6 +8,7 @@
 |1| 2A202601649 | Lê Công Dũng |
 |2| 2A202601215 | Phùng Hồng Phước |
 |3| 2A202601567 | Trần Đức Mạnh| 
+
 **Ngày:** [02/08/2026]
 
 > Nộp 1 bản / nhóm. Phần cá nhân mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`.
