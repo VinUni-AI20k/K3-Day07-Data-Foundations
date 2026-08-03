@@ -1,0 +1,230 @@
+---
+doc_id: "chung-chi-gdtc-qpan"
+title: "Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh"
+source_url: "https://sinhvien.huce.edu.vn/sinh-vien/tin-tuc/thong-bao-dieu-kien-cap-chung-chi-giao-duc-quoc-phong-an-ninh.html"
+retrieved_at: "2026-08-03"
+document_version: "2025-10-23"
+audience: "student"
+department: "dao-tao"
+category: "thong-bao"
+language: "vi"
+---
+
+# Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh
+
+Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Thông báo điều kiện cấp chứng chỉ Giáo dục quốc phòng - An ninh
+
+23/10/2025 - Lượt xem: 2367
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Liên quan
+
+
+
+
+
+
+
+
+
+
+Tháng 03
+
+
+21
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Đồ án tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 03
+
+
+12
+
+
+
+
+
+
+
+Quy định Tổ chức đánh giá và công nhận kết quả học tập theo chuẩn đầu ra chương trình đào tạo bậc đại học
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+26
+
+
+
+
+
+
+
+Quy định Tổ chức và Đánh giá Thực tập tốt nghiệp Trường Đại học Xây dựng Hà Nội
+
+
+
+
+
+
+
+
+
+
+
+Tháng 01
+
+
+13
+
+
+
+
+
+
+
+Quyết định ban hành Quy định về phân loại trình độ đầu vào, chương trình học và chuẩn ngoại ngữ yêu cầu đối với sinh viên đại học hệ chính quy K70
+
+
+
+
+
+
+
+
+
+
+
+Tháng 06
+
+
+20
+
+
+
+
+
+
+
+Quyết định ban hành Quy định về CT học và chuẩn tiếng Anh, tiếng Pháp yêu cầu đối với sinh viên đại học hệ chính quy các lớp E F PFIEV K69
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mọi thắc mắc về hệ thống cần được giải đáp vui lòng liên hệ hotline (024)38630001 hoặc Email :ttcntt@huce.edu.vn

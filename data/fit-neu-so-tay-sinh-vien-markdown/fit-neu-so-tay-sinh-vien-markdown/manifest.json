@@ -1,0 +1,155 @@
+{
+  "collection": "FIT-NEU Student Handbook Markdown",
+  "source_root": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+  "retrieved_at": "2026-08-03T11:24:00+07:00",
+  "language": "vi",
+  "format": "markdown",
+  "content_policy": "structured_paraphrase",
+  "document_count_excluding_index": 15,
+  "files": [
+    {
+      "filename": "00-INDEX.md",
+      "title": "Danh mục Sổ tay sinh viên FIT-NEU",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Index",
+      "bytes": 2081,
+      "sha256": "298619ec2ebdad87645f87376d6c9ca8a53a47f02050838f485590a6a816041c",
+      "validation_issues": []
+    },
+    {
+      "filename": "01-hoat-dong-khi-nhap-hoc.md",
+      "title": "Hoạt động cần thực hiện khi nhập học",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy trình sinh viên",
+      "bytes": 2238,
+      "sha256": "1fa98cfd8cfd1260d8acd09c75f7cfc678e70dc4954cba3eb49a49c013bac684",
+      "validation_issues": []
+    },
+    {
+      "filename": "02-hoat-dong-dao-tao.md",
+      "title": "Hoạt động đào tạo và đăng ký học",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy chế học tập",
+      "bytes": 4345,
+      "sha256": "bd84f16da3bd37556258e9b601806502807b317f5dca78bb8dcb8ab25fae4b92",
+      "validation_issues": []
+    },
+    {
+      "filename": "03-danh-gia-hoc-phan.md",
+      "title": "Đánh giá học phần, thi và quy đổi điểm",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy chế đánh giá",
+      "bytes": 3317,
+      "sha256": "e2bc5c138ac16a9ef49b6ecde33ae45a434a6abd3ade31cb095ebfe2959c50d0",
+      "validation_issues": []
+    },
+    {
+      "filename": "04-hoc-phi-mien-giam-va-thanh-toan.md",
+      "title": "Học phí, miễn giảm và thanh toán",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy trình tài chính sinh viên",
+      "bytes": 2950,
+      "sha256": "b67a1dabc784218fba46cd3854eb5c8c3d5dfdc8867af750e9eb55c396cef0ec",
+      "validation_issues": []
+    },
+    {
+      "filename": "05-hoc-bong.md",
+      "title": "Học bổng sinh viên",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Chính sách học bổng",
+      "bytes": 2155,
+      "sha256": "a9992af05429e07fb0b1463d36fce4166575527091e3d086978daadfd1718c0e",
+      "validation_issues": []
+    },
+    {
+      "filename": "06-diem-ren-luyen-va-diem-doan.md",
+      "title": "Đánh giá điểm rèn luyện và điểm Đoàn",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy định rèn luyện",
+      "bytes": 1959,
+      "sha256": "5afc92bfd7b5e6580296e180056b53516edcff8cab837a90e18bfd41993ad32b",
+      "validation_issues": []
+    },
+    {
+      "filename": "07-nghien-cuu-khoa-hoc-sinh-vien.md",
+      "title": "Nghiên cứu khoa học sinh viên",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy định nghiên cứu sinh viên",
+      "bytes": 2548,
+      "sha256": "a91f8d39850ce49584151476aa10454df608444b58f1e1a2d9241933e52a1a38",
+      "validation_issues": []
+    },
+    {
+      "filename": "08-xu-ly-ket-qua-hoc-tap.md",
+      "title": "Cảnh báo học tập và xử lý kết quả",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy chế học vụ",
+      "bytes": 1816,
+      "sha256": "a4ca9e9b23eb0ea66cbbc8851201828c06470f7e254747419cb01d7814026a8a",
+      "validation_issues": []
+    },
+    {
+      "filename": "09-dieu-kien-tot-nghiep.md",
+      "title": "Điều kiện và xếp loại tốt nghiệp",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Quy chế tốt nghiệp",
+      "bytes": 1976,
+      "sha256": "0a9fafc16a95300d5c61ce681be0ba51941b5aaa864445338c1d004224cac7f3",
+      "validation_issues": []
+    },
+    {
+      "filename": "10-dia-chi-don-vi-va-cong-cu.md",
+      "title": "Địa chỉ các đơn vị và công cụ sinh viên",
+      "source_url": "https://fit.neu.edu.vn/post/so-tay-sinh-vien",
+      "document_type": "Danh bạ sinh viên",
+      "bytes": 4362,
+      "sha256": "cf66938d82a7dd85d294a2fb45aa3ad29f3a64345265a16bdd5a057b33d3bc3d",
+      "validation_issues": []
+    },
+    {
+      "filename": "11-cheatsheet-an-toan-thong-tin.md",
+      "title": "An toàn thông tin — Cheatsheet sinh viên",
+      "source_url": "https://fit.neu.edu.vn/cheatsheets/an-toan-thong-tin",
+      "document_type": "Cheatsheet chuyên ngành",
+      "bytes": 12906,
+      "sha256": "1187a993b1e140c81839131345732c578dc475be82db01ea5370d9121351794d",
+      "validation_issues": []
+    },
+    {
+      "filename": "12-cheatsheet-cong-nghe-thong-tin.md",
+      "title": "Công nghệ thông tin — Cheatsheet sinh viên",
+      "source_url": "https://fit.neu.edu.vn/cheatsheets/cong-nghe-thong-tin",
+      "document_type": "Cheatsheet chuyên ngành",
+      "bytes": 7920,
+      "sha256": "4de80ea35bf3b3e45eb5ab900c58dca602b29035ae8321f5d02bb0587b19d234",
+      "validation_issues": []
+    },
+    {
+      "filename": "13-cheatsheet-ky-thuat-phan-mem.md",
+      "title": "Kỹ thuật phần mềm — Cheatsheet sinh viên",
+      "source_url": "https://fit.neu.edu.vn/cheatsheets/ky-thuat-phan-mem",
+      "document_type": "Cheatsheet chuyên ngành",
+      "bytes": 7124,
+      "sha256": "f169b9564a0eee1e5520c0ab4cf24e4825ddc15142cd3825b0eb121d49a08ac6",
+      "validation_issues": []
+    },
+    {
+      "filename": "14-cheatsheet-khoa-hoc-may-tinh.md",
+      "title": "Khoa học máy tính — Cheatsheet sinh viên",
+      "source_url": "https://fit.neu.edu.vn/cheatsheets/khoa-hoc-may-tinh",
+      "document_type": "Cheatsheet chuyên ngành",
+      "bytes": 5880,
+      "sha256": "2d92565f3c61702f65fdc978b0f00e933876da93dd61b6023af536c33f0e2926",
+      "validation_issues": []
+    },
+    {
+      "filename": "15-cheatsheet-cntt-va-chuyen-doi-so.md",
+      "title": "Công nghệ thông tin và Chuyển đổi số — Cheatsheet sinh viên",
+      "source_url": "https://fit.neu.edu.vn/cheatsheets/cong-nghe-thong-tin-va-chuyen-doi-so",
+      "document_type": "Cheatsheet chuyên ngành",
+      "bytes": 6831,
+      "sha256": "810379e2ae126c7846978c2a07992594f2febef84ea6f2f6516838f6044b7d3a",
+      "validation_issues": []
+    }
+  ]
+}
