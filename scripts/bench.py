@@ -91,8 +91,10 @@ class BenchmarkQuery:
 
 
 # --- 5 benchmark queries (chốt nhóm) ---
-# Đa dạng: ngoại lệ, điều kiện, quy trình, liệt kê, số liệu + filter.
-# Query #5: corpus main có ueh-dorm-fee-2025 và ueh-dorm-fee-2026-q3 cùng chủ đề Quý III
+# Đa dạng: ngoại lệ, điều kiện, quy trình, điều kiện+filter audience, số liệu+filter version.
+# Query #4: cần filter audience=student — tài liệu faculty (quy định tư vấn học tập) cũng nhắc
+# "kết quả rèn luyện", "khen thưởng–kỷ luật" gần nghĩa với điều kiện xét bổng → gây nhiễu.
+# Query #5: corpus có ueh-dorm-fee-2025 và ueh-dorm-fee-2026-q3 cùng chủ đề Quý III
 # (tháng 7,8,9) — cần filter document_version=2026-q3 mới trả lời đúng năm 2026.
 BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     BenchmarkQuery(
@@ -127,11 +129,16 @@ BENCHMARK_QUERIES: tuple[BenchmarkQuery, ...] = (
     ),
     BenchmarkQuery(
         id=4,
-        kind="liệt kê",
-        query="UEH Smart Library cung cấp quyền truy cập những cơ sở dữ liệu học thuật quốc tế nào?",
-        gold_answer="ScienceDirect, SpringerLink, Jora…",
-        expected_doc_id="ueh-library-reading-culture",
-        verify_keywords=("ScienceDirect", "SpringerLink"),
+        kind="điều kiện / filter audience",
+        query="Điều kiện để sinh viên UEH được xét cấp học bổng khuyến khích học tập là gì?",
+        gold_answer=(
+            "Đang trong thời gian 8 học kỳ chính; kết quả học tập và rèn luyện từ loại khá trở lên; "
+            "không bị kỷ luật từ mức khiển trách trở lên; đạt từ 5 điểm trở lên tất cả học phần; "
+            "số tín chỉ đăng ký >= số tín chỉ theo kế hoạch đào tạo."
+        ),
+        expected_doc_id="ueh-scholarship-regulation",
+        metadata_filter={"audience": "student"},
+        verify_keywords=("loại khá", "khiển trách", "5 điểm"),
     ),
     BenchmarkQuery(
         id=5,
