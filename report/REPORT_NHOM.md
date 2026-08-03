@@ -55,12 +55,12 @@
 
 Chạy `ChunkingStrategyComparator().compare()` trên 2-3 tài liệu:
 
-| Tài liệu | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không? |
-| ---------- | ---------------------------------- | ----------------- | --------------------- | ------------------------------- |
-| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`) | 194 | 196.4 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời. |
-| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`) | 53 | 717.2 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài. |
-|            | SentenceChunker (`by_sentences`) |                   |                       |                                 |
-|            | RecursiveChunker (`recursive`)   |                   |                       |                                 |
+| Tài liệu                         | Chiến lược (Strategy)           | Số lượng Chunk | Độ dài trung bình | Giữ được ngữ cảnh không?                                                                                |
+| ---------------------------------- | ---------------------------------- | ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Toàn bộ corpus K3 (9 tài liệu) | FixedSizeChunker (`fixed_size`)  | 194               | 196.4                 | Một phần; kích thước ổn định nhưng có thể cắt giữa câu hoặc giữa câu hỏi và câu trả lời. |
+| Toàn bộ corpus K3 (9 tài liệu) | ChunkByHeader (`by_header`)      | 53                | 717.2                 | Tốt hơn; giữ heading và nội dung theo từng mục, nhưng một số section quá dài.                      |
+|                                    | SentenceChunker (`by_sentences`) |                   |                       |                                                                                                                |
+|                                    | RecursiveChunker (`recursive`)   |                   |                       |                                                                                                                |
 
 ### Chiến lược của từng thành viên
 
@@ -89,10 +89,10 @@ header_chunks = HeaderChunker().chunk(text)
 - **Mô tả & lý do chọn:**
 - **Code snippet (nếu custom):**
 
-**Thành viên 3 — [Tên]**
+**Thành viên 3 — Trần Thị Ngọc Lan**
 
-- **Loại chiến lược:**
-- **Mô tả & lý do chọn:**
+- **Loại chiến lược: Recursive**
+- **Mô tả & lý do chọn: Chiến lược này ưu tiên tách tài liệu tại các ranh giới tự nhiên như đoạn văn, tiêu đề Markdown và các dòng ngắt trước khi chuyển sang các dấu phân cách nhỏ hơn. Điều này giúp giữ được ngữ cảnh của từng phần nội dung, tránh cắt ngang giữa các ý tưởng liên quan và tạo ra các chunk mạch lạc hơn cho quá trình retrieval. Vì tài liệu trong K3_university có cấu trúc rõ ràng theo mục, tiêu đề và nội dung, nên RecursiveChunker phù hợp để bảo toàn ý nghĩa của từng phần.****
 - **Code snippet (nếu custom):**
 
 ```python
@@ -124,7 +124,7 @@ chunks = chunker.chunk(text)
 
 | # | Câu hỏi (Query)                                                                                                                                                                                                         | Câu trả lời chuẩn (Gold Answer)                                                                                                                                                                                                                  | Chunk nào chứa thông tin?                        |
 | - | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại **“Your Class Schedule”**.                                         | `dangkymonhoc.md` (Cách sử dụng SIS)           |
+| 1 | Trên hệ thống SIS, trạng thái nào xác nhận sinh viên đã đăng ký môn học thành công, trạng thái “Selected” có ý nghĩa gì và sinh viên kiểm tra lại danh sách môn đã đăng ký ở đâu? | Môn học phải có trạng thái**“Registered”**. “Selected” nghĩa là mới chọn nhưng chưa đăng ký thành công. Danh sách môn được kiểm tra tại**“Your Class Schedule”**.                                                | `dangkymonhoc.md` (Cách sử dụng SIS)           |
 | 2 | Sinh viên năm nhất có bắt buộc ở ký túc xá không? Quy định thay đổi thế nào từ năm hai và trường hợp sức khỏe hoặc tôn giáo được xử lý ra sao?                                           | Sinh viên năm nhất**bắt buộc** ở ký túc xá; từ năm hai trở đi thì không còn bắt buộc. Trường hợp bất khả kháng về sức khỏe hoặc tôn giáo có thể làm đơn đề nghị đặc cách để Nhà trường xem xét. | `ktx.md` (Ở ký túc xá có bắt buộc không?) |
 | 3 | Theo quyền mượn tài liệu thư viện dành cho sinh viên đại học, một sinh viên được mượn tối đa bao nhiêu tài liệu, trong bao lâu và được gia hạn mấy lần?                                   | Sinh viên đại học được mượn tối đa**3 tài liệu**, trong **2 tuần** và được **gia hạn 1 lần**. *(Lưu ý: Dùng `metadata_filter={"audience": "student"}`)*                                                 | `thuvien.md` (2.2. Circulation Privileges)        |
 | 4 | VinUni cho phép nộp học phí bằng những hình thức nào và thu học phí vào những thời điểm nào trong năm?                                                                                                 | Có hai hình thức: quẹt thẻ Visa trực tiếp tại Phòng Kế toán – Tài chính hoặc chuyển tiền online qua Salesforce. Học phí được đóng thành**2 đợt/năm**, vào đầu kỳ Mùa thu và kỳ Mùa Xuân.                  | `hocphi_hocbong.md` (Học phí)                   |
@@ -173,4 +173,3 @@ chunks = chunker.chunk(text)
 | Chất lượng truy xuất (Retrieval Quality) | / 10                   |
 | Thuyết trình (Demo)                        | / 5                    |
 | **Tổng phần nhóm**                  | **/ 40**         |
-
