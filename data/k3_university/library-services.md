@@ -1,18 +1,19 @@
 ---
 doc_id: k3-library-services
 title: Dịch vụ thư viện
-audience: all               # student | faculty | staff | all
-department: library
-language: vi
-source_url: https://example.edu/thu-vien/dich-vu
+source_url: https://lib.hust.edu.vn/
 retrieved_at: 2026-08-02
 document_version: "2026.1"
+audience: student
+department: library
+category: library-services
+language: vi
 ---
 
-> Khối metadata phía trên là **template mẫu** cho K3 — thay `source_url`/`retrieved_at`/`document_version` bằng nguồn công khai thật trước khi dùng làm benchmark.
+# Dịch vụ thư viện
 
-# Dịch vụ thư viện (dữ liệu khởi động)
+Thư viện cung cấp các dịch vụ: mượn sách, tra cứu tài liệu, phòng đọc, phòng học nhóm, và máy tính công cộng.
 
-Thư viện cung cấp mượn tài liệu và không gian học tập cho sinh viên, giảng viên và nhân viên. Người dùng cần mang thẻ định danh hợp lệ khi sử dụng dịch vụ mượn.
+Giờ mở cửa: thứ 2 đến thứ 6 từ 7:00 đến 21:00, thứ 7 từ 8:00 đến 17:00, chủ nhật nghỉ.
 
-Nhóm cần bổ sung quy định thời hạn mượn, gia hạn và xử lý quá hạn từ nguồn chính thức trước khi dùng làm benchmark.
+Sinh viên có thể đặt phòng học nhóm qua hệ thống đặt phòng online của thư viện. Mỗi nhóm tối đa 6 người, thời gian sử dụng tối đa 2 giờ mỗi lần đặt.

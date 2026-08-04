@@ -1,18 +1,19 @@
 ---
 doc_id: k3-course-registration
-title: Đăng ký học phần
-audience: student            # student | faculty | staff | all
-department: academic-affairs
-language: vi
-source_url: https://example.edu/hoc-vu/dang-ky-hoc-phan
+title: Quy định đăng ký học phần
+source_url: https://hust.edu.vn/
 retrieved_at: 2026-08-02
 document_version: "2026.1"
+audience: student
+department: academic-affairs
+category: course-registration
+language: vi
 ---
 
-> Khối metadata phía trên là **template mẫu** cho K3 (bắt buộc: `audience` + `source_url` + `retrieved_at` + `document_version`, cùng ít nhất một trường hữu ích khác như `department`). Thay bằng nguồn công khai thật của nhóm trước khi dùng làm benchmark.
+# Quy định đăng ký học phần
 
-# Đăng ký học phần (dữ liệu khởi động)
+Sinh viên đăng ký học phần qua cổng thông tin sinh viên trong thời gian quy định. Mỗi học kỳ sinh viên đăng ký tối đa 24 tín chỉ, trừ sinh viên có điểm trung bình học tập từ 3.2 trở lên được đăng ký tối đa 28 tín chỉ.
 
-Sinh viên đăng ký học phần trong cổng học vụ theo lịch của từng học kỳ. Một học phần có thể yêu cầu học phần tiên quyết; sinh viên cần kiểm tra điều kiện trước khi xác nhận đăng ký.
+Sinh viên cần kiểm tra kỹ thời khóa biểu và điều kiện tiên quyết của học phần trước khi đăng ký. Sau khi đăng ký, sinh viên có thể điều chỉnh học phần trong vòng 2 tuần đầu của học kỳ.
 
-Khi gặp lỗi trùng lịch, sinh viên điều chỉnh lớp học phần trước thời hạn điều chỉnh được công bố. Mọi yêu cầu ngoại lệ phải được gửi qua kênh hỗ trợ học vụ chính thức.
+Học phần bị hủy nếu số lượng đăng ký dưới 20 sinh viên. Sinh viên sẽ được thông báo và điều chỉnh học phần thay thế.

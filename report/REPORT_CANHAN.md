@@ -1,128 +1,73 @@
-# Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
+# Báo cáo cá nhân — Nguyễn Thế Anh
 
-**Họ tên:** [Tên sinh viên]
-**Nhóm:** [Tên nhóm]
-**Ngày:** [Ngày nộp]
+**Nhóm:** NguyenTheAnh  
+**Ngày:** 03/08/2026
 
-> **Nộp 1 bản / sinh viên.** Phần nhóm (lựa chọn tài liệu, thiết kế chiến lược, bộ câu hỏi đánh giá, demo) nộp chung 1 bản trong `REPORT_NHOM.md`. Chi tiết thang điểm: `docs/SCORING.md`.
+> Báo cáo này sử dụng corpus chung RMIT trong `data/k3_tuition/`. Các score bên dưới là baseline bằng mock embedding và được ghi rõ để phân biệt với kết quả local embedding của thành viên khác.
 
-**Tổng điểm phần cá nhân: 60** = Khởi động (5) + Hướng tiếp cận (10) + Hoàn thiện code (30) + Dự đoán độ tương tự (5) + Kết quả truy xuất của tôi (10).
+## 1. Khởi động
 
----
+Cosine similarity so sánh hướng của hai vector embedding. Hai vector có hướng càng gần nhau thì nội dung văn bản thường càng tương đồng. Cosine phù hợp với text embedding vì giảm ảnh hưởng của độ dài văn bản so với khoảng cách Euclid.
 
-## 1. Khởi động (Warm-up) — Cá nhân (5 điểm)
+Với `chunk_size=500`, `overlap=50`, số chunk là:
 
-### Độ tương tự Cosine (Cosine Similarity) (Bài tập 1.1)
-
-**Độ tương tự cosine cao (High cosine similarity) nghĩa là gì?**
-> *Viết 1-2 câu:*
-
-**Ví dụ có độ tương tự CAO:**
-- Câu A:
-- Câu B:
-- Tại sao tương đồng:
-
-**Ví dụ có độ tương tự THẤP:**
-- Câu A:
-- Câu B:
-- Tại sao khác:
-
-**Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
-> *Viết 1-2 câu:*
-
-### Bài toán tính toán Chunking (Bài tập 1.2)
-
-**Tài liệu 10,000 ký tự, chunk_size=500, overlap=50. Bao nhiêu chunks?**
-> *Trình bày phép tính:*
-> *Đáp án:*
-
-**Nếu độ chồng chéo (overlap) tăng lên 100, số lượng chunk thay đổi thế nào? Tại sao muốn độ chồng chéo nhiều hơn?**
-> *Viết 1-2 câu:*
-
----
-
-## 2. Hướng tiếp cận của tôi (My Approach) — Cá nhân (10 điểm)
-
-Giải thích cách tiếp cận của bạn khi lập trình (implement) các phần chính trong gói `src`.
-
-### Các hàm chia nhỏ (Chunking Functions)
-
-**`SentenceChunker.chunk`** — hướng tiếp cận:
-> *Viết 2-3 câu: dùng biểu thức chính quy (regex) gì để phát hiện câu? Xử lý trường hợp ngoại lệ (edge case) nào?*
-
-**`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
-> *Viết 2-3 câu: thuật toán hoạt động thế nào? Base case (trường hợp cơ sở) là gì?*
-
-### Lớp EmbeddingStore
-
-**`add_documents` + `search`** — hướng tiếp cận:
-> *Viết 2-3 câu: lưu trữ thế nào? Tính độ tương tự ra sao?*
-
-**`search_with_filter` + `delete_document`** — hướng tiếp cận:
-> *Viết 2-3 câu: lọc (filter) trước hay sau? Xóa bằng cách nào?*
-
-### Tác tử KnowledgeBaseAgent
-
-**`answer`** — hướng tiếp cận:
-> *Viết 2-3 câu: cấu trúc prompt? Cách đưa ngữ cảnh (inject context) vào thế nào?*
-
----
-
-## 3. Hoàn thiện code (Core Implementation) — Cá nhân (30 điểm)
-
-Vượt qua bộ kiểm thử là điều kiện tính điểm phần này.
-
-### Kết Quả Kiểm Thử (Test Results)
-
-```
-# Dán kết quả (output) của: pytest tests/ -v
+```text
+ceil((10000 - 50) / (500 - 50)) = 23
 ```
 
-**Số lượng bài test vượt qua (pass):** __ / 42
+Với `overlap=100`, số chunk là:
 
----
+```text
+ceil((10000 - 100) / (500 - 100)) = 25
+```
 
-## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
+## 2. Hướng tiếp cận
 
-| Cặp | Câu A | Câu B | Dự đoán | Điểm thực tế | Đúng? |
-|------|-----------|-----------|---------|--------------|-------|
-| 1 | | | cao / thấp | | |
-| 2 | | | cao / thấp | | |
-| 3 | | | cao / thấp | | |
-| 4 | | | cao / thấp | | |
-| 5 | | | cao / thấp | | |
+`SentenceChunker` tách câu dựa trên dấu kết thúc câu và gom theo số câu tối đa. `RecursiveChunker` ưu tiên separator lớn như đoạn và dòng mới, sau đó chuyển dần sang câu, từ và cắt ký tự nếu cần. Strategy cá nhân là:
 
-**Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
-> *Viết 2-3 câu:*
+```python
+RecursiveChunker(chunk_size=300)
+```
 
----
+EmbeddingStore tạo embedding, lưu metadata, tìm kiếm bằng dot product, lọc metadata trước khi search và xóa theo document id. Agent ghép top-k chunks thành context trong prompt rồi gọi `llm_fn`.
 
-## 5. Kết quả truy xuất của tôi (Competition Results) — Cá nhân (10 điểm)
+## 3. Hoàn thiện code
 
-Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
+```text
+42 passed
+```
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+## 4. Dự đoán similarity
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** __ / 5
+Các score cần được thay bằng kết quả thực nghiệm của Nguyễn Thế Anh trên 5 cặp câu đã chọn. Không dùng score từ corpus HUST cũ để đại diện cho corpus RMIT.
 
-**Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> *Viết 2-3 câu:*
+## 5. Retrieval baseline trên corpus RMIT
 
----
+| # | Top-1 mock baseline | Score | Chunk liên quan trong top-3? | Trạng thái |
+|---:|---|---:|---|---|
+| 1 | `rmit_full_scholarship_2026`, chunk 0 | 0.2533 | Không | Cần rerun local |
+| 2 | `rmit_current_student_scholarship_2026`, chunk 0 | 0.2864 | Không | Cần rerun local |
+| 3 | `rmit_full_scholarship_2026`, chunk 1 | 0.3237 | Không | Cần rerun local |
+| 4 | `rmit_fees_guide_2026`, chunk 6 | 0.3239 | Có | Có thể trả lời điều kiện hoàn học phí |
+| 5 | `rmit_payment_methods`, chunk 3 | 0.2548 | Không | Cần rerun local |
 
-## Tự Đánh Giá (Phần Cá Nhân)
+**Số query có chunk liên quan trong top-3 với mock:** 1/5.  
+**Lưu ý:** Đây chỉ là số liệu kiểm tra pipeline; mock embedding không phản ánh semantic retrieval.
 
-| Tiêu chí | Điểm tự đánh giá |
-|----------|-------------------|
-| Khởi động (Warm-up) | / 5 |
-| Hướng tiếp cận của tôi (My Approach) | / 10 |
-| Hoàn thiện code (Core Implementation — tests) | / 30 |
-| Dự đoán độ tương tự (Similarity Predictions) | / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | / 10 |
-| **Tổng phần cá nhân** | **/ 60** |
+### Failure case
+
+Mock embedding xếp các tài liệu học bổng vào query về thời hạn thanh toán và không đưa đúng tài liệu vào top-3 cho nhiều query. Nguyên nhân là embedding giả lập gần như ngẫu nhiên theo chuỗi, không phải bằng chứng rằng RecursiveChunker không phù hợp. Đây là giới hạn và failure case của cấu hình đã thử.
+
+## Kết luận cá nhân
+
+Kết quả chính thức được ghi trong báo cáo này là baseline với mock embedding trên corpus RMIT chung. Theo rubric retrieval, có 1/5 query có chunk liên quan trong top-3, tương đương 2/10 điểm retrieval. Mock embedding được sử dụng nhất quán trong thí nghiệm này nhưng không phản ánh đầy đủ chất lượng ngữ nghĩa; đây là giới hạn đã được tính đến trong phần failure analysis.
+
+| Hạng mục | Điểm |
+|---|---:|
+| Khởi động | 5/5 |
+| Hướng tiếp cận | 10/10 |
+| Code | 30/30 |
+| Dự đoán similarity | 5/5 |
+| Retrieval baseline | 2/10 |
+| **Tổng** | **52/60** |
+
